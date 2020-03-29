@@ -119,7 +119,7 @@ final class ApiController extends Controller
      *
      * @since 1.0.0
      */
-    public function apiExchangeUpload(RequestAbstract $request, ResponseAbstract $response, $data = null): void
+    public function apiExchangeUpload(RequestAbstract $request, ResponseAbstract $response, $data = null) : void
     {
         Directory::delete(__DIR__ . '/../tmp/');
 
