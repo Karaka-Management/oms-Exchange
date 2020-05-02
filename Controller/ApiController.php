@@ -74,6 +74,7 @@ final class ApiController extends Controller
      */
     private function importDataFromRequest(RequestAbstract $request) : bool
     {
+        /** @var \Modules\Exchange\Models\InterfaceManager[] $interfaces */
         $interfaces = InterfaceManagerMapper::getAll();
         foreach ($interfaces as $interface) {
             if ($request->getData('exchange') ?? '' === $interface->getInterfacePath()) {

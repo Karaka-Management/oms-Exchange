@@ -70,6 +70,7 @@ final class BackendController extends Controller
         $view->setTemplate('/Modules/Exchange/Theme/Backend/exchange-export-list');
         $view->addData('nav', $this->app->moduleManager->get('Navigation')->createNavigationMid(1007001001, $request, $response));
 
+        /** @var \Modules\Exchange\Models\InterfaceManager[] $interfaces */
         $interfaces = InterfaceManagerMapper::getAll();
 
         $export = [];
@@ -102,6 +103,7 @@ final class BackendController extends Controller
         $view->setTemplate('/Modules/Exchange/Theme/Backend/exchange-import-list');
         $view->addData('nav', $this->app->moduleManager->get('Navigation')->createNavigationMid(1007001001, $request, $response));
 
+        /** @var \Modules\Exchange\Models\InterfaceManager[] $interfaces */
         $interfaces = InterfaceManagerMapper::getAll();
 
         $import = [];
@@ -155,6 +157,7 @@ final class BackendController extends Controller
         $view->setTemplate('/Modules/Exchange/Theme/Backend/exchange-import');
         $view->addData('nav', $this->app->moduleManager->get('Navigation')->createNavigationMid(1007001001, $request, $response));
 
+        /** @var \Modules\Exchange\Models\InterfaceManager $interface */
         $interface = InterfaceManagerMapper::get((int) $request->getData('id'));
 
         $view->addData('interface', $interface);
