@@ -31,7 +31,7 @@ echo $this->getData('nav')->render();
                 <tbody>
                 <?php $count = 0; foreach ($interfaces as $key => $value) : ++$count;
                 $url = \phpOMS\Uri\UriFactory::build('{/prefix}admin/exchange/export/profile?{?}&id=' . $value->getId()); ?>
-                    <tr data-href="<?= $url; ?>">
+                    <tr tabindex="0" data-href="<?= $url; ?>">
                         <td data-label="<?= $this->getHtml('Title') ?>"><a href="<?= $url; ?>"><?= $this->printHtml($value->getName()); ?></a>
                 <?php endforeach; ?>
                 <?php if ($count === 0) : ?>
