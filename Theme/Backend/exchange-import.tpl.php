@@ -15,9 +15,7 @@ declare(strict_types=1);
 
  $lang = $this->getData('lang');
 
-/**
- * @var \phpOMS\Views\View $this
- */
+/** @var \phpOMS\Views\View $this */
 echo $this->getData('nav')->render();
 
 include __DIR__ . '/../../Interfaces/' . $this->getData('interface')->getInterfacePath() . '/import.tpl.php';
