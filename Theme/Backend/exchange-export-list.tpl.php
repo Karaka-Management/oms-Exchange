@@ -12,19 +12,16 @@
  */
 declare(strict_types=1);
 
-
- /**
- * @var \phpOMS\Views\View $this
- */
+/** @var \phpOMS\Views\View $this */
 $interfaces = $this->getData('interfaces');
 
 echo $this->getData('nav')->render();
 ?>
 <div class="row">
     <div class="col-xs-12">
-        <div class="box wf-100">
+        <section class="portlet">
+            <div class="portlet-head"><?= $this->getHtml('Exports') ?><i class="fa fa-download floatRight download btn"></i></div>
             <table class="default">
-                <caption><?= $this->getHtml('Exports') ?><i class="fa fa-download floatRight download btn"></i></caption>
                 <thead>
                 <tr>
                     <td class="wf-100"><?= $this->getHtml('Title') ?>
@@ -38,6 +35,6 @@ echo $this->getData('nav')->render();
                     <tr><td colspan="2" class="empty"><?= $this->getHtml('Empty', '0', '0'); ?>
                 <?php endif; ?>
             </table>
-        </div>
+        </section>
     </div>
 </div>
