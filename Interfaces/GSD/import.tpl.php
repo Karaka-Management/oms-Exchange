@@ -23,55 +23,65 @@
                         <tr><td><?= $this->getHtml('Options') ?>
                         <tr><td>
                             <table class="layout wf-100"><tr><td>
-                            <span class="checkbox">
-                                <input id="iCustomers" name="customers" type="checkbox" value="1">
-                                <label for="iCustomers"><?= $lang['Customers']; ?></label>
-                            </span>
+                                <label class="checkbox" for="iCustomers">
+                                    <input id="iCustomers" type="checkbox" name="customers" value="1">
+                                    <span class="checkmark"></span>
+                                    <?= $lang['Customers']; ?>
+                                </label>
                             <td>
-                            <span class="checkbox">
-                                <input id="iInvoices" name="invoices" type="checkbox" value="1">
-                                <label for="iInvoices"><?= $lang['Invoices']; ?></label>
-                            </span>
+                                <label class="checkbox" for="iInvoices">
+                                    <input id="iInvoices" type="checkbox" name="invoices" value="1">
+                                    <span class="checkmark"></span>
+                                    <?= $lang['Invoices']; ?>
+                                </label>
                         <tr><td>
-                            <span class="checkbox">
-                                <input id="iSuppliers" name="suppliers" type="checkbox" value="1">
-                                <label for="iSuppliers"><?= $lang['Suppliers']; ?></label>
-                            </span>
+                                <label class="checkbox" for="iSuppliers">
+                                    <input id="iSuppliers" type="checkbox" name="suppliers" value="1">
+                                    <span class="checkmark"></span>
+                                    <?= $lang['Suppliers']; ?>
+                                </label>
                             <td>
-                            <span class="checkbox">
-                                <input id="iStocks" name="stocks" type="checkbox" value="1">
-                                <label for="iStocks"><?= $lang['Stocks']; ?></label>
-                            </span>
+                                <label class="checkbox" for="iStocks">
+                                    <input id="iStocks" type="checkbox" name="stocks" value="1">
+                                    <span class="checkmark"></span>
+                                    <?= $lang['Stocks']; ?>
+                                </label>
                         <tr><td>
-                            <span class="checkbox">
-                                <input id="iAccounts" name="accounts" type="checkbox" value="1">
-                                <label for="iAccounts"><?= $lang['Accounts']; ?></label>
-                            </span>
+                                <label class="checkbox" for="iAccounts">
+                                    <input id="iAccounts" type="checkbox" name="accounts" value="1">
+                                    <span class="checkmark"></span>
+                                    <?= $lang['Accounts']; ?>
+                                </label>
                             <td>
-                            <span class="checkbox">
-                                <input id="iAssets" name="assets" type="checkbox" value="1">
-                                <label for="iAssets"><?= $lang['Assets']; ?></label>
-                            </span>
+                                <label class="checkbox" for="iAssets">
+                                    <input id="iAssets" type="checkbox" name="assets" value="1">
+                                    <span class="checkmark"></span>
+                                    <?= $lang['Assets']; ?>
+                                </label>
                         <tr><td>
-                            <span class="checkbox">
-                                <input id="iCostCenters" name="costcenters" type="checkbox" value="1">
-                                <label for="iCostCenters"><?= $lang['CostCenters']; ?></label>
-                            </span>
+                                <label class="checkbox" for="iCostCenters">
+                                    <input id="iCostCenters" type="checkbox" name="costcenters" value="1">
+                                    <span class="checkmark"></span>
+                                    <?= $lang['CostCenters']; ?>
+                                </label>
                             <td>
-                            <span class="checkbox">
-                                <input id="iPostings" name="postings" type="checkbox" value="1">
-                                <label for="iPostings"><?= $lang['Postings']; ?></label>
-                            </span>
+                                <label class="checkbox" for="iPostings">
+                                    <input id="iPostings" type="checkbox" name="postings" value="1">
+                                    <span class="checkmark"></span>
+                                    <?= $lang['Postings']; ?>
+                                </label>
                         <tr><td>
-                            <span class="checkbox">
-                                <input id="iCostObjects" name="costobjects" type="checkbox" value="1">
-                                <label for="iCostObjects"><?= $lang['CostObjects']; ?></label>
-                            </span>
-                        <tr><td>
-                            <span class="checkbox">
-                                <input id="iArticles" name="articles" type="checkbox" value="1">
-                                <label for="iArticles"><?= $lang['Articles']; ?></label>
-                            </span>
+                                <label class="checkbox" for="iCostObjects">
+                                    <input id="iCostObjects" type="checkbox" name="costobjects" value="1">
+                                    <span class="checkmark"></span>
+                                    <?= $lang['CostObjects']; ?>
+                                </label>
+                            <td>
+                                <label class="checkbox" for="iArticles">
+                                    <input id="iArticles" type="checkbox" name="articles" value="1">
+                                    <span class="checkmark"></span>
+                                    <?= $lang['Articles']; ?>
+                                </label>
                         </table>
                     </table>
                 </div>
