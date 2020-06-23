@@ -146,12 +146,16 @@ final class Importer extends ImporterAbstract
     public function importCostCenter(\DateTime $start, \DateTime $end) : void
     {
         DataMapperAbstract::setConnection($this->remote);
-        $costCenters = GSDCostCenterMapper::getAll();
+        $query = GSDCostCenterMapper::getQuery();
+        $query->where('row_create_time', '=>', $start->format('Y-m-d H:i:s'))
+            ->andWhere('row_create_time', '<=', $end->format('Y-m-d H:i:s'));
 
-        $obj = new CostCenter();
+        $costCenters = GSDCostCenterMapper::getByQuery($query);
+
         DataMapperAbstract::setConnection($this->local);
 
         foreach ($costCenters as $cc) {
+            $obj = new CostCenter();
             $obj->setCostCenter((int) $cc->getCostCenter());
             $obj->setCostCenterName($cc->getDescription());
 
