@@ -176,16 +176,20 @@ final class Importer extends ImporterAbstract
     public function importCostObject(\DateTime $start, \DateTime $end) : void
     {
         DataMapperAbstract::setConnection($this->remote);
-        $costObjects = GSDCostObjectMapper::getAll();
+        $query = GSDCostObjectMapper::getQuery();
+        $query->where('row_create_time', '=>', $start->format('Y-m-d H:i:s'))
+            ->andWhere('row_create_time', '<=', $end->format('Y-m-d H:i:s'));
 
-        $obj = new CostObject();
+        $costObjects = GSDCostObjectMapper::getByQuery($query);
+
         DataMapperAbstract::setConnection($this->local);
 
-        foreach ($costObjects as $co) {
+        foreach ($costObjects as $cc) {
+            $obj = new CostCenter();
             $obj->setCostObject((int) $co->getCostObject());
             $obj->setCostObjectName($co->getDescription());
 
-            CostObjectMapper::create($obj);
+            CostCenterMapper::create($obj);
         }
     }
 
