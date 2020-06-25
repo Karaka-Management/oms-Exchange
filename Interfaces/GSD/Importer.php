@@ -16,8 +16,6 @@ namespace Modules\Exchange\Interfaces\GSD;
 
 use Modules\Accounting\Models\CostCenter;
 use Modules\Accounting\Models\CostCenterMapper;
-use Modules\Accounting\Models\CostObject;
-use Modules\Accounting\Models\CostObjectMapper;
 
 use Modules\Exchange\Interfaces\GSD\Model\GSDCostCenterMapper;
 use Modules\Exchange\Interfaces\GSD\Model\GSDCostObjectMapper;
