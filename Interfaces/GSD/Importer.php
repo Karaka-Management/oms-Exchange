@@ -16,7 +16,9 @@ namespace Modules\Exchange\Interfaces\GSD;
 
 use Modules\Accounting\Models\CostCenter;
 use Modules\Accounting\Models\CostCenterMapper;
-
+use Modules\Accounting\Models\CostObject;
+use Modules\Accounting\Models\CostObjectMapper;
+use Modules\ClientManagement\Models\Client;
 use Modules\Exchange\Interfaces\GSD\Model\GSDCostCenterMapper;
 use Modules\Exchange\Interfaces\GSD\Model\GSDCostObjectMapper;
 
@@ -27,6 +29,9 @@ use phpOMS\DataStorage\Database\Connection\ConnectionFactory;
 use phpOMS\DataStorage\Database\DatabaseStatus;
 use phpOMS\DataStorage\Database\DataMapperAbstract;
 use phpOMS\Message\RequestAbstract;
+use Modules\Exchange\Interfaces\GSD\Model\GSDAddressMapper;
+use Modules\Exchange\Interfaces\GSD\Model\GSDCustomerMapper;
+use Modules\ClientManagement\Models\ClientMapper;
 
 /**
  * GSD import class
@@ -99,12 +104,10 @@ final class Importer extends ImporterAbstract
         }
 
         if (((bool) ($request->getData('customers') ?? false))) {
-            $this->importAddress($start, $end);
             $this->importCustomer($start, $end);
         }
 
         if (((bool) ($request->getData('suppliers') ?? false))) {
-            $this->importAddress($start, $end);
             $this->importSupplier($start, $end);
         }
 
@@ -148,14 +151,14 @@ final class Importer extends ImporterAbstract
         $query->where('row_create_time', '=>', $start->format('Y-m-d H:i:s'))
             ->andWhere('row_create_time', '<=', $end->format('Y-m-d H:i:s'));
 
-        $costCenters = GSDCostCenterMapper::getByQuery($query);
+        $costCenters = GSDCostCenterMapper::getAllByQuery($query);
 
         DataMapperAbstract::setConnection($this->local);
 
         foreach ($costCenters as $cc) {
             $obj = new CostCenter();
-            $obj->setCostCenter((int) $cc->getCostCenter());
-            $obj->setCostCenterName($cc->getDescription());
+            $obj->setCode($cc->getCostCenter());
+            $obj->setName($cc->getDescription());
 
             CostCenterMapper::create($obj);
         }
@@ -178,31 +181,17 @@ final class Importer extends ImporterAbstract
         $query->where('row_create_time', '=>', $start->format('Y-m-d H:i:s'))
             ->andWhere('row_create_time', '<=', $end->format('Y-m-d H:i:s'));
 
-        $costObjects = GSDCostObjectMapper::getByQuery($query);
+        $costObjects = GSDCostObjectMapper::getAllByQuery($query);
 
         DataMapperAbstract::setConnection($this->local);
 
-        foreach ($costObjects as $cc) {
-            $obj = new CostCenter();
-            $obj->setCostObject((int) $co->getCostObject());
-            $obj->setCostObjectName($co->getDescription());
+        foreach ($costObjects as $co) {
+            $obj = new CostObject();
+            $obj->setCode($co->getCostObject());
+            $obj->setName($co->getDescription());
 
-            CostCenterMapper::create($obj);
+            CostObjectMapper::create($obj);
         }
-    }
-
-    /**
-     * Import addresses
-     *
-     * @param \DateTime $start Start time (inclusive)
-     * @param \DateTime $end   End time (inclusive)
-     *
-     * @return void
-     *
-     * @since 1.0.0
-     */
-    public function importAddress(\DateTime $start, \DateTime $end) : void
-    {
     }
 
     /**
@@ -217,6 +206,21 @@ final class Importer extends ImporterAbstract
      */
     public function importCustomer(\DateTime $start, \DateTime $end) : void
     {
+        DataMapperAbstract::setConnection($this->remote);
+        $query = GSDCustomerMapper::getQuery();
+        $query->where('row_create_time', '=>', $start->format('Y-m-d H:i:s'))
+            ->andWhere('row_create_time', '<=', $end->format('Y-m-d H:i:s'));
+
+        $customers = GSDCustomerMapper::getAllByQuery($query);
+
+        DataMapperAbstract::setConnection($this->local);
+
+        foreach ($customers as $customer) {
+            $obj = new Client();
+            $obj->setNumber($customer->getNumber());
+
+            ClientMapper::create($obj);
+        }
     }
 
     /**

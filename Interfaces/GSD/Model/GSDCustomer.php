@@ -24,4 +24,28 @@ namespace Modules\Exchange\Interfaces\GSD\Model;
  */
 final class GSDCustomer
 {
+    private int $id = 0;
+
+    /**
+     * Creator.
+     *
+     * @var int
+     * @since 1.0.0
+     */
+    protected $createdBy = 0;
+
+    /**
+     * Created.
+     *
+     * @var null|\DateTime
+     * @since 1.0.0
+     */
+    protected ?\DateTime $createdAt = null;
+
+    private string $number = '';
+
+    public function getNumber() : string
+    {
+        return $this->number;
+    }
 }
