@@ -32,6 +32,11 @@ use phpOMS\DataStorage\Database\Connection\ConnectionFactory;
 use phpOMS\DataStorage\Database\DatabaseStatus;
 use phpOMS\DataStorage\Database\DataMapperAbstract;
 use phpOMS\Message\RequestAbstract;
+use Modules\Admin\Models\Account;
+use Modules\Profile\Models\Profile;
+use Modules\Exchange\Interfaces\GSD\Model\GSDArticleMapper;
+use Modules\ItemManagement\Models\Item;
+use Modules\ItemManagement\Models\ItemMapper;
 
 /**
  * GSD import class
@@ -218,6 +223,14 @@ final class Importer extends ImporterAbstract
             $obj = new Client();
             $obj->setNumber($customer->getNumber());
 
+            $account = new Account();
+            $account->setName1($customer->getAddress()->getName1());
+            $account->setName2($customer->getAddress()->getName2());
+            $account->setName3($customer->getAddress()->getName3());
+
+            $profile = new Profile($account);
+            $obj->setProfile($profile);
+
             ClientMapper::create($obj);
         }
     }
@@ -246,6 +259,14 @@ final class Importer extends ImporterAbstract
         foreach ($suppliers as $supplier) {
             $obj = new Supplier();
             $obj->setNumber($supplier->getNumber());
+
+            $account = new Account();
+            $account->setName1($supplier->getAddress()->getName1());
+            $account->setName2($supplier->getAddress()->getName2());
+            $account->setName3($supplier->getAddress()->getName3());
+
+            $profile = new Profile($account);
+            $obj->setProfile($profile);
 
             SupplierMapper::create($obj);
         }
@@ -277,6 +298,21 @@ final class Importer extends ImporterAbstract
      */
     public function importArticle(\DateTime $start, \DateTime $end) : void
     {
+        DataMapperAbstract::setConnection($this->remote);
+        $query = GSDArticleMapper::getQuery();
+        $query->where('row_create_time', '=>', $start->format('Y-m-d H:i:s'))
+            ->andWhere('row_create_time', '<=', $end->format('Y-m-d H:i:s'));
+
+        $articles = GSDArticleMapper::getAllByQuery($query);
+
+        DataMapperAbstract::setConnection($this->local);
+
+        foreach ($articles as $article) {
+            $obj = new Item();
+            $obj->setNumber($article->getNumber());
+
+            ItemMapper::create($obj);
+        }
     }
 
     /**
