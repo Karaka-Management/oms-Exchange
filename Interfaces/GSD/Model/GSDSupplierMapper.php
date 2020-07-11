@@ -24,7 +24,7 @@ use phpOMS\DataStorage\Database\DataMapperAbstract;
  * @link    https://orange-management.org
  * @since   1.0.0
  */
-final class GSDCustomerMapper extends DataMapperAbstract
+final class GSDSupplierMapper extends DataMapperAbstract
 {
     /**
      * Columns.
@@ -36,15 +36,12 @@ final class GSDCustomerMapper extends DataMapperAbstract
         'row_id'            => ['name' => 'row_id',            'type' => 'int',      'internal' => 'id'],
         'row_create_time'   => ['name' => 'row_create_time',   'type' => 'DateTime', 'internal' => 'createdAt', 'readonly' => true],
         'row_create_user'   => ['name' => 'row_create_user',   'type' => 'int',      'internal' => 'createdBy', 'readonly' => true],
-        'Kundennummer'      => ['name' => 'Kundennummer',      'type' => 'string',   'internal' => 'number'],
+        'LieferantenNummer'      => ['name' => 'LieferantenNummer',      'type' => 'string',   'internal' => 'number'],
         'Info'              => ['name' => 'Info',              'type' => 'string',   'internal' => 'info'],
         'Auftragssperre'    => ['name' => 'Auftragssperre',    'type' => 'string',   'internal' => 'deliveryStatus'],
-        'KreditLimitintern' => ['name' => 'KreditLimitintern', 'type' => 'string',   'internal' => 'creditlimit'],
-        'EGUstId'           => ['name' => 'EGUstId',           'type' => 'string',   'internal' => 'egustid'],
         'Steuernummer'      => ['name' => 'Steuernummer',      'type' => 'string',   'internal' => 'taxid'],
         'BIC'               => ['name' => 'BIC',               'type' => 'string',   'internal' => 'bic'],
         'IBAN'              => ['name' => 'IBAN',              'type' => 'string',   'internal' => 'iban'],
-        'Verkaeufer'        => ['name' => 'Verkaeufer',        'type' => 'int',   'internal' => 'salesRep'],
     ];
 
     protected static array $ownsOne = [
@@ -60,7 +57,7 @@ final class GSDCustomerMapper extends DataMapperAbstract
      * @var string
      * @since 1.0.0
      */
-    protected static string $table = 'Kunden';
+    protected static string $table = 'Lieferanten';
 
     /**
      * Created at.

@@ -22,7 +22,7 @@ namespace Modules\Exchange\Interfaces\GSD\Model;
  * @link    https://orange-management.org
  * @since   1.0.0
  */
-final class GSDCustomer
+final class GSDSupplier
 {
     private int $id = 0;
 
@@ -46,10 +46,6 @@ final class GSDCustomer
 
     private string $info = '';
 
-    private float $creditlimit = 0.0;
-
-    private string $egustid = '';
-
     private string $taxid = '';
 
     private string $bic = '';
@@ -59,8 +55,6 @@ final class GSDCustomer
     private GSDAddress $addr;
 
     private int $deliveryStatus = 0;
-
-    private int $salesRep = 0;
 
     public function __construct()
     {
@@ -76,16 +70,6 @@ final class GSDCustomer
     public function getInfo() : string
     {
         return $this->info;
-    }
-
-    public function getCreditLimit() : float
-    {
-        return $this->creditlimit;
-    }
-
-    public function getEGUstId() : string
-    {
-        return $this->egustid;
     }
 
     public function getTaxId() : string
@@ -111,10 +95,5 @@ final class GSDCustomer
     public function getDeliveryStatus() : int
     {
         return $this->deliveryStatus;
-    }
-
-    public function getSalesRep() : int
-    {
-        return $this->salesRep;
     }
 }

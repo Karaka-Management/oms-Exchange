@@ -21,17 +21,17 @@ use Modules\Accounting\Models\CostObjectMapper;
 use Modules\ClientManagement\Models\Client;
 use Modules\Exchange\Interfaces\GSD\Model\GSDCostCenterMapper;
 use Modules\Exchange\Interfaces\GSD\Model\GSDCostObjectMapper;
-
 use Modules\Exchange\Models\ImporterAbstract;
-
 use phpOMS\DataStorage\Database\Connection\ConnectionAbstract;
 use phpOMS\DataStorage\Database\Connection\ConnectionFactory;
 use phpOMS\DataStorage\Database\DatabaseStatus;
 use phpOMS\DataStorage\Database\DataMapperAbstract;
 use phpOMS\Message\RequestAbstract;
-use Modules\Exchange\Interfaces\GSD\Model\GSDAddressMapper;
 use Modules\Exchange\Interfaces\GSD\Model\GSDCustomerMapper;
 use Modules\ClientManagement\Models\ClientMapper;
+use Modules\SupplierManagement\Models\SupplierMapper;
+use Modules\Exchange\Interfaces\GSD\Model\GSDSupplierMapper;
+use Modules\SupplierManagement\Models\Supplier;
 
 /**
  * GSD import class
@@ -65,7 +65,6 @@ final class Importer extends ImporterAbstract
     {
         $this->importCostCenter($start, $end);
         $this->importCostObject($start, $end);
-        $this->importAddress($start, $end);
         $this->importCustomer($start, $end);
         $this->importSupplier($start, $end);
         $this->importArticle($start, $end);
@@ -235,6 +234,21 @@ final class Importer extends ImporterAbstract
      */
     public function importSupplier(\DateTime $start, \DateTime $end) : void
     {
+        DataMapperAbstract::setConnection($this->remote);
+        $query = GSDSupplierMapper::getQuery();
+        $query->where('row_create_time', '=>', $start->format('Y-m-d H:i:s'))
+            ->andWhere('row_create_time', '<=', $end->format('Y-m-d H:i:s'));
+
+        $suppliers = GSDSupplierMapper::getAllByQuery($query);
+
+        DataMapperAbstract::setConnection($this->local);
+
+        foreach ($suppliers as $supplier) {
+            $obj = new Supplier();
+            $obj->setNumber($supplier->getNumber());
+
+            SupplierMapper::create($obj);
+        }
     }
 
     /**

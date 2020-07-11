@@ -44,6 +44,9 @@ final class GSDAddressMapper extends DataMapperAbstract
         'STRASSE'         => ['name' => 'STRASSE',         'type' => 'string',   'internal' => 'street'],
         'LAND'            => ['name' => 'LAND',            'type' => 'string',   'internal' => 'country'],
         'TELEFON'         => ['name' => 'TELEFON',         'type' => 'string',   'internal' => 'phone'],
+        'Fax'         => ['name' => 'Fax',         'type' => 'string',   'internal' => 'fax'],
+        'Email'         => ['name' => 'Email',         'type' => 'string',   'internal' => 'email'],
+        'InternetAdresse'         => ['name' => 'InternetAdresse',         'type' => 'string',   'internal' => 'website'],
     ];
 
     /**
