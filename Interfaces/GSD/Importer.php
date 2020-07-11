@@ -19,19 +19,19 @@ use Modules\Accounting\Models\CostCenterMapper;
 use Modules\Accounting\Models\CostObject;
 use Modules\Accounting\Models\CostObjectMapper;
 use Modules\ClientManagement\Models\Client;
+use Modules\ClientManagement\Models\ClientMapper;
 use Modules\Exchange\Interfaces\GSD\Model\GSDCostCenterMapper;
 use Modules\Exchange\Interfaces\GSD\Model\GSDCostObjectMapper;
 use Modules\Exchange\Models\ImporterAbstract;
+use Modules\Exchange\Interfaces\GSD\Model\GSDCustomerMapper;
+use Modules\SupplierManagement\Models\SupplierMapper;
+use Modules\Exchange\Interfaces\GSD\Model\GSDSupplierMapper;
+use Modules\SupplierManagement\Models\Supplier;
 use phpOMS\DataStorage\Database\Connection\ConnectionAbstract;
 use phpOMS\DataStorage\Database\Connection\ConnectionFactory;
 use phpOMS\DataStorage\Database\DatabaseStatus;
 use phpOMS\DataStorage\Database\DataMapperAbstract;
 use phpOMS\Message\RequestAbstract;
-use Modules\Exchange\Interfaces\GSD\Model\GSDCustomerMapper;
-use Modules\ClientManagement\Models\ClientMapper;
-use Modules\SupplierManagement\Models\SupplierMapper;
-use Modules\Exchange\Interfaces\GSD\Model\GSDSupplierMapper;
-use Modules\SupplierManagement\Models\Supplier;
 
 /**
  * GSD import class
