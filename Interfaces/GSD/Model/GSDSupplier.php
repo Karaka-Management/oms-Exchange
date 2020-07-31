@@ -24,6 +24,12 @@ namespace Modules\Exchange\Interfaces\GSD\Model;
  */
 final class GSDSupplier
 {
+    /**
+     * ID.
+     *
+     * @var int
+     * @since 1.0.0
+     */
     private int $id = 0;
 
     /**
@@ -42,56 +48,154 @@ final class GSDSupplier
      */
     protected \DateTime $createdAt;
 
+    /**
+     * Customer number
+     *
+     * @var string
+     * @since 1.0.0
+     */
     private string $number = '';
 
+    /**
+     * Info text
+     *
+     * @var string
+     * @since 1.0.0
+     */
     private string $info = '';
 
+    /**
+     * VAT id
+     *
+     * @var string
+     * @since 1.0.0
+     */
     private string $taxid = '';
 
+    /**
+     * BICC
+     *
+     * @var string
+     * @since 1.0.0
+     */
     private string $bic = '';
 
+    /**
+     * IBAN
+     *
+     * @var string
+     * @sicne 1.0.0
+     */
     private string $iban = '';
 
+    /**
+     * Address
+     *
+     * @var GSDAddress
+     * @since 1.0.0
+     */
     private GSDAddress $addr;
 
+    /**
+     * Delivery status.
+     *
+     * Can invoices get created
+     *
+     * @var int
+     * @since 1.0.0
+     */
     private int $deliveryStatus = 0;
 
+    /**
+     * Construct.
+     *
+     * @since 1.0.0
+     */
     public function __construct()
     {
-        $this->addr = new GSDAddress();
+        $this->addr      = new GSDAddress();
         $this->createdAt = new \DateTime('now');
     }
 
+    /**
+     * Get supplier number
+     *
+     * @return string
+     *
+     * @since 1.0.0
+     */
     public function getNumber() : string
     {
         return $this->number;
     }
 
+    /**
+     * Get information text
+     *
+     * @return string
+     *
+     * @since 1.0.0
+     */
     public function getInfo() : string
     {
         return $this->info;
     }
 
+    /**
+     * Get VAT Id
+     *
+     * @return string
+     *
+     * @since 1.0.0
+     */
     public function getTaxId() : string
     {
         return $this->taxid;
     }
 
+    /**
+     * Get BIC
+     *
+     * @return string
+     *
+     * @since 1.0.0
+     */
     public function getBIC() : string
     {
         return $this->bic;
     }
 
+    /**
+     * Get IBAN
+     *
+     * @return string
+     *
+     * @since 1.0.0
+     */
     public function getIban() : string
     {
         return $this->iban;
     }
 
+    /**
+     * Get main address
+     *
+     * @return GSDAddress
+     *
+     * @since 1.0.0
+     */
     public function getAddress() : GSDAddress
     {
         return $this->addr;
     }
 
+    /**
+     * Get deivery status
+     *
+     * @return int
+     *
+     * @since 1.0.0
+     */
     public function getDeliveryStatus() : int
     {
         return $this->deliveryStatus;
