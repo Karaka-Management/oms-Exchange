@@ -18,13 +18,18 @@ use Modules\Accounting\Models\CostCenter;
 use Modules\Accounting\Models\CostCenterMapper;
 use Modules\Accounting\Models\CostObject;
 use Modules\Accounting\Models\CostObjectMapper;
+use Modules\Admin\Models\Account;
 use Modules\ClientManagement\Models\Client;
 use Modules\ClientManagement\Models\ClientMapper;
+use Modules\Exchange\Interfaces\GSD\Model\GSDArticleMapper;
 use Modules\Exchange\Interfaces\GSD\Model\GSDCostCenterMapper;
 use Modules\Exchange\Interfaces\GSD\Model\GSDCostObjectMapper;
 use Modules\Exchange\Interfaces\GSD\Model\GSDCustomerMapper;
 use Modules\Exchange\Interfaces\GSD\Model\GSDSupplierMapper;
 use Modules\Exchange\Models\ImporterAbstract;
+use Modules\ItemManagement\Models\Item;
+use Modules\ItemManagement\Models\ItemMapper;
+use Modules\Profile\Models\Profile;
 use Modules\SupplierManagement\Models\Supplier;
 use Modules\SupplierManagement\Models\SupplierMapper;
 use phpOMS\DataStorage\Database\Connection\ConnectionAbstract;
@@ -32,11 +37,6 @@ use phpOMS\DataStorage\Database\Connection\ConnectionFactory;
 use phpOMS\DataStorage\Database\DatabaseStatus;
 use phpOMS\DataStorage\Database\DataMapperAbstract;
 use phpOMS\Message\RequestAbstract;
-use Modules\Admin\Models\Account;
-use Modules\Profile\Models\Profile;
-use Modules\Exchange\Interfaces\GSD\Model\GSDArticleMapper;
-use Modules\ItemManagement\Models\Item;
-use Modules\ItemManagement\Models\ItemMapper;
 
 /**
  * GSD import class
