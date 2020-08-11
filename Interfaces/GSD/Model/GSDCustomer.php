@@ -154,7 +154,7 @@ final class GSDCustomer
     }
 
     /**
-     * Get customer information text
+     * Get information text
      *
      * @return string
      *
