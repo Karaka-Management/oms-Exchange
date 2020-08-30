@@ -136,7 +136,7 @@ final class GSDCostObject implements \JsonSerializable
         return $this->description;
     }
 
-     /**
+    /**
      * Set cost object
      *
      * @param string $costObject Cost object

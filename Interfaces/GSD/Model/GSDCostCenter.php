@@ -136,7 +136,7 @@ final class GSDCostCenter implements \JsonSerializable
         return $this->description;
     }
 
-     /**
+    /**
      * Set cost center
      *
      * @param string $costCenter Cost center

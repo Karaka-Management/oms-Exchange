@@ -20,16 +20,16 @@ echo $this->getData('nav')->render();
 <div class="row">
     <div class="col-xs-12">
         <section class="portlet">
-            <div class="portlet-head"><?= $this->getHtml('Exports') ?><i class="fa fa-download floatRight download btn"></i></div>
+            <div class="portlet-head"><?= $this->getHtml('Exports'); ?><i class="fa fa-download floatRight download btn"></i></div>
             <table class="default">
                 <thead>
                 <tr>
-                    <td class="wf-100"><?= $this->getHtml('Title') ?>
+                    <td class="wf-100"><?= $this->getHtml('Title'); ?>
                 <tbody>
                 <?php $count = 0; foreach ($interfaces as $key => $value) : ++$count;
                 $url = \phpOMS\Uri\UriFactory::build('{/prefix}admin/exchange/export/profile?{?}&id=' . $value->getId()); ?>
                     <tr tabindex="0" data-href="<?= $url; ?>">
-                        <td data-label="<?= $this->getHtml('Title') ?>"><a href="<?= $url; ?>"><?= $this->printHtml($value->getName()); ?></a>
+                        <td data-label="<?= $this->getHtml('Title'); ?>"><a href="<?= $url; ?>"><?= $this->printHtml($value->getName()); ?></a>
                 <?php endforeach; ?>
                 <?php if ($count === 0) : ?>
                     <tr><td colspan="2" class="empty"><?= $this->getHtml('Empty', '0', '0'); ?>
