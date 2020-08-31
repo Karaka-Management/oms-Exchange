@@ -13,5 +13,4 @@ declare(strict_types=1);
  * @link      https://orange-management.org
  */
 return [
-
 ];

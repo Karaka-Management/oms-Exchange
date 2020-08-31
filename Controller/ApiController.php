@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace Modules\Exchange\Controller;
 
 use Modules\Exchange\Models\InterfaceManagerMapper;
-
 use Modules\Media\Models\UploadFile;
 use phpOMS\Message\NotificationLevel;
 use phpOMS\Message\RequestAbstract;

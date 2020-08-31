@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace Modules\Exchange\Controller;
 
 use Modules\Exchange\Models\InterfaceManagerMapper;
-
 use phpOMS\Contract\RenderableInterface;
 use phpOMS\Message\RequestAbstract;
 use phpOMS\Message\ResponseAbstract;

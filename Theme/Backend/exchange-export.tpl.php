@@ -12,6 +12,5 @@
  */
 declare(strict_types=1);
 
-
 /** @var \phpOMS\Views\View $this */
 echo $this->getData('nav')->render();

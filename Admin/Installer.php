@@ -18,7 +18,6 @@ use Modules\Exchange\Models\InterfaceManager;
 use Modules\Exchange\Models\InterfaceManagerMapper;
 use phpOMS\Config\SettingsInterface;
 use phpOMS\DataStorage\Database\DatabasePool;
-
 use phpOMS\Module\InstallerAbstract;
 use phpOMS\Module\ModuleInfo;
 use phpOMS\System\File\Local\Directory;
