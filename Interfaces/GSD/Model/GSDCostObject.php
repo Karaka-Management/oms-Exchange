@@ -180,11 +180,11 @@ final class GSDCostObject implements \JsonSerializable
     public function toArray() : array
     {
         return [
-            'id' => $this->id,
-            'createdBy' => $this->createdBy,
-            'createdAt' => $this->createdAt,
+            'id'          => $this->id,
+            'createdBy'   => $this->createdBy,
+            'createdAt'   => $this->createdAt,
             'description' => $this->description,
-            'costObject' => $this->costObject,
+            'costObject'  => $this->costObject,
         ];
     }
 

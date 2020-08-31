@@ -37,11 +37,11 @@ final class GSDArticleMapper extends DataMapperAbstract
         'row_create_time'      => ['name' => 'row_create_time',      'type' => 'DateTime', 'internal' => 'createdAt', 'readonly' => true],
         'row_create_user'      => ['name' => 'row_create_user',      'type' => 'int',      'internal' => 'createdBy', 'readonly' => true],
         'Artikelnummer'        => ['name' => 'Artikelnummer',        'type' => 'string',   'internal' => 'number'],
-        'Info'        => ['name' => 'Info',        'type' => 'string',   'internal' => 'info'],
+        'Info'                 => ['name' => 'Info',        'type' => 'string',   'internal' => 'info'],
         'Artikelbezeichnung'   => ['name' => 'Artikelbezeichnung',   'type' => 'string',   'internal' => 'name1'],
         '_Artikelbezeichnung2' => ['name' => '_Artikelbezeichnung2', 'type' => 'string',   'internal' => 'name2'],
-        '_Englisch1' => ['name' => '_Englisch1', 'type' => 'string',   'internal' => 'name1Eng'],
-        '_Englisch2' => ['name' => '_Englisch2', 'type' => 'string',   'internal' => 'name2Eng'],
+        '_Englisch1'           => ['name' => '_Englisch1', 'type' => 'string',   'internal' => 'name1Eng'],
+        '_Englisch2'           => ['name' => '_Englisch2', 'type' => 'string',   'internal' => 'name2Eng'],
         'EUWarengruppe'        => ['name' => 'EUWarengruppe',        'type' => 'string',   'internal' => 'EUitemgroup'],
     ];
 

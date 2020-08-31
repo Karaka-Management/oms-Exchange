@@ -33,19 +33,19 @@ final class GSDAddressMapper extends DataMapperAbstract
      * @since 1.0.0
      */
     protected static array $columns = [
-        'AdressRowId'     => ['name' => 'AdressRowId',     'type' => 'int',      'internal' => 'id'],
-        'row_create_time' => ['name' => 'row_create_time', 'type' => 'DateTime', 'internal' => 'createdAt', 'readonly' => true],
-        'row_create_user' => ['name' => 'row_create_user', 'type' => 'int',      'internal' => 'createdBy', 'readonly' => true],
-        'NAME1'           => ['name' => 'NAME1',           'type' => 'string',   'internal' => 'name1'],
-        'NAME2'           => ['name' => 'NAME2',           'type' => 'string',   'internal' => 'name2'],
-        'NAME3'           => ['name' => 'NAME3',           'type' => 'string',   'internal' => 'name3'],
-        'ORT'             => ['name' => 'ORT',             'type' => 'string',   'internal' => 'city'],
-        'PLZ'             => ['name' => 'PLZ',             'type' => 'string',   'internal' => 'zip'],
-        'STRASSE'         => ['name' => 'STRASSE',         'type' => 'string',   'internal' => 'street'],
-        'LAND'            => ['name' => 'LAND',            'type' => 'string',   'internal' => 'country'],
-        'TELEFON'         => ['name' => 'TELEFON',         'type' => 'string',   'internal' => 'phone'],
-        'Fax'         => ['name' => 'Fax',         'type' => 'string',   'internal' => 'fax'],
-        'Email'         => ['name' => 'Email',         'type' => 'string',   'internal' => 'email'],
+        'AdressRowId'             => ['name' => 'AdressRowId',     'type' => 'int',      'internal' => 'id'],
+        'row_create_time'         => ['name' => 'row_create_time', 'type' => 'DateTime', 'internal' => 'createdAt', 'readonly' => true],
+        'row_create_user'         => ['name' => 'row_create_user', 'type' => 'int',      'internal' => 'createdBy', 'readonly' => true],
+        'NAME1'                   => ['name' => 'NAME1',           'type' => 'string',   'internal' => 'name1'],
+        'NAME2'                   => ['name' => 'NAME2',           'type' => 'string',   'internal' => 'name2'],
+        'NAME3'                   => ['name' => 'NAME3',           'type' => 'string',   'internal' => 'name3'],
+        'ORT'                     => ['name' => 'ORT',             'type' => 'string',   'internal' => 'city'],
+        'PLZ'                     => ['name' => 'PLZ',             'type' => 'string',   'internal' => 'zip'],
+        'STRASSE'                 => ['name' => 'STRASSE',         'type' => 'string',   'internal' => 'street'],
+        'LAND'                    => ['name' => 'LAND',            'type' => 'string',   'internal' => 'country'],
+        'TELEFON'                 => ['name' => 'TELEFON',         'type' => 'string',   'internal' => 'phone'],
+        'Fax'                     => ['name' => 'Fax',         'type' => 'string',   'internal' => 'fax'],
+        'Email'                   => ['name' => 'Email',         'type' => 'string',   'internal' => 'email'],
         'InternetAdresse'         => ['name' => 'InternetAdresse',         'type' => 'string',   'internal' => 'website'],
     ];
 

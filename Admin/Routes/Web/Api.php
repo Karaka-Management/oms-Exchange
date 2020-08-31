@@ -8,23 +8,23 @@ use phpOMS\Router\RouteVerb;
 return [
     '^.*/admin/exchange/import/profile.*$' => [
         [
-            'dest' => '\Modules\Exchange\Controller\ApiController:apiExchangeImport',
-            'verb' => RouteVerb::SET,
+            'dest'       => '\Modules\Exchange\Controller\ApiController:apiExchangeImport',
+            'verb'       => RouteVerb::SET,
             'permission' => [
                 'module' => ApiController::MODULE_NAME,
-                'type'  => PermissionType::CREATE,
-                'state' => PermissionState::IMPORT,
+                'type'   => PermissionType::CREATE,
+                'state'  => PermissionState::IMPORT,
             ],
         ],
     ],
     '^.*/admin/exchange/export/profile.*$' => [
         [
-            'dest' => '\Modules\Exchange\Controller\ApiController:apiExchangeExport',
-            'verb' => RouteVerb::SET,
+            'dest'       => '\Modules\Exchange\Controller\ApiController:apiExchangeExport',
+            'verb'       => RouteVerb::SET,
             'permission' => [
                 'module' => ApiController::MODULE_NAME,
-                'type'  => PermissionType::CREATE,
-                'state' => PermissionState::EXPORT,
+                'type'   => PermissionType::CREATE,
+                'state'  => PermissionState::EXPORT,
             ],
         ],
     ],
