@@ -27,21 +27,21 @@ use phpOMS\Stdlib\Base\Enum;
  */
 abstract class ExchangeType extends Enum
 {
-    public const CUSTOMER   = 1;
+    public const CUSTOMER = 1;
 
-    public const SUPPLIER   = 2;
+    public const SUPPLIER = 2;
 
-    public const ARTICLE    = 3;
+    public const ARTICLE = 3;
 
-    public const BOOKING    = 4;
+    public const BOOKING = 4;
 
-    public const ACCOUNT    = 5;
+    public const ACCOUNT = 5;
 
-    public const ADDRESS    = 6;
+    public const ADDRESS = 6;
 
     public const COSTCENTER = 7;
 
     public const COSTOBJECT = 8;
 
-    public const INVOICE    = 9;
+    public const INVOICE = 9;
 }
