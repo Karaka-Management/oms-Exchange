@@ -46,7 +46,7 @@ final class GSDCustomer
      * @var \DateTime
      * @since 1.0.0
      */
-    protected \DateTime $createdAt;
+    protected \DateTimeImmutable $createdAt;
 
     /**
      * Customer number
@@ -138,7 +138,7 @@ final class GSDCustomer
     public function __construct()
     {
         $this->addr      = new GSDAddress();
-        $this->createdAt = new \DateTime('now');
+        $this->createdAt = new \DateTimeImmutable('now');
     }
 
     /**

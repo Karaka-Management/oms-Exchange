@@ -40,5 +40,45 @@
                 "null": false
             }
         }
+    },
+    "exchange_log": {
+        "name": "exchange_log",
+        "fields": {
+            "exchange_log_id": {
+                "name": "exchange_log_id",
+                "type": "INT",
+                "null": false,
+                "primary": true,
+                "autoincrement": true
+            },
+            "exchange_log_message": {
+                "name": "exchange_log_message",
+                "type": "TEXT",
+                "null": false
+            },
+            "exchange_log_fields": {
+                "name": "exchange_log_fields",
+                "type": "TEXT",
+                "null": false
+            },
+            "exchange_log_type": {
+                "name": "exchange_log_type",
+                "type": "TINYINT",
+                "null": false
+            },
+            "exchange_log_time": {
+                "name": "exchange_log_time",
+                "type": "DATETIME",
+                "null": false
+            },
+            "exchange_log_exchange": {
+                "name": "exchange_log_exchange",
+                "type": "INT",
+                "default": null,
+                "null": true,
+                "foreignTable": "exchange",
+                "foreignKey": "exchange_id"
+            }
+        }
     }
 }

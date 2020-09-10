@@ -38,7 +38,7 @@ final class GSDArticle
      * @var \DateTime
      * @since 1.0.0
      */
-    private \DateTime $createdAt;
+    private \DateTimeImmutable $createdAt;
 
     /**
      * Article number.
@@ -135,7 +135,7 @@ final class GSDArticle
      */
     public function __construct()
     {
-        $this->createdAt = new \DateTime('now');
+        $this->createdAt = new \DateTimeImmutable('now');
     }
 
     /**
