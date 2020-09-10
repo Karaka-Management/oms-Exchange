@@ -167,11 +167,11 @@ class ExchangeLog implements \JsonSerializable, ArrayableInterface
     /**
      * Get created at.
      *
-     * @return array
+     * @return DateTimeImmutable
      *
      * @since 1.0.0
      */
-    public function getCreatedAt() : \DateTimeInterfaceInterface
+    public function getCreatedAt() : \DateTimeImmutable
     {
         return $this->createdAt;
     }
