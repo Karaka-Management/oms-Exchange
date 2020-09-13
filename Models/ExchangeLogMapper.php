@@ -33,11 +33,11 @@ final class ExchangeLogMapper extends DataMapperAbstract
      * @since 1.0.0
      */
     protected static array $columns = [
-        'exchange_log_id'    => ['name' => 'exchange_log_id',    'type' => 'int',    'internal' => 'id'],
+        'exchange_log_id'      => ['name' => 'exchange_log_id',    'type' => 'int',    'internal' => 'id'],
         'exchange_log_message' => ['name' => 'exchange_log_message', 'type' => 'string', 'internal' => 'message'],
         'exchange_log_fields'  => ['name' => 'exchange_log_fields',  'type' => 'Json',    'internal' => 'fields'],
-        'exchange_log_type' => ['name' => 'exchange_log_type', 'type' => 'int',    'internal' => 'type'],
-        'exchange_log_time' => ['name' => 'exchange_log_time', 'type' => 'DateTimeImmutable',    'internal' => 'createdAt'],
+        'exchange_log_type'    => ['name' => 'exchange_log_type', 'type' => 'int',    'internal' => 'type'],
+        'exchange_log_time'    => ['name' => 'exchange_log_time', 'type' => 'DateTimeImmutable',    'internal' => 'createdAt'],
     ];
 
     /**
