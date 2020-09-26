@@ -73,7 +73,7 @@ class ExchangeLog implements \JsonSerializable, ArrayableInterface
      */
     public function __construct()
     {
-        $this->createdAt = new \DateTimeImmutableImmutable('now');
+        $this->createdAt = new \DateTimeImmutable('now');
     }
 
     /**

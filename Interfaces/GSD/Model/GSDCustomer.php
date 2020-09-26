@@ -43,7 +43,7 @@ final class GSDCustomer
     /**
      * Created.
      *
-     * @var \DateTime
+     * @var \DateTimeImmutable
      * @since 1.0.0
      */
     protected \DateTimeImmutable $createdAt;
