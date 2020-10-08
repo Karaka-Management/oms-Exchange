@@ -148,7 +148,7 @@ class InterfaceManager
      */
     public function load() : void
     {
-        if (!\file_exists($this->path)) {
+        if (!\is_file($this->path)) {
             throw new PathException($this->path);
         }
 
@@ -167,7 +167,7 @@ class InterfaceManager
      */
     public function update() : void
     {
-        if (!\file_exists($this->path)) {
+        if (!\is_file($this->path)) {
             throw new PathException($this->path);
         }
 
