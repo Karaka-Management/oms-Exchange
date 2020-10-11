@@ -22,7 +22,7 @@ namespace Modules\Exchange\Interfaces\GSD\Model;
  * @link    https://orange-management.org
  * @since   1.0.0
  */
-final class GSDAddress
+class GSDAddress
 {
     /**
      * ID.
@@ -119,6 +119,32 @@ final class GSDAddress
      * @sicne 1.0.0
      */
     private string $website = '';
+
+    /**
+     * Creator.
+     *
+     * @var int
+     * @since 1.0.0
+     */
+    protected int $createdBy = 0;
+
+    /**
+     * Created.
+     *
+     * @var \DateTimeImmutable
+     * @since 1.0.0
+     */
+    protected \DateTimeImmutable $createdAt;
+
+    /**
+     * Construct.
+     *
+     * @since 1.0.0
+     */
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable('now');
+    }
 
     /**
      * Get name1

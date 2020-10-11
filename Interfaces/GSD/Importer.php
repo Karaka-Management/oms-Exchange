@@ -100,8 +100,9 @@ final class Importer extends ImporterAbstract
             'database' => (string) ($request->getData('database') ?? ''),
             'login'    => (string) ($request->getData('login') ?? ''),
             'password' => (string) ($request->getData('password') ?? ''),
-            'prefix'   => '',
         ]);
+
+        $this->remote->connect();
 
         if ($this->remote->getStatus() !== DatabaseStatus::OK) {
             return false;
@@ -152,8 +153,8 @@ final class Importer extends ImporterAbstract
     {
         DataMapperAbstract::setConnection($this->remote);
         $query = GSDCostCenterMapper::getQuery();
-        $query->where('row_create_time', '=>', $start->format('Y-m-d H:i:s'))
-            ->andWhere('row_create_time', '<=', $end->format('Y-m-d H:i:s'));
+        $query->where('FiKostenstellen_3.row_create_time', '>=', $start->format('Y-m-d H:i:s'))
+            ->andWhere('FiKostenstellen_3.row_create_time', '<=', $end->format('Y-m-d H:i:s'));
 
         $costCenters = GSDCostCenterMapper::getAllByQuery($query);
 
@@ -162,7 +163,7 @@ final class Importer extends ImporterAbstract
         foreach ($costCenters as $cc) {
             $obj = new CostCenter();
             $obj->setCode($cc->getCostCenter());
-            $obj->setName($cc->getDescription());
+            $obj->setName(\trim($cc->getDescription(), " ,\t"));
 
             CostCenterMapper::create($obj);
         }
@@ -182,8 +183,8 @@ final class Importer extends ImporterAbstract
     {
         DataMapperAbstract::setConnection($this->remote);
         $query = GSDCostObjectMapper::getQuery();
-        $query->where('row_create_time', '=>', $start->format('Y-m-d H:i:s'))
-            ->andWhere('row_create_time', '<=', $end->format('Y-m-d H:i:s'));
+        $query->where('FiKostentraeger_3.row_create_time', '>=', $start->format('Y-m-d H:i:s'))
+            ->andWhere('FiKostentraeger_3.row_create_time', '<=', $end->format('Y-m-d H:i:s'));
 
         $costObjects = GSDCostObjectMapper::getAllByQuery($query);
 
@@ -192,7 +193,7 @@ final class Importer extends ImporterAbstract
         foreach ($costObjects as $co) {
             $obj = new CostObject();
             $obj->setCode($co->getCostObject());
-            $obj->setName($co->getDescription());
+            $obj->setName(\trim($co->getDescription(), " ,\t"));
 
             CostObjectMapper::create($obj);
         }
@@ -212,8 +213,8 @@ final class Importer extends ImporterAbstract
     {
         DataMapperAbstract::setConnection($this->remote);
         $query = GSDCustomerMapper::getQuery();
-        $query->where('row_create_time', '=>', $start->format('Y-m-d H:i:s'))
-            ->andWhere('row_create_time', '<=', $end->format('Y-m-d H:i:s'));
+        $query->where('Kunden_3.row_create_time', '>=', $start->format('Y-m-d H:i:s'))
+            ->andWhere('Kunden_3.row_create_time', '<=', $end->format('Y-m-d H:i:s'));
 
         $customers = GSDCustomerMapper::getAllByQuery($query);
 
@@ -221,12 +222,12 @@ final class Importer extends ImporterAbstract
 
         foreach ($customers as $customer) {
             $obj = new Client();
-            $obj->setNumber($customer->getNumber());
+            $obj->setNumber(\trim($customer->getNumber()));
 
             $account = new Account();
-            $account->setName1($customer->getAddress()->getName1());
-            $account->setName2($customer->getAddress()->getName2());
-            $account->setName3($customer->getAddress()->getName3());
+            $account->setName1(\trim($customer->getAddress()->getName1(), " ,\t"));
+            $account->setName2(\trim($customer->getAddress()->getName2(), " ,\t"));
+            $account->setName3(\trim($customer->getAddress()->getName3(), " ,\t"));
 
             $profile = new Profile($account);
             $obj->setProfile($profile);
@@ -249,8 +250,8 @@ final class Importer extends ImporterAbstract
     {
         DataMapperAbstract::setConnection($this->remote);
         $query = GSDSupplierMapper::getQuery();
-        $query->where('row_create_time', '=>', $start->format('Y-m-d H:i:s'))
-            ->andWhere('row_create_time', '<=', $end->format('Y-m-d H:i:s'));
+        $query->where('Lieferanten_3.row_create_time', '>=', $start->format('Y-m-d H:i:s'))
+            ->andWhere('Lieferanten_3.row_create_time', '<=', $end->format('Y-m-d H:i:s'));
 
         $suppliers = GSDSupplierMapper::getAllByQuery($query);
 
@@ -261,9 +262,9 @@ final class Importer extends ImporterAbstract
             $obj->setNumber($supplier->getNumber());
 
             $account = new Account();
-            $account->setName1($supplier->getAddress()->getName1());
-            $account->setName2($supplier->getAddress()->getName2());
-            $account->setName3($supplier->getAddress()->getName3());
+            $account->setName1(\trim($supplier->getAddress()->getName1(), " ,\t"));
+            $account->setName2(\trim($supplier->getAddress()->getName2(), " ,\t"));
+            $account->setName3(\trim($supplier->getAddress()->getName3(), " ,\t"));
 
             $profile = new Profile($account);
             $obj->setProfile($profile);
@@ -300,8 +301,8 @@ final class Importer extends ImporterAbstract
     {
         DataMapperAbstract::setConnection($this->remote);
         $query = GSDArticleMapper::getQuery();
-        $query->where('row_create_time', '=>', $start->format('Y-m-d H:i:s'))
-            ->andWhere('row_create_time', '<=', $end->format('Y-m-d H:i:s'));
+        $query->where('Artikel_3.row_create_time', '>=', $start->format('Y-m-d H:i:s'))
+            ->andWhere('Artikel_3.row_create_time', '<=', $end->format('Y-m-d H:i:s'));
 
         $articles = GSDArticleMapper::getAllByQuery($query);
 

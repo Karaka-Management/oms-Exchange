@@ -22,7 +22,7 @@ namespace Modules\Exchange\Interfaces\GSD\Model;
  * @link    https://orange-management.org
  * @since   1.0.0
  */
-final class GSDSupplier
+class GSDSupplier
 {
     /**
      * ID.

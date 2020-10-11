@@ -39,18 +39,19 @@ final class GSDCustomerMapper extends DataMapperAbstract
         'Kundennummer'      => ['name' => 'Kundennummer',      'type' => 'string',   'internal' => 'number'],
         'Info'              => ['name' => 'Info',              'type' => 'string',   'internal' => 'info'],
         'Auftragssperre'    => ['name' => 'Auftragssperre',    'type' => 'string',   'internal' => 'deliveryStatus'],
-        'KreditLimitintern' => ['name' => 'KreditLimitintern', 'type' => 'string',   'internal' => 'creditlimit'],
+        'KreditLimitintern' => ['name' => 'KreditLimitintern', 'type' => 'float',    'internal' => 'creditlimit'],
         'EGUstId'           => ['name' => 'EGUstId',           'type' => 'string',   'internal' => 'egustid'],
         'Steuernummer'      => ['name' => 'Steuernummer',      'type' => 'string',   'internal' => 'taxid'],
         'BIC'               => ['name' => 'BIC',               'type' => 'string',   'internal' => 'bic'],
         'IBAN'              => ['name' => 'IBAN',              'type' => 'string',   'internal' => 'iban'],
-        'Verkaeufer'        => ['name' => 'Verkaeufer',        'type' => 'int',   'internal' => 'salesRep'],
+        'Verkaeufer'        => ['name' => 'Verkaeufer',        'type' => 'int',      'internal' => 'salesRep'],
+        'AdressId'        => ['name' => 'AdressId',        'type' => 'int',      'internal' => 'addr'],
     ];
 
     protected static array $ownsOne = [
         'addr' => [
             'mapper' => GSDAddressMapper::class,
-            'self'   => 'AddressId',
+            'self'   => 'AdressId',
         ],
     ];
 

@@ -14,12 +14,15 @@ declare(strict_types=1);
 
 namespace Modules\Exchange\Controller;
 
+use Modules\Exchange\Models\InterfaceManager;
 use Modules\Exchange\Models\InterfaceManagerMapper;
 use Modules\Media\Models\UploadFile;
 use phpOMS\Message\NotificationLevel;
 use phpOMS\Message\RequestAbstract;
 use phpOMS\Message\ResponseAbstract;
 use phpOMS\System\File\Local\Directory;
+use phpOMS\Model\Message\FormValidation;
+use phpOMS\Message\Http\RequestStatusCode;
 
 /**
  * Exchange controller class.
@@ -87,6 +90,59 @@ final class ApiController extends Controller
         Directory::delete(__DIR__ . '/../tmp/');
 
         return false;
+    }
+
+    /**
+     * Method to validate account creation from request
+     *
+     * @param RequestAbstract $request Request
+     *
+     * @return array<string, bool>
+     *
+     * @since 1.0.0
+     */
+    private function validateInterfaceInstall(RequestAbstract $request) : array
+    {
+        $val = [];
+        if (($val['interface'] = empty($request->getData('interface')))
+            || ($val['path'] = !\is_dir(__DIR__ . '/../Interfaces/' . $request->getData('interface')))
+        ) {
+            return $val;
+        }
+
+        return [];
+    }
+
+    /**
+     * Api method to install exchange interface
+     *
+     * @param RequestAbstract  $request  Request
+     * @param ResponseAbstract $response Response
+     * @param mixed            $data     Generic data
+     *
+     * @return void
+     *
+     * @api
+     *
+     * @since 1.0.0
+     */
+    public function apiInterfaceInstall(RequestAbstract $request, ResponseAbstract $response, $data = null) : void
+    {
+        if (!empty($val = $this->validateInterfaceInstall($request))) {
+            $response->set('interface_install', new FormValidation($val));
+            $response->getHeader()->setStatusCode(RequestStatusCode::R_400);
+
+            return;
+        }
+
+        $interface = new InterfaceManager(
+            __DIR__ . '/../Interfaces/' . $request->getData('interface') . '/interface.json'
+        );
+        $interface->load();
+
+        InterfaceManagerMapper::create($interface);
+
+        $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Interface', 'Interface successfully installed', $interface);
     }
 
     /**

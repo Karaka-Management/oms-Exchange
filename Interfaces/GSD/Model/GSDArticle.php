@@ -22,7 +22,7 @@ namespace Modules\Exchange\Interfaces\GSD\Model;
  * @link    https://orange-management.org
  * @since   1.0.0
  */
-final class GSDArticle
+class GSDArticle
 {
     /**
      * ID.
@@ -33,12 +33,20 @@ final class GSDArticle
     protected int $id = 0;
 
     /**
-     * Create at.
+     * Creator.
+     *
+     * @var int
+     * @since 1.0.0
+     */
+    protected int $createdBy = 0;
+
+    /**
+     * Created.
      *
      * @var \DateTimeImmutable
      * @since 1.0.0
      */
-    private \DateTimeImmutable $createdAt;
+    protected \DateTimeImmutable $createdAt;
 
     /**
      * Article number.

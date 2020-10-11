@@ -22,7 +22,7 @@ namespace Modules\Exchange\Interfaces\GSD\Model;
  * @link    https://orange-management.org
  * @since   1.0.0
  */
-final class GSDCustomer
+class GSDCustomer
 {
     /**
      * ID.
@@ -38,7 +38,7 @@ final class GSDCustomer
      * @var int
      * @since 1.0.0
      */
-    protected $createdBy = 0;
+    protected int $createdBy = 0;
 
     /**
      * Created.

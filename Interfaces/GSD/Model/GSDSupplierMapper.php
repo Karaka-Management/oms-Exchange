@@ -47,7 +47,7 @@ final class GSDSupplierMapper extends DataMapperAbstract
     protected static array $ownsOne = [
         'addr' => [
             'mapper' => GSDAddressMapper::class,
-            'self'   => 'AddressId',
+            'self'   => 'AdressId',
         ],
     ];
 
