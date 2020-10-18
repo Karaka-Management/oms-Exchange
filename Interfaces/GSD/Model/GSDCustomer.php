@@ -31,40 +31,60 @@ class GSDCustomer
      * @since 1.0.0
      */
     public int $id = 0;
+
     public int $createdBy = 0;
+
     public \DateTimeImmutable $createdAt;
+
     public bool $isBlocked = false;
+
     public bool $isDiscontinued = false;
+
     public bool $isLocked = false;
 
     public string $number = '';
+
     public string $customerType = '';
+
     public GSDAddress $addr;
+
     public string $info = '';
 
     public int $account = 0;
+
     public int $materialAccount = 0;
+
     public int $accountsReceivableAccount = 0;
+
     public string $earningsIndicator = '';
 
     public float $creditlimit = 0.0;
+
     public string $egustid = '';
+
     public string $taxid = '';
+
     public string $bic = '';
+
     public string $iban = '';
+
     public string $bankRef = '';
 
     public string $salesRep = '';
+
     public bool $isMonthlyInvoice = false;
+
     public bool $reminderBlock = false;
+
     public string $legalType = '';
 
     public array $partner = [];
 
     public array $paymentTerms = []; // @todo: implement model/mapper
-    public array $addresses = []; // @todo: implement
-    public array $prices = []; // @todo: implement
 
+    public array $addresses = []; // @todo: implement
+
+    public array $prices = []; // @todo: implement
 
     /**
      * Construct.

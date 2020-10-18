@@ -24,16 +24,24 @@ namespace Modules\Exchange\Interfaces\GSD\Model;
  */
 class GSDSupplier
 {
-
     public int $id = 0;
+
     public $createdBy = 0;
+
     public \DateTimeImmutable $createdAt;
+
     public string $number = '';
+
     public string $info = '';
+
     public string $taxid = '';
+
     public string $bic = '';
+
     public string $iban = '';
+
     public GSDAddress $addr;
+
     public int $deliveryStatus = 0;
 
     /**
