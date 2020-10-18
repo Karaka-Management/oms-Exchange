@@ -150,7 +150,7 @@ final class Importer extends ImporterAbstract
         }
 
         if (((bool) ($request->getData('articles') ?? false))) {
-            $this->importArticle($start, $end);
+            $this->importArticle($start, $end, $request->getFiles());
         }
 
         if (((bool) ($request->getData('invoices') ?? false))) {
@@ -397,14 +397,15 @@ final class Importer extends ImporterAbstract
     /**
      * Import articles
      *
-     * @param \DateTime $start Start time (inclusive)
-     * @param \DateTime $end   End time (inclusive)
+     * @param \DateTime $start  Start time (inclusive)
+     * @param \DateTime $end    End time (inclusive)
+     * @param array     $images Article images
      *
      * @return void
      *
      * @since 1.0.0
      */
-    public function importArticle(\DateTime $start, \DateTime $end) : void
+    public function importArticle(\DateTime $start, \DateTime $end, array $images = []) : void
     {
         DataMapperAbstract::setConnection($this->remote);
         $query = GSDArticleMapper::getQuery();
@@ -464,6 +465,10 @@ final class Importer extends ImporterAbstract
                     : $t,
                 ISO639x1Enum::_EN
             ));
+
+            // @todo: implement
+            // api upload media
+            //$obj->addMedia();
 
             ItemMapper::create($obj);
         }
