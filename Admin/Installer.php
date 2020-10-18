@@ -39,13 +39,14 @@ final class Installer extends InstallerAbstract
     {
         parent::install($dbPool, $info, $cfgHandler);
 
-        $interfaces = Directory::list(__DIR__ . '/../Interfaces', '.*interface\.json');
+        /*
+        $interfaces = Directory::list(__DIR__ . '/../Interfaces', '.*interface\.json', true);
 
         foreach ($interfaces as $interface) {
             $exchange = new InterfaceManager(__DIR__ . '/../Interfaces/' . $interface);
             $exchange->load();
 
             InterfaceManagerMapper::create($exchange);
-        }
+        }*/
     }
 }

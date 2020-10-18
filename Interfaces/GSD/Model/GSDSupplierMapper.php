@@ -42,6 +42,7 @@ final class GSDSupplierMapper extends DataMapperAbstract
         'Steuernummer'           => ['name' => 'Steuernummer',      'type' => 'string',   'internal' => 'taxid'],
         'BIC'                    => ['name' => 'BIC',               'type' => 'string',   'internal' => 'bic'],
         'IBAN'                   => ['name' => 'IBAN',              'type' => 'string',   'internal' => 'iban'],
+        'AdressId'               => ['name' => 'AdressId',              'type' => 'int',   'internal' => 'addr'],
     ];
 
     protected static array $ownsOne = [

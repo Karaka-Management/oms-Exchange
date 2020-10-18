@@ -33,20 +33,20 @@ final class GSDAddressMapper extends DataMapperAbstract
      * @since 1.0.0
      */
     protected static array $columns = [
-        'AdressRowId'             => ['name' => 'AdressRowId',     'type' => 'int',      'internal' => 'id'],
-        'row_create_time'         => ['name' => 'row_create_time', 'type' => 'DateTimeImmutable', 'internal' => 'createdAt', 'readonly' => true],
-        'row_create_user'         => ['name' => 'row_create_user', 'type' => 'int',      'internal' => 'createdBy', 'readonly' => true],
-        'NAME1'                   => ['name' => 'NAME1',           'type' => 'string',   'internal' => 'name1'],
-        'NAME2'                   => ['name' => 'NAME2',           'type' => 'string',   'internal' => 'name2'],
-        'NAME3'                   => ['name' => 'NAME3',           'type' => 'string',   'internal' => 'name3'],
-        'ORT'                     => ['name' => 'ORT',             'type' => 'string',   'internal' => 'city'],
-        'PLZ'                     => ['name' => 'PLZ',             'type' => 'string',   'internal' => 'zip'],
-        'STRASSE'                 => ['name' => 'STRASSE',         'type' => 'string',   'internal' => 'street'],
-        'LAND'                    => ['name' => 'LAND',            'type' => 'string',   'internal' => 'country'],
-        'TELEFON'                 => ['name' => 'TELEFON',         'type' => 'string',   'internal' => 'phone'],
-        'Fax'                     => ['name' => 'Fax',         'type' => 'string',   'internal' => 'fax'],
-        'Email'                   => ['name' => 'Email',         'type' => 'string',   'internal' => 'email'],
-        'InternetAdresse'         => ['name' => 'InternetAdresse',         'type' => 'string',   'internal' => 'website'],
+        'Nummer'             => ['name' => 'Nummer',     'type' => 'int',      'internal' => 'id'],
+        'row_create_time'    => ['name' => 'row_create_time', 'type' => 'DateTimeImmutable', 'internal' => 'createdAt'],
+        'row_create_user'    => ['name' => 'row_create_user', 'type' => 'int',      'internal' => 'createdBy'],
+        'Name1'              => ['name' => 'Name1',           'type' => 'string',   'internal' => 'name1'],
+        'Name2'              => ['name' => 'Name2',           'type' => 'string',   'internal' => 'name2'],
+        'Name3'              => ['name' => 'Name3',           'type' => 'string',   'internal' => 'name3'],
+        'Ort'                => ['name' => 'Ort',             'type' => 'string',   'internal' => 'city'],
+        'PLZ'                => ['name' => 'PLZ',             'type' => 'string',   'internal' => 'zip'],
+        'Strasse'            => ['name' => 'Strasse',         'type' => 'string',   'internal' => 'street'],
+        'Land'               => ['name' => 'Land',            'type' => 'string',   'internal' => 'country'],
+        'Telefon'            => ['name' => 'Telefon',         'type' => 'string',   'internal' => 'phone'],
+        'Fax'                => ['name' => 'Fax',         'type' => 'string',   'internal' => 'fax'],
+        'EMail'              => ['name' => 'EMail',         'type' => 'string',   'internal' => 'email'],
+        'InternetAdresse'    => ['name' => 'InternetAdresse',         'type' => 'string',   'internal' => 'website'],
     ];
 
     /**
@@ -55,7 +55,7 @@ final class GSDAddressMapper extends DataMapperAbstract
      * @var string
      * @since 1.0.0
      */
-    protected static string $table = 'KUNDENADRESSE';
+    protected static string $table = 'Adressen';
 
     /**
      * Created at.
@@ -71,5 +71,5 @@ final class GSDAddressMapper extends DataMapperAbstract
      * @var string
      * @since 1.0.0
      */
-    protected static string $primaryField = 'AdressRowId';
+    protected static string $primaryField = 'Nummer';
 }

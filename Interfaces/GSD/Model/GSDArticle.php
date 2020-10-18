@@ -24,117 +24,73 @@ namespace Modules\Exchange\Interfaces\GSD\Model;
  */
 class GSDArticle
 {
-    /**
-     * ID.
-     *
-     * @var int
-     * @since 1.0.0
-     */
-    protected int $id = 0;
+    public int $id = 0;
+    public int $createdBy = 0;
+    public \DateTimeImmutable $createdAt;
 
-    /**
-     * Creator.
-     *
-     * @var int
-     * @since 1.0.0
-     */
-    protected int $createdBy = 0;
+    public bool $isDiscontinued = false;
+    public bool $isBlocked = false;
 
-    /**
-     * Created.
-     *
-     * @var \DateTimeImmutable
-     * @since 1.0.0
-     */
-    protected \DateTimeImmutable $createdAt;
+    public string $number = '';
+    public string $infoSales = '';
+    public string $infoPurchase = '';
+    public string $infoWarehouse = '';
 
-    /**
-     * Article number.
-     *
-     * @var string
-     * @since 1.0.0
-     */
-    private string $number = '';
+    public string $name1 = '';
+    public string $name2 = '';
+    public string $name1Eng = '';
+    public string $name2Eng = '';
 
-    /**
-     * Article information
-     *
-     * @var string
-     * @since 1.0.0
-     */
-    private string $info = '';
+    public int $status = 0;
+    public string $lotManagement = '';
+    public bool $hasSN = false;
 
-    /**
-     * Name1.
-     *
-     * @var string
-     * @since 1.0.0
-     */
-    private string $name1 = '';
+    public float $weight = 0.0;
+    public float $height = 0.0;
+    public float $length = 0.0;
+    public float $volume = 0.0;
 
-    /**
-     * Name2
-     *
-     * @var string
-     * @since 1.0.0
-     */
-    private string $name2 = '';
+    public string $purchaseUnit = '';
+    public bool $manualLotUse = true;
+    public int $leadTimeWeeks = 0;
+    public int $leadTimeDays = 0;
+    public int $leadTime = 0;
+    public float $minimalStock = 0.0;
+    public bool $negativeStock = false;
 
-    /**
-     * English name1.
-     *
-     * @var string
-     * @since 1.0.0
-     */
-    private string $name1Eng = '';
+    public string $customsId = '';
+    public string $unnumber = '';
+    public string $EUitemgroup = '';
+    public string $inspectionDepartment = '';
+    public string $medicinProductClass = '';
 
-    /**
-     * English name2
-     *
-     * @var string
-     * @since 1.0.0
-     */
-    private string $name2Eng = '';
+    public bool $exportItem = false;
+    public bool $nonEUItem = false;
+    public bool $dualUse = false;
+    public int $inShop = 0;
 
-    /**
-     * Activity status
-     *
-     * @var int
-     * @since 1.0.0
-     */
-    private int $status = 0;
+    public string $sectionGroup = ''; // Sparte
+    public string $salesGroup = ''; // Umsatzgruppe
+    public string $segment = ''; // Segment
+    public int $productGroup = 0;
 
-    /**
-     * Lot type (can also be none)
-     *
-     * @var int
-     * @since 1.0.0
-     */
-    private int $lotType = 0;
+    public string $earningsIndicator = '';
+    public string $costsIndicator = '';
 
-    /**
-     * Weight
-     *
-     * @var float
-     * @since 1.0.0
-     */
-    private float $weight = 0.0;
+    public float $weightTinplate = 0.0; // Weissblech
+    public float $weightOtherComposites = 0.0; // Sonstige Verbunde
+    public float $weightOther = 0.0; // Sonstiges
+    public float $weightPET = 0.0; // PET
+    public float $weightPaper = 0.0;
+    public float $weightNatureProducts = 0.0;
+    public float $weightAcrylics = 0.0;
+    public float $weightCarton = 0.0;
+    public float $weightGlas = 0.0;
+    public float $weightAluminium = 0.0;
+    public float $weightGross = 0.0;
+    public float $weightNet = 0.0;
 
-    /**
-     * Lead time in days
-     *
-     * @var int
-     * @since 1.0.0
-     */
-    private int $leadTime = 0;
-
-    /**
-     * EU item group
-     *
-     * @var string
-     * @since 1.0.0
-     */
-    private string $EUitemgroup = '';
+    public array $prices = []; // @todo implement from [Preise] where ParentID = 1, 2, 4??? for sales price and ParentType = 2 for purchase price?
 
     /**
      * Constructor.
@@ -144,137 +100,5 @@ class GSDArticle
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable('now');
-    }
-
-    /**
-     * Get article number
-     *
-     * @return string
-     *
-     * @since 1.0.0
-     */
-    public function getNumber() : string
-    {
-        return $this->number;
-    }
-
-    /**
-     * Get article information text
-     *
-     * @return string
-     *
-     * @since 1.0.0
-     */
-    public function getInfo() : string
-    {
-        return $this->info;
-    }
-
-    /**
-     * Get name1
-     *
-     * @return string
-     *
-     * @since 1.0.0
-     */
-    public function getName1() : string
-    {
-        return $this->name1;
-    }
-
-    /**
-     * Get name2
-     *
-     * @return string
-     *
-     * @since 1.0.0
-     */
-    public function getName2() : string
-    {
-        return $this->name2;
-    }
-
-    /**
-     * Get englisch name1
-     *
-     * @return string
-     *
-     * @since 1.0.0
-     */
-    public function getName1Eng() : string
-    {
-        return $this->name1Eng;
-    }
-
-    /**
-     * Get englisch name2
-     *
-     * @return string
-     *
-     * @since 1.0.0
-     */
-    public function getName2Eng() : string
-    {
-        return $this->name2Eng;
-    }
-
-    /**
-     * Get status
-     *
-     * @return int
-     *
-     * @since 1.0.0
-     */
-    public function getStatus() : int
-    {
-        return $this->status;
-    }
-
-    /**
-     * Get lot type
-     *
-     * @return int
-     *
-     * @since 1.0.0
-     */
-    public function getLotType() : int
-    {
-        return $this->lotType;
-    }
-
-    /**
-     * Get weight
-     *
-     * @return float
-     *
-     * @since 1.0.0
-     */
-    public function getWeight() : float
-    {
-        return $this->weight;
-    }
-
-    /**
-     * Get lead time (in days)
-     *
-     * @return int
-     *
-     * @since 1.0.0
-     */
-    public function getLeadTime() : int
-    {
-        return $this->leadTime;
-    }
-
-    /**
-     * Get EU item group
-     *
-     * @return string
-     *
-     * @since 1.0.0
-     */
-    public function getEUItemGroup() : string
-    {
-        return $this->EUitemgroup;
     }
 }

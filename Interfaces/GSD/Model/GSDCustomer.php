@@ -30,105 +30,41 @@ class GSDCustomer
      * @var int
      * @since 1.0.0
      */
-    private int $id = 0;
+    public int $id = 0;
+    public int $createdBy = 0;
+    public \DateTimeImmutable $createdAt;
+    public bool $isBlocked = false;
+    public bool $isDiscontinued = false;
+    public bool $isLocked = false;
 
-    /**
-     * Creator.
-     *
-     * @var int
-     * @since 1.0.0
-     */
-    protected int $createdBy = 0;
+    public string $number = '';
+    public string $customerType = '';
+    public GSDAddress $addr;
+    public string $info = '';
 
-    /**
-     * Created.
-     *
-     * @var \DateTimeImmutable
-     * @since 1.0.0
-     */
-    protected \DateTimeImmutable $createdAt;
+    public int $account = 0;
+    public int $materialAccount = 0;
+    public int $accountsReceivableAccount = 0;
+    public string $earningsIndicator = '';
 
-    /**
-     * Customer number
-     *
-     * @var string
-     * @since 1.0.0
-     */
-    private string $number = '';
+    public float $creditlimit = 0.0;
+    public string $egustid = '';
+    public string $taxid = '';
+    public string $bic = '';
+    public string $iban = '';
+    public string $bankRef = '';
 
-    /**
-     * Info text
-     *
-     * @var string
-     * @since 1.0.0
-     */
-    private string $info = '';
+    public string $salesRep = '';
+    public bool $isMonthlyInvoice = false;
+    public bool $reminderBlock = false;
+    public string $legalType = '';
 
-    /**
-     * Credit limit
-     *
-     * @var float
-     * @since 1.0.0
-     */
-    private float $creditlimit = 0.0;
+    public array $partner = [];
 
-    /**
-     * EGUStId
-     *
-     * @var string
-     * @since 1.0.0
-     */
-    private string $egustid = '';
+    public array $paymentTerms = []; // @todo: implement model/mapper
+    public array $addresses = []; // @todo: implement
+    public array $prices = []; // @todo: implement
 
-    /**
-     * VAT id
-     *
-     * @var string
-     * @since 1.0.0
-     */
-    private string $taxid = '';
-
-    /**
-     * BICC
-     *
-     * @var string
-     * @since 1.0.0
-     */
-    private string $bic = '';
-
-    /**
-     * IBAN
-     *
-     * @var string
-     * @sicne 1.0.0
-     */
-    private string $iban = '';
-
-    /**
-     * Address
-     *
-     * @var GSDAddress
-     * @since 1.0.0
-     */
-    private GSDAddress $addr;
-
-    /**
-     * Delivery status.
-     *
-     * Can invoices get created
-     *
-     * @var int
-     * @since 1.0.0
-     */
-    private int $deliveryStatus = 0;
-
-    /**
-     * Sales rep id
-     *
-     * @var int
-     * @since 1.0.0
-     */
-    private int $salesRep = 0;
 
     /**
      * Construct.
@@ -139,125 +75,5 @@ class GSDCustomer
     {
         $this->addr      = new GSDAddress();
         $this->createdAt = new \DateTimeImmutable('now');
-    }
-
-    /**
-     * Get customer number
-     *
-     * @return string
-     *
-     * @since 1.0.0
-     */
-    public function getNumber() : string
-    {
-        return $this->number;
-    }
-
-    /**
-     * Get information text
-     *
-     * @return string
-     *
-     * @since 1.0.0
-     */
-    public function getInfo() : string
-    {
-        return $this->info;
-    }
-
-    /**
-     * Get credit limit
-     *
-     * @return float
-     *
-     * @since 1.0.0
-     */
-    public function getCreditLimit() : float
-    {
-        return $this->creditlimit;
-    }
-
-    /**
-     * Get EGUStId
-     *
-     * @return string
-     *
-     * @since 1.0.0
-     */
-    public function getEGUstId() : string
-    {
-        return $this->egustid;
-    }
-
-    /**
-     * Get VAT Id
-     *
-     * @return string
-     *
-     * @since 1.0.0
-     */
-    public function getTaxId() : string
-    {
-        return $this->taxid;
-    }
-
-    /**
-     * Get BIC
-     *
-     * @return string
-     *
-     * @since 1.0.0
-     */
-    public function getBIC() : string
-    {
-        return $this->bic;
-    }
-
-    /**
-     * Get IBAN
-     *
-     * @return string
-     *
-     * @since 1.0.0
-     */
-    public function getIban() : string
-    {
-        return $this->iban;
-    }
-
-    /**
-     * Get main address
-     *
-     * @return GSDAddress
-     *
-     * @since 1.0.0
-     */
-    public function getAddress() : GSDAddress
-    {
-        return $this->addr;
-    }
-
-    /**
-     * Get deivery status
-     *
-     * @return int
-     *
-     * @since 1.0.0
-     */
-    public function getDeliveryStatus() : int
-    {
-        return $this->deliveryStatus;
-    }
-
-    /**
-     * Get saes rep
-     *
-     * @return int
-     *
-     * @since 1.0.0
-     */
-    public function getSalesRep() : int
-    {
-        return $this->salesRep;
     }
 }
