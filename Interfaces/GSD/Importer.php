@@ -15,17 +15,23 @@ declare(strict_types=1);
 namespace Modules\Exchange\Interfaces\GSD;
 
 use phpOMS\Utils\IO\Zip\Zip;
+use Modules\Media\Models\Media;
 use Modules\Admin\Models\Account;
 use Modules\Admin\Models\Address;
 use Modules\Profile\Models\Profile;
 use phpOMS\Message\RequestAbstract;
+use Modules\Media\Models\Collection;
+use Modules\Admin\Models\NullAccount;
+use Modules\Media\Models\MediaMapper;
 use phpOMS\Localization\ISO639x1Enum;
 use Modules\ItemManagement\Models\Item;
 use Modules\Profile\Models\ContactType;
 use phpOMS\Localization\ISO3166TwoEnum;
 use phpOMS\System\File\Local\Directory;
+use Modules\Media\Controller\Controller;
 use Modules\Accounting\Models\CostCenter;
 use Modules\Accounting\Models\CostObject;
+use Modules\Media\Models\CollectionMapper;
 use Modules\Profile\Models\ContactElement;
 use Modules\ClientManagement\Models\Client;
 use Modules\ItemManagement\Models\ItemL11n;
@@ -78,6 +84,14 @@ final class Importer extends ImporterAbstract
     private ?ConnectionAbstract $remote = null;
 
     /**
+     * Account
+     * 
+     * @var int
+     * @since 1.0.0
+     */
+    private int $account = 1;
+
+    /**
      * Import all data in time span
      *
      * @param \DateTime $start Start time (inclusive)
@@ -125,6 +139,8 @@ final class Importer extends ImporterAbstract
         ]);
 
         $this->remote->connect();
+
+        $this->account = $request->getHeader()->getAccount();
 
         if ($this->remote->getStatus() !== DatabaseStatus::OK) {
             return false;
@@ -422,17 +438,40 @@ final class Importer extends ImporterAbstract
         $itemAttrType  = $this->createItemAttributeTypes();
         $itemAttrValue = $this->createItemAttributeValues($itemAttrType);
 
-        $images = [];
+        $images    = [];
+        $imagePath = Controller::FILE_PATH . '/Modules/ItemManagement/Articles/Images';
+
+        $media = [];
         if (!empty($files)) {
-            if (!\file_exists(__DIR__ . '/temp')) {
-                \mkdir(__DIR__ . '/temp');
+            if (!\is_dir($imagePath)) {
+                \mkdir($imagePath, 0755, true);
             }
 
-            Zip::unpack($files['tmp_name'], __DIR__ . '/temp/');
+            $jpgOld    = Directory::listByExtension($imagePath, 'jpg');
+            $pngOld    = Directory::listByExtension($imagePath, 'png');
+            $imagesOld = \array_merge($jpgOld, $pngOld);
 
-            $jpg    = Directory::listByExtension(__DIR__ . '/temp/', 'jpg');
-            $png    = Directory::listByExtension(__DIR__ . '/temp/', 'png');
-            $images = \array_merge($jpg, $png);           
+            Zip::unpack($files['tmp_name'], $imagePath);
+
+            $jpg    = Directory::listByExtension($imagePath, 'jpg');
+            $png    = Directory::listByExtension($imagePath, 'png');
+            $images = \array_merge($jpg, $png);
+            $images = \array_diff($images, $imagesOld);
+            
+            foreach ($images as $image) {
+                $number = (int) \explode('.', $image)[0];
+
+                $media[$number] = new Media();
+                $media[$number]->setName((string) $number);
+                $media[$number]->setType('backend_image');
+                $media[$number]->setPath('/Modules/Media/Files/Modules/ItemManagement/Articles/Images/' . $image);
+                $media[$number]->setVirtualPath('/Modules/ItemManagement/Articles/Images');
+                $media[$number]->setExtension(\explode('.', $image)[1]);
+                $media[$number]->setSize(\filesize($imagePath . '/' . $image));
+                $media[$number]->setCreatedBy(new NullAccount($this->account));
+
+                MediaMapper::create($media[$number]);
+            }
         }
 
         //$itemAttrType['segment'] = new ItemAttributeType();
@@ -440,15 +479,10 @@ final class Importer extends ImporterAbstract
         //$itemAttrType['devaluation'] = new ItemAttributeType();
 
         foreach ($articles as $article) {
-            $obj = new Item();
-            $obj->setNumber(\trim($article->number, ",. \t"));
+            $number = (int) \trim($article->number, ",. \t");
 
-            foreach ($images as $image) {
-                if (\stripos($image, $article->number) !== false) {
-                    var_dump($image);
-                    break;
-                }
-            }
+            $obj = new Item();
+            $obj->setNumber((string) $number);
 
             // German Language
             $obj->addL11n(new ItemL11n(
@@ -486,15 +520,11 @@ final class Importer extends ImporterAbstract
                 ISO639x1Enum::_EN
             ));
 
-            // @todo: implement
-            // api upload media
-            //$obj->addMedia();
+            if (isset($media[$number])) {
+                $obj->addFile($media[$number]);
+            }
 
             ItemMapper::create($obj);
-        }
-
-        if (\file_exists(__DIR__ . '/temp')) {
-            Directory::delete(__DIR__ . '/temp');
         }
     }
 
