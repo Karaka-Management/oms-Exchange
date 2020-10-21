@@ -14,48 +14,50 @@ declare(strict_types=1);
 
 namespace Modules\Exchange\Interfaces\GSD;
 
-use Modules\Accounting\Models\CostCenter;
-use Modules\Accounting\Models\CostCenterMapper;
-use Modules\Accounting\Models\CostObject;
-use Modules\Accounting\Models\CostObjectMapper;
+use phpOMS\Utils\IO\Zip\Zip;
 use Modules\Admin\Models\Account;
 use Modules\Admin\Models\Address;
-use Modules\ClientManagement\Models\Client;
-use Modules\ClientManagement\Models\ClientMapper;
-use Modules\Exchange\Interfaces\GSD\Model\GSDArticle;
-use Modules\Exchange\Interfaces\GSD\Model\GSDArticleMapper;
-use Modules\Exchange\Interfaces\GSD\Model\GSDCostCenter;
-use Modules\Exchange\Interfaces\GSD\Model\GSDCostCenterMapper;
-use Modules\Exchange\Interfaces\GSD\Model\GSDCostObject;
-use Modules\Exchange\Interfaces\GSD\Model\GSDCostObjectMapper;
-use Modules\Exchange\Interfaces\GSD\Model\GSDCustomer;
-use Modules\Exchange\Interfaces\GSD\Model\GSDCustomerMapper;
-use Modules\Exchange\Interfaces\GSD\Model\GSDSupplier;
-use Modules\Exchange\Interfaces\GSD\Model\GSDSupplierMapper;
-use Modules\Exchange\Models\ImporterAbstract;
-use Modules\ItemManagement\Models\Item;
-use Modules\ItemManagement\Models\ItemAttributeType;
-use Modules\ItemManagement\Models\ItemAttributeTypeL11n;
-use Modules\ItemManagement\Models\ItemAttributeTypeL11nMapper;
-use Modules\ItemManagement\Models\ItemAttributeTypeMapper;
-use Modules\ItemManagement\Models\ItemL11n;
-use Modules\ItemManagement\Models\ItemL11nType;
-use Modules\ItemManagement\Models\ItemL11nTypeMapper;
-use Modules\ItemManagement\Models\ItemMapper;
-use Modules\ItemManagement\Models\NullItemAttributeType;
-use Modules\ItemManagement\Models\NullItemL11nType;
-use Modules\Profile\Models\ContactElement;
-use Modules\Profile\Models\ContactType;
 use Modules\Profile\Models\Profile;
-use Modules\SupplierManagement\Models\Supplier;
-use Modules\SupplierManagement\Models\SupplierMapper;
-use phpOMS\DataStorage\Database\Connection\ConnectionAbstract;
-use phpOMS\DataStorage\Database\Connection\ConnectionFactory;
-use phpOMS\DataStorage\Database\DatabaseStatus;
-use phpOMS\DataStorage\Database\DataMapperAbstract;
-use phpOMS\Localization\ISO3166TwoEnum;
-use phpOMS\Localization\ISO639x1Enum;
 use phpOMS\Message\RequestAbstract;
+use phpOMS\Localization\ISO639x1Enum;
+use Modules\ItemManagement\Models\Item;
+use Modules\Profile\Models\ContactType;
+use phpOMS\Localization\ISO3166TwoEnum;
+use phpOMS\System\File\Local\Directory;
+use Modules\Accounting\Models\CostCenter;
+use Modules\Accounting\Models\CostObject;
+use Modules\Profile\Models\ContactElement;
+use Modules\ClientManagement\Models\Client;
+use Modules\ItemManagement\Models\ItemL11n;
+use Modules\Exchange\Models\ImporterAbstract;
+use Modules\ItemManagement\Models\ItemMapper;
+use Modules\Accounting\Models\CostCenterMapper;
+use Modules\Accounting\Models\CostObjectMapper;
+use Modules\ItemManagement\Models\ItemL11nType;
+use Modules\SupplierManagement\Models\Supplier;
+use phpOMS\DataStorage\Database\DatabaseStatus;
+use Modules\ClientManagement\Models\ClientMapper;
+use Modules\ItemManagement\Models\NullItemL11nType;
+use phpOMS\DataStorage\Database\DataMapperAbstract;
+use Modules\ItemManagement\Models\ItemAttributeType;
+use Modules\Exchange\Interfaces\GSD\Model\GSDArticle;
+use Modules\ItemManagement\Models\ItemL11nTypeMapper;
+use Modules\SupplierManagement\Models\SupplierMapper;
+use Modules\Exchange\Interfaces\GSD\Model\GSDCustomer;
+use Modules\Exchange\Interfaces\GSD\Model\GSDSupplier;
+use Modules\Exchange\Interfaces\GSD\Model\GSDCostCenter;
+use Modules\Exchange\Interfaces\GSD\Model\GSDCostObject;
+use Modules\ItemManagement\Models\ItemAttributeTypeL11n;
+use Modules\ItemManagement\Models\NullItemAttributeType;
+use Modules\ItemManagement\Models\ItemAttributeTypeMapper;
+use Modules\Exchange\Interfaces\GSD\Model\GSDArticleMapper;
+use Modules\Exchange\Interfaces\GSD\Model\GSDCustomerMapper;
+use Modules\Exchange\Interfaces\GSD\Model\GSDSupplierMapper;
+use phpOMS\DataStorage\Database\Connection\ConnectionFactory;
+use Modules\Exchange\Interfaces\GSD\Model\GSDCostCenterMapper;
+use Modules\Exchange\Interfaces\GSD\Model\GSDCostObjectMapper;
+use Modules\ItemManagement\Models\ItemAttributeTypeL11nMapper;
+use phpOMS\DataStorage\Database\Connection\ConnectionAbstract;
 
 /**
  * GSD import class
@@ -73,7 +75,7 @@ final class Importer extends ImporterAbstract
      * @var ConnectionAbstract
      * @since 1.0.0
      */
-    private $remote = null;
+    private ?ConnectionAbstract $remote = null;
 
     /**
      * Import all data in time span
@@ -119,6 +121,7 @@ final class Importer extends ImporterAbstract
             'database' => (string) ($request->getData('database') ?? ''),
             'login'    => (string) ($request->getData('login') ?? ''),
             'password' => (string) ($request->getData('password') ?? ''),
+            'datetimeformat' => (string) ($request->getData('datetimeformat') ?? 'Y-m-d H:i:s'),
         ]);
 
         $this->remote->connect();
@@ -148,7 +151,7 @@ final class Importer extends ImporterAbstract
         }
 
         if (((bool) ($request->getData('articles') ?? false))) {
-            $this->importArticle($start, $end, $request->getFiles());
+            $this->importArticle($start, $end, $request->getFiles()['articles_backend'] ?? []);
         }
 
         if (((bool) ($request->getData('invoices') ?? false))) {
@@ -172,8 +175,8 @@ final class Importer extends ImporterAbstract
     {
         DataMapperAbstract::setConnection($this->remote);
         $query = GSDCostCenterMapper::getQuery();
-        $query->where('FiKostenstellen_3.row_create_time', '>=', $start->format('Y-m-d H:i:s'))
-            ->andWhere('FiKostenstellen_3.row_create_time', '<=', $end->format('Y-m-d H:i:s'));
+        $query->where('FiKostenstellen_3.row_create_time', '>=', $start)
+            ->andWhere('FiKostenstellen_3.row_create_time', '<=', $end);
 
         /** @var GSDCostCenter[] $costCenters */
         $costCenters = GSDCostCenterMapper::getAllByQuery($query);
@@ -203,8 +206,8 @@ final class Importer extends ImporterAbstract
     {
         DataMapperAbstract::setConnection($this->remote);
         $query = GSDCostObjectMapper::getQuery();
-        $query->where('FiKostentraeger_3.row_create_time', '>=', $start->format('Y-m-d H:i:s'))
-            ->andWhere('FiKostentraeger_3.row_create_time', '<=', $end->format('Y-m-d H:i:s'));
+        $query->where('FiKostentraeger_3.row_create_time', '>=', $start)
+            ->andWhere('FiKostentraeger_3.row_create_time', '<=', $end);
 
         /** @var GSDCostObject[] $costObjects */
         $costObjects = GSDCostObjectMapper::getAllByQuery($query);
@@ -234,8 +237,8 @@ final class Importer extends ImporterAbstract
     {
         DataMapperAbstract::setConnection($this->remote);
         $query = GSDCustomerMapper::getQuery();
-        $query->where('Kunden_3.row_create_time', '>=', $start->format('Y-m-d H:i:s'))
-            ->andWhere('Kunden_3.row_create_time', '<=', $end->format('Y-m-d H:i:s'));
+        $query->where('Kunden_3.row_create_time', '>=', $start)
+            ->andWhere('Kunden_3.row_create_time', '<=', $end);
 
         /** @var GSDCustomer[] $customers */
         $customers = GSDCustomerMapper::getAllByQuery($query);
@@ -253,7 +256,7 @@ final class Importer extends ImporterAbstract
             $profile = new Profile($account);
 
             $obj = new Client();
-            $obj->setNumber(\trim($customer->number));
+            $obj->setNumber(\trim($customer->number, "., \t"));
             $obj->setProfile($profile);
 
             $addr = new Address();
@@ -313,8 +316,8 @@ final class Importer extends ImporterAbstract
     {
         DataMapperAbstract::setConnection($this->remote);
         $query = GSDSupplierMapper::getQuery();
-        $query->where('Lieferanten_3.row_create_time', '>=', $start->format('Y-m-d H:i:s'))
-            ->andWhere('Lieferanten_3.row_create_time', '<=', $end->format('Y-m-d H:i:s'));
+        $query->where('Lieferanten_3.row_create_time', '>=', $start)
+            ->andWhere('Lieferanten_3.row_create_time', '<=', $end);
 
         /** @var GSDSupplier[] $suppliers */
         $suppliers = GSDSupplierMapper::getAllByQuery($query);
@@ -332,7 +335,7 @@ final class Importer extends ImporterAbstract
             $profile = new Profile($account);
 
             $obj = new Supplier();
-            $obj->setNumber(\trim($supplier->number));
+            $obj->setNumber(\trim($supplier->number, "., \t"));
             $obj->setProfile($profile);
 
             $addr = new Address();
@@ -403,22 +406,34 @@ final class Importer extends ImporterAbstract
      *
      * @since 1.0.0
      */
-    public function importArticle(\DateTime $start, \DateTime $end, array $images = []) : void
+    public function importArticle(\DateTime $start, \DateTime $end, array $files = []) : void
     {
         DataMapperAbstract::setConnection($this->remote);
         $query = GSDArticleMapper::getQuery();
-        $query->where('Artikel_3.row_create_time', '>=', $start->format('Y-m-d H:i:s'))
-            ->andWhere('Artikel_3.row_create_time', '<=', $end->format('Y-m-d H:i:s'));
+        $query->where('Artikel_3.row_create_time', '>=', $start)
+            ->andWhere('Artikel_3.row_create_time', '<=', $end);
 
         /** @var GSDArticle[] $articles */
         $articles = GSDArticleMapper::getAllByQuery($query);
 
         DataMapperAbstract::setConnection($this->local);
 
-        $itemL11nType = $this->createItemL11nTypes();
-
+        $itemL11nType  = $this->createItemL11nTypes();
         $itemAttrType  = $this->createItemAttributeTypes();
         $itemAttrValue = $this->createItemAttributeValues($itemAttrType);
+
+        $images = [];
+        if (!empty($files)) {
+            if (!\file_exists(__DIR__ . '/temp')) {
+                \mkdir(__DIR__ . '/temp');
+            }
+
+            Zip::unpack($files['tmp_name'], __DIR__ . '/temp/');
+
+            $jpg    = Directory::listByExtension(__DIR__ . '/temp/', 'jpg');
+            $png    = Directory::listByExtension(__DIR__ . '/temp/', 'png');
+            $images = \array_merge($jpg, $png);
+        }
 
         //$itemAttrType['segment'] = new ItemAttributeType();
         //$itemAttrType['productgroup'] = new ItemAttributeType();
@@ -426,7 +441,14 @@ final class Importer extends ImporterAbstract
 
         foreach ($articles as $article) {
             $obj = new Item();
-            $obj->setNumber($article->number);
+            $obj->setNumber(\trim($article->number, ",. \t"));
+
+            foreach ($images as $image) {
+                if (\stripos($image, $article->number) !== false) {
+                    var_dump($image);
+                    break;
+                }
+            }
 
             // German Language
             $obj->addL11n(new ItemL11n(
@@ -469,6 +491,10 @@ final class Importer extends ImporterAbstract
             //$obj->addMedia();
 
             ItemMapper::create($obj);
+        }
+
+        if (\file_exists(__DIR__ . '/temp')) {
+            Directory::delete(__DIR__ . '/temp');
         }
     }
 
