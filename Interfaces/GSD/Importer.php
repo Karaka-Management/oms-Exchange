@@ -20,7 +20,6 @@ use Modules\Admin\Models\Account;
 use Modules\Admin\Models\Address;
 use Modules\Profile\Models\Profile;
 use phpOMS\Message\RequestAbstract;
-use Modules\Media\Models\Collection;
 use Modules\Admin\Models\NullAccount;
 use Modules\Media\Models\MediaMapper;
 use phpOMS\Localization\ISO639x1Enum;
@@ -31,7 +30,6 @@ use phpOMS\System\File\Local\Directory;
 use Modules\Media\Controller\Controller;
 use Modules\Accounting\Models\CostCenter;
 use Modules\Accounting\Models\CostObject;
-use Modules\Media\Models\CollectionMapper;
 use Modules\Profile\Models\ContactElement;
 use Modules\ClientManagement\Models\Client;
 use Modules\ItemManagement\Models\ItemL11n;
@@ -129,12 +127,12 @@ final class Importer extends ImporterAbstract
         $end   = new \DateTime($request->getData('end') ?? 'now');
 
         $this->remote = ConnectionFactory::create([
-            'db'       => (string) ($request->getData('db') ?? ''),
-            'host'     => (string) ($request->getData('host') ?? ''),
-            'port'     => (int) ($request->getData('port') ?? 0),
-            'database' => (string) ($request->getData('database') ?? ''),
-            'login'    => (string) ($request->getData('login') ?? ''),
-            'password' => (string) ($request->getData('password') ?? ''),
+            'db'             => (string) ($request->getData('db') ?? ''),
+            'host'           => (string) ($request->getData('host') ?? ''),
+            'port'           => (int) ($request->getData('port') ?? 0),
+            'database'       => (string) ($request->getData('database') ?? ''),
+            'login'          => (string) ($request->getData('login') ?? ''),
+            'password'       => (string) ($request->getData('password') ?? ''),
             'datetimeformat' => (string) ($request->getData('datetimeformat') ?? 'Y-m-d H:i:s'),
         ]);
 
