@@ -14,50 +14,50 @@ declare(strict_types=1);
 
 namespace Modules\Exchange\Interfaces\GSD;
 
-use phpOMS\Utils\IO\Zip\Zip;
+use Modules\Accounting\Models\CostCenter;
+use Modules\Accounting\Models\CostCenterMapper;
+use Modules\Accounting\Models\CostObject;
+use Modules\Accounting\Models\CostObjectMapper;
 use Modules\Admin\Models\Account;
 use Modules\Admin\Models\Address;
-use Modules\Profile\Models\Profile;
-use phpOMS\Message\RequestAbstract;
-use phpOMS\Localization\ISO639x1Enum;
-use Modules\ItemManagement\Models\Item;
-use Modules\Profile\Models\ContactType;
-use phpOMS\Localization\ISO3166TwoEnum;
-use phpOMS\System\File\Local\Directory;
-use Modules\Accounting\Models\CostCenter;
-use Modules\Accounting\Models\CostObject;
-use Modules\Profile\Models\ContactElement;
 use Modules\ClientManagement\Models\Client;
-use Modules\ItemManagement\Models\ItemL11n;
-use Modules\Exchange\Models\ImporterAbstract;
-use Modules\ItemManagement\Models\ItemMapper;
-use Modules\Accounting\Models\CostCenterMapper;
-use Modules\Accounting\Models\CostObjectMapper;
-use Modules\ItemManagement\Models\ItemL11nType;
-use Modules\SupplierManagement\Models\Supplier;
-use phpOMS\DataStorage\Database\DatabaseStatus;
 use Modules\ClientManagement\Models\ClientMapper;
-use Modules\ItemManagement\Models\NullItemL11nType;
-use phpOMS\DataStorage\Database\DataMapperAbstract;
-use Modules\ItemManagement\Models\ItemAttributeType;
 use Modules\Exchange\Interfaces\GSD\Model\GSDArticle;
-use Modules\ItemManagement\Models\ItemL11nTypeMapper;
-use Modules\SupplierManagement\Models\SupplierMapper;
-use Modules\Exchange\Interfaces\GSD\Model\GSDCustomer;
-use Modules\Exchange\Interfaces\GSD\Model\GSDSupplier;
-use Modules\Exchange\Interfaces\GSD\Model\GSDCostCenter;
-use Modules\Exchange\Interfaces\GSD\Model\GSDCostObject;
-use Modules\ItemManagement\Models\ItemAttributeTypeL11n;
-use Modules\ItemManagement\Models\NullItemAttributeType;
-use Modules\ItemManagement\Models\ItemAttributeTypeMapper;
 use Modules\Exchange\Interfaces\GSD\Model\GSDArticleMapper;
-use Modules\Exchange\Interfaces\GSD\Model\GSDCustomerMapper;
-use Modules\Exchange\Interfaces\GSD\Model\GSDSupplierMapper;
-use phpOMS\DataStorage\Database\Connection\ConnectionFactory;
+use Modules\Exchange\Interfaces\GSD\Model\GSDCostCenter;
 use Modules\Exchange\Interfaces\GSD\Model\GSDCostCenterMapper;
+use Modules\Exchange\Interfaces\GSD\Model\GSDCostObject;
 use Modules\Exchange\Interfaces\GSD\Model\GSDCostObjectMapper;
+use Modules\Exchange\Interfaces\GSD\Model\GSDCustomer;
+use Modules\Exchange\Interfaces\GSD\Model\GSDCustomerMapper;
+use Modules\Exchange\Interfaces\GSD\Model\GSDSupplier;
+use Modules\Exchange\Interfaces\GSD\Model\GSDSupplierMapper;
+use Modules\Exchange\Models\ImporterAbstract;
+use Modules\ItemManagement\Models\Item;
+use Modules\ItemManagement\Models\ItemAttributeType;
+use Modules\ItemManagement\Models\ItemAttributeTypeL11n;
 use Modules\ItemManagement\Models\ItemAttributeTypeL11nMapper;
+use Modules\ItemManagement\Models\ItemAttributeTypeMapper;
+use Modules\ItemManagement\Models\ItemL11n;
+use Modules\ItemManagement\Models\ItemL11nType;
+use Modules\ItemManagement\Models\ItemL11nTypeMapper;
+use Modules\ItemManagement\Models\ItemMapper;
+use Modules\ItemManagement\Models\NullItemAttributeType;
+use Modules\ItemManagement\Models\NullItemL11nType;
+use Modules\Profile\Models\ContactElement;
+use Modules\Profile\Models\ContactType;
+use Modules\Profile\Models\Profile;
+use Modules\SupplierManagement\Models\Supplier;
+use Modules\SupplierManagement\Models\SupplierMapper;
 use phpOMS\DataStorage\Database\Connection\ConnectionAbstract;
+use phpOMS\DataStorage\Database\Connection\ConnectionFactory;
+use phpOMS\DataStorage\Database\DatabaseStatus;
+use phpOMS\DataStorage\Database\DataMapperAbstract;
+use phpOMS\Localization\ISO3166TwoEnum;
+use phpOMS\Localization\ISO639x1Enum;
+use phpOMS\Message\RequestAbstract;
+use phpOMS\System\File\Local\Directory;
+use phpOMS\Utils\IO\Zip\Zip;
 
 /**
  * GSD import class
@@ -115,12 +115,12 @@ final class Importer extends ImporterAbstract
         $end   = new \DateTime($request->getData('end') ?? 'now');
 
         $this->remote = ConnectionFactory::create([
-            'db'       => (string) ($request->getData('db') ?? ''),
-            'host'     => (string) ($request->getData('host') ?? ''),
-            'port'     => (int) ($request->getData('port') ?? 0),
-            'database' => (string) ($request->getData('database') ?? ''),
-            'login'    => (string) ($request->getData('login') ?? ''),
-            'password' => (string) ($request->getData('password') ?? ''),
+            'db'             => (string) ($request->getData('db') ?? ''),
+            'host'           => (string) ($request->getData('host') ?? ''),
+            'port'           => (int) ($request->getData('port') ?? 0),
+            'database'       => (string) ($request->getData('database') ?? ''),
+            'login'          => (string) ($request->getData('login') ?? ''),
+            'password'       => (string) ($request->getData('password') ?? ''),
             'datetimeformat' => (string) ($request->getData('datetimeformat') ?? 'Y-m-d H:i:s'),
         ]);
 
@@ -432,7 +432,7 @@ final class Importer extends ImporterAbstract
 
             $jpg    = Directory::listByExtension(__DIR__ . '/temp/', 'jpg');
             $png    = Directory::listByExtension(__DIR__ . '/temp/', 'png');
-            $images = \array_merge($jpg, $png);           
+            $images = \array_merge($jpg, $png);
         }
 
         //$itemAttrType['segment'] = new ItemAttributeType();
@@ -445,7 +445,7 @@ final class Importer extends ImporterAbstract
 
             foreach ($images as $image) {
                 if (\stripos($image, $article->number) !== false) {
-                    var_dump($image);
+                    \var_dump($image);
                     break;
                 }
             }
