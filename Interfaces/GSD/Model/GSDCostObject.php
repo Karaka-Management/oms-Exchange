@@ -81,7 +81,7 @@ class GSDCostObject implements \JsonSerializable
      */
     public function getCreatedAt() : \DateTimeImmutable
     {
-        return $this->createdAt ?? new \DateTime();
+        return $this->createdAt ?? new \DateTimeImmutable();
     }
 
     /**

@@ -26,7 +26,7 @@ class GSDSupplier
 {
     public int $id = 0;
 
-    public $createdBy = 0;
+    public int $createdBy = 0;
 
     public \DateTimeImmutable $createdAt;
 

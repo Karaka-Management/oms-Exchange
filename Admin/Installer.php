@@ -35,11 +35,12 @@ final class Installer extends InstallerAbstract
     /**
      * {@inheritdoc}
      */
+    /*
     public static function install(DatabasePool $dbPool, ModuleInfo $info, SettingsInterface $cfgHandler) : void
     {
         parent::install($dbPool, $info, $cfgHandler);
 
-        /*
+
         $interfaces = Directory::list(__DIR__ . '/../Interfaces', '.*interface\.json', true);
 
         foreach ($interfaces as $interface) {
@@ -47,6 +48,7 @@ final class Installer extends InstallerAbstract
             $exchange->load();
 
             InterfaceManagerMapper::create($exchange);
-        }*/
+        }
     }
+    */
 }

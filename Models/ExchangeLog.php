@@ -61,7 +61,7 @@ class ExchangeLog implements \JsonSerializable, ArrayableInterface
     /**
      * Date type.
      *
-     * @var int
+     * @var \DateTimeImmutable
      * @since 1.0.0
      */
     private \DateTimeImmutable $createdAt;
@@ -167,7 +167,7 @@ class ExchangeLog implements \JsonSerializable, ArrayableInterface
     /**
      * Get created at.
      *
-     * @return DateTimeImmutable
+     * @return \DateTimeImmutable
      *
      * @since 1.0.0
      */

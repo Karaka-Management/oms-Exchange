@@ -24,12 +24,6 @@ namespace Modules\Exchange\Interfaces\GSD\Model;
  */
 class GSDCustomer
 {
-    /**
-     * ID.
-     *
-     * @var int
-     * @since 1.0.0
-     */
     public int $id = 0;
 
     public int $createdBy = 0;

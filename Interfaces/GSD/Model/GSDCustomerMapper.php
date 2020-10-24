@@ -65,6 +65,12 @@ final class GSDCustomerMapper extends DataMapperAbstract
         '_Partnernummer6'    => ['name' => '_Partnernummer6',    'type' => 'string',           'internal' => 'partner/6'],
     ];
 
+    /**
+     * Has one relation.
+     *
+     * @var array<string, array{mapper:string, external:string, by?:string, column?:string, conditional?:bool}>
+     * @since 1.0.0
+     */
     protected static array $ownsOne = [
         'addr' => [
             'mapper'     => GSDAddressMapper::class,

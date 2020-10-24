@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Modules\Exchange\Models;
 
-use phpOMS\DataStorage\Database\Connection\ConnectionInterface;
+use phpOMS\DataStorage\Database\Connection\ConnectionAbstract;
 use phpOMS\Message\RequestAbstract;
 
 /**
@@ -30,19 +30,19 @@ abstract class ImporterAbstract
     /**
      * Database connection.
      *
-     * @var ConnectionInterface
+     * @var ConnectionAbstract
      * @since 1.0.0
      */
-    protected $local = null;
+    protected ConnectionAbstract $local;
 
     /**
      * Constructor
      *
-     * @param ConnectionInterface $local Database connection
+     * @param ConnectionAbstract $local Database connection
      *
      * @since 1.0.0
      */
-    public function __construct(ConnectionInterface $local)
+    public function __construct(ConnectionAbstract $local)
     {
         $this->local = $local;
     }

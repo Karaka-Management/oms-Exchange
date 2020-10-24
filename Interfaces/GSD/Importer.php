@@ -62,6 +62,7 @@ use phpOMS\Localization\ISO639x1Enum;
 use phpOMS\Message\RequestAbstract;
 use phpOMS\System\File\Local\Directory;
 use phpOMS\Utils\IO\Zip\Zip;
+use Modules\ItemManagement\Models\ItemAttributeValue;
 
 /**
  * GSD import class
@@ -79,7 +80,7 @@ final class Importer extends ImporterAbstract
      * @var ConnectionAbstract
      * @since 1.0.0
      */
-    private ?ConnectionAbstract $remote = null;
+    private ConnectionAbstract $remote;
 
     /**
      * Account
@@ -412,9 +413,9 @@ final class Importer extends ImporterAbstract
     /**
      * Import articles
      *
-     * @param \DateTime $start  Start time (inclusive)
-     * @param \DateTime $end    End time (inclusive)
-     * @param array     $images Article images
+     * @param \DateTime $start Start time (inclusive)
+     * @param \DateTime $end   End time (inclusive)
+     * @param array     $files Article images
      *
      * @return void
      *
@@ -456,6 +457,8 @@ final class Importer extends ImporterAbstract
             $images = \array_merge($jpg, $png);
             $images = \array_diff($images, $imagesOld);
 
+            /** @var string[] $images */
+            /** @var string $image */
             foreach ($images as $image) {
                 $number = (int) \explode('.', $image)[0];
 
@@ -465,7 +468,7 @@ final class Importer extends ImporterAbstract
                 $media[$number]->setPath('/Modules/Media/Files/Modules/ItemManagement/Articles/Images/' . $image);
                 $media[$number]->setVirtualPath('/Modules/ItemManagement/Articles/Images');
                 $media[$number]->setExtension(\explode('.', $image)[1]);
-                $media[$number]->setSize(\filesize($imagePath . '/' . $image));
+                $media[$number]->setSize((int) \filesize($imagePath . '/' . $image));
                 $media[$number]->setCreatedBy(new NullAccount($this->account));
 
                 MediaMapper::create($media[$number]);
@@ -613,7 +616,7 @@ final class Importer extends ImporterAbstract
     /**
      * Create and get item attribute values
      *
-     * @param ItemAttributeType[] $itemAttributeType Attribute types
+     * @param ItemAttributeType[] $itemAttrType Attribute types
      *
      * @return ItemAttributeValue[]
      *

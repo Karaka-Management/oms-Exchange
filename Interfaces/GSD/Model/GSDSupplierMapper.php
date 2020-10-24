@@ -45,6 +45,12 @@ final class GSDSupplierMapper extends DataMapperAbstract
         'AdressId'               => ['name' => 'AdressId',              'type' => 'int',   'internal' => 'addr'],
     ];
 
+    /**
+     * Has one relation.
+     *
+     * @var array<string, array{mapper:string, external:string, by?:string, column?:string, conditional?:bool}>
+     * @since 1.0.0
+     */
     protected static array $ownsOne = [
         'addr' => [
             'mapper'     => GSDAddressMapper::class,
