@@ -39,6 +39,7 @@ use Modules\ItemManagement\Models\ItemAttributeType;
 use Modules\ItemManagement\Models\ItemAttributeTypeL11n;
 use Modules\ItemManagement\Models\ItemAttributeTypeL11nMapper;
 use Modules\ItemManagement\Models\ItemAttributeTypeMapper;
+use Modules\ItemManagement\Models\ItemAttributeValue;
 use Modules\ItemManagement\Models\ItemL11n;
 use Modules\ItemManagement\Models\ItemL11nType;
 use Modules\ItemManagement\Models\ItemL11nTypeMapper;
@@ -62,7 +63,6 @@ use phpOMS\Localization\ISO639x1Enum;
 use phpOMS\Message\RequestAbstract;
 use phpOMS\System\File\Local\Directory;
 use phpOMS\Utils\IO\Zip\Zip;
-use Modules\ItemManagement\Models\ItemAttributeValue;
 
 /**
  * GSD import class
