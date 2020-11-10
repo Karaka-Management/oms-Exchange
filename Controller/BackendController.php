@@ -161,7 +161,7 @@ final class BackendController extends Controller
 
         $view->addData('interface', $interface);
 
-        $lang = include __DIR__ . '/../Interfaces/' . $interface->getInterfacePath() . '/Lang/' . $response->getHeader()->getL11n()->getLanguage() . '.lang.php';
+        $lang = include __DIR__ . '/../Interfaces/' . $interface->getInterfacePath() . '/Lang/' . $response->getLanguage() . '.lang.php';
         $view->addData('lang', $lang);
 
         return $view;
