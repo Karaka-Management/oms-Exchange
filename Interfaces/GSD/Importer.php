@@ -199,8 +199,8 @@ final class Importer extends ImporterAbstract
         DataMapperAbstract::setConnection($this->local);
 
         foreach ($costCenters as $cc) {
-            $obj = new CostCenter();
-            $obj->code = $cc->getCostCenter();
+            $obj             = new CostCenter();
+            $obj->code       = $cc->getCostCenter();
             $obj->l11n->name = \trim($cc->description, " ,\t");
 
             CostCenterMapper::create($obj);
@@ -230,8 +230,8 @@ final class Importer extends ImporterAbstract
         DataMapperAbstract::setConnection($this->local);
 
         foreach ($costObjects as $co) {
-            $obj = new CostObject();
-            $obj->code = $co->getCostObject();
+            $obj             = new CostObject();
+            $obj->code       = $co->getCostObject();
             $obj->l11n->name = \trim($co->description, " ,\t");
 
             CostObjectMapper::create($obj);
@@ -261,23 +261,23 @@ final class Importer extends ImporterAbstract
         DataMapperAbstract::setConnection($this->local);
 
         foreach ($customers as $customer) {
-            $account = new Account();
+            $account        = new Account();
             $account->name1 = \trim($customer->addr->name1, " ,\t");
 
-            $a = \trim($customer->addr->name2, " ,\t");
-            $b = \trim($customer->addr->name3, " ,\t");
+            $a              = \trim($customer->addr->name2, " ,\t");
+            $b              = \trim($customer->addr->name3, " ,\t");
             $account->name2 = \trim($a . ' ' . $b);
 
             $profile = new Profile($account);
 
-            $obj = new Client();
-            $obj->number = \trim($customer->number, "., \t");
+            $obj          = new Client();
+            $obj->number  = \trim($customer->number, "., \t");
             $obj->profile = $profile;
 
-            $addr = new Address();
+            $addr          = new Address();
             $addr->address = \trim($customer->addr->street, ", \t");
-            $addr->postal = \trim($customer->addr->zip, ",. \t");
-            $addr->city = \trim($customer->addr->city, ",. \t");
+            $addr->postal  = \trim($customer->addr->zip, ",. \t");
+            $addr->city    = \trim($customer->addr->city, ",. \t");
             $addr->setCountry(ISO3166TwoEnum::_DEU);
             $obj->setMainAddress($addr);
 
@@ -340,23 +340,23 @@ final class Importer extends ImporterAbstract
         DataMapperAbstract::setConnection($this->local);
 
         foreach ($suppliers as $supplier) {
-            $account = new Account();
+            $account        = new Account();
             $account->name1 = \trim($supplier->addr->name1, " ,\t");
 
-            $a = \trim($supplier->addr->name2, " ,\t");
-            $b = \trim($supplier->addr->name3, " ,\t");
+            $a              = \trim($supplier->addr->name2, " ,\t");
+            $b              = \trim($supplier->addr->name3, " ,\t");
             $account->name2 = \trim($a . ' ' . $b);
 
             $profile = new Profile($account);
 
-            $obj = new Supplier();
-            $obj->number = \trim($supplier->number, "., \t");
+            $obj          = new Supplier();
+            $obj->number  = \trim($supplier->number, "., \t");
             $obj->profile = $profile;
 
-            $addr = new Address();
+            $addr          = new Address();
             $addr->address = \trim($supplier->addr->street, ", \t");
-            $addr->postal = \trim($supplier->addr->zip, ",. \t");
-            $addr->city = \trim($supplier->addr->city, ",. \t");
+            $addr->postal  = \trim($supplier->addr->zip, ",. \t");
+            $addr->city    = \trim($supplier->addr->city, ",. \t");
             $addr->setCountry(ISO3166TwoEnum::_DEU);
             $obj->setMainAddress($addr);
 
@@ -463,13 +463,13 @@ final class Importer extends ImporterAbstract
             foreach ($images as $image) {
                 $number = (int) \explode('.', $image)[0];
 
-                $media[$number] = new Media();
+                $media[$number]       = new Media();
                 $media[$number]->name = (string) $number;
                 $media[$number]->type = 'backend_image';
                 $media[$number]->setPath('/Modules/Media/Files/Modules/ItemManagement/Articles/Images/' . $image);
                 $media[$number]->setVirtualPath('/Modules/ItemManagement/Articles/Images');
                 $media[$number]->extension = \explode('.', $image)[1];
-                $media[$number]->size = (int) \filesize($imagePath . '/' . $image);
+                $media[$number]->size      = (int) \filesize($imagePath . '/' . $image);
                 $media[$number]->createdBy = new NullAccount($this->account);
 
                 MediaMapper::create($media[$number]);
@@ -483,7 +483,7 @@ final class Importer extends ImporterAbstract
         foreach ($articles as $article) {
             $number = (int) \trim($article->number, ",. \t");
 
-            $obj = new Item();
+            $obj         = new Item();
             $obj->number = (string) $number;
 
             // German Language
