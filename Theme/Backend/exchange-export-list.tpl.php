@@ -29,7 +29,7 @@ echo $this->getData('nav')->render();
                 <?php $count = 0; foreach ($interfaces as $key => $value) : ++$count;
                 $url         = \phpOMS\Uri\UriFactory::build('{/prefix}admin/exchange/export/profile?{?}&id=' . $value->getId()); ?>
                     <tr tabindex="0" data-href="<?= $url; ?>">
-                        <td data-label="<?= $this->getHtml('Title'); ?>"><a href="<?= $url; ?>"><?= $this->printHtml($value->getName()); ?></a>
+                        <td data-label="<?= $this->getHtml('Title'); ?>"><a href="<?= $url; ?>"><?= $this->printHtml($value->name); ?></a>
                 <?php endforeach; ?>
                 <?php if ($count === 0) : ?>
                     <tr><td colspan="2" class="empty"><?= $this->getHtml('Empty', '0', '0'); ?>

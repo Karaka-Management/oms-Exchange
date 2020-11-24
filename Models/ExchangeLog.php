@@ -64,7 +64,7 @@ class ExchangeLog implements \JsonSerializable, ArrayableInterface
      * @var \DateTimeImmutable
      * @since 1.0.0
      */
-    private \DateTimeImmutable $createdAt;
+    public \DateTimeImmutable $createdAt;
 
     /**
      * Constructor.
@@ -162,18 +162,6 @@ class ExchangeLog implements \JsonSerializable, ArrayableInterface
     public function setFields(array $fields) : void
     {
         $this->fields = $fields;
-    }
-
-    /**
-     * Get created at.
-     *
-     * @return \DateTimeImmutable
-     *
-     * @since 1.0.0
-     */
-    public function getCreatedAt() : \DateTimeImmutable
-    {
-        return $this->createdAt;
     }
 
     /**

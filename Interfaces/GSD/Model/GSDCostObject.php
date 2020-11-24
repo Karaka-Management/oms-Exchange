@@ -46,7 +46,7 @@ class GSDCostObject implements \JsonSerializable
      * @var \DateTimeImmutable
      * @since 1.0.0
      */
-    protected \DateTimeImmutable $createdAt;
+    public \DateTimeImmutable $createdAt;
 
     /**
      * Description.
@@ -82,32 +82,6 @@ class GSDCostObject implements \JsonSerializable
     public function getCreatedAt() : \DateTimeImmutable
     {
         return $this->createdAt ?? new \DateTimeImmutable();
-    }
-
-    /**
-     * Get created by
-     *
-     * @return int|\phpOMS\Account\Account
-     *
-     * @since 1.0.0
-     */
-    public function getCreatedBy()
-    {
-        return $this->createdBy;
-    }
-
-    /**
-     * Set created by
-     *
-     * @param mixed $id Created by
-     *
-     * @return void
-     *
-     * @since 1.0.0
-     */
-    public function setCreatedBy($id) : void
-    {
-        $this->createdBy = $id;
     }
 
     /**

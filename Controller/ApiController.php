@@ -58,7 +58,7 @@ final class ApiController extends Controller
             $message = 'Import succeeded.';
         }
 
-        $response->set($request->getUri()->__toString(), [
+        $response->set($request->uri->__toString(), [
             'status'  => $status,
             'title'   => 'Exchange',
             'message' => $message,
@@ -130,7 +130,7 @@ final class ApiController extends Controller
     {
         if (!empty($val = $this->validateInterfaceInstall($request))) {
             $response->set('interface_install', new FormValidation($val));
-            $response->getHeader()->setStatusCode(RequestStatusCode::R_400);
+            $response->header->status = RequestStatusCode::R_400;
 
             return;
         }
