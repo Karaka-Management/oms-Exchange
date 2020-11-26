@@ -570,7 +570,6 @@ final class Importer extends ImporterAbstract
     {
         $itemAttrType = [];
 
-        // @todo check if attr. types already exist, if yes don't create, just save them in here.
         if (($itemAttrType['tradegroup'] = ItemAttributeTypeMapper::getBy('tradegroup', 'name')) instanceof NullItemAttributeType) {
             $itemAttrType['tradegroup'] = new ItemAttributeType('tradegroup');
             ItemAttributeTypeMapper::create($itemAttrType['tradegroup']);

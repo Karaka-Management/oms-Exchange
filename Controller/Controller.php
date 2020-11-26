@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace Modules\Exchange\Controller;
 
 use phpOMS\Module\ModuleAbstract;
-use phpOMS\Module\WebInterface;
 
 /**
  * Exchange controller class.
