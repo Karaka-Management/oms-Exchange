@@ -54,7 +54,7 @@ class GSDCostObject implements \JsonSerializable
      * @var string
      * @since 1.0.0
      */
-    protected string $description = '';
+    public string $description = '';
 
     /**
      * Cost object.
@@ -82,32 +82,6 @@ class GSDCostObject implements \JsonSerializable
     public function getCreatedAt() : \DateTimeImmutable
     {
         return $this->createdAt ?? new \DateTimeImmutable();
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description Description
-     *
-     * @return void
-     *
-     * @since 1.0.0
-     */
-    public function setDescription(string $description) : void
-    {
-        $this->description = $description;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string
-     *
-     * @since 1.0.0
-     */
-    public function getDescription() : string
-    {
-        return $this->description;
     }
 
     /**

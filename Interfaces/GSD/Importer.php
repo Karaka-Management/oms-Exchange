@@ -279,7 +279,7 @@ final class Importer extends ImporterAbstract
             $addr->postal  = \trim($customer->addr->zip, ",. \t");
             $addr->city    = \trim($customer->addr->city, ",. \t");
             $addr->setCountry(ISO3166TwoEnum::_DEU);
-            $obj->setMainAddress($addr);
+            $obj->mainAddress = $addr;
 
             if (!empty(\trim($customer->addr->phone, ",. \t"))) {
                 $phone = new ContactElement();
@@ -358,7 +358,7 @@ final class Importer extends ImporterAbstract
             $addr->postal  = \trim($supplier->addr->zip, ",. \t");
             $addr->city    = \trim($supplier->addr->city, ",. \t");
             $addr->setCountry(ISO3166TwoEnum::_DEU);
-            $obj->setMainAddress($addr);
+            $obj->mainAddress = $addr;
 
             if (!empty(\trim($supplier->addr->phone, ",. \t"))) {
                 $phone = new ContactElement();
@@ -488,26 +488,26 @@ final class Importer extends ImporterAbstract
 
             // German Language
             $obj->addL11n(new ItemL11n(
-                $itemL11nType['name1']->getId(),
+                $itemL11nType['name1'],
                 \trim($article->name1, " ,\t"),
                 ISO639x1Enum::_DE
             ));
 
             $obj->addL11n(new ItemL11n(
-                $itemL11nType['name2']->getId(),
+                $itemL11nType['name2'],
                 \trim($article->name2, " ,\t"),
                 ISO639x1Enum::_DE
             ));
 
             $obj->addL11n(new ItemL11n(
-                $itemL11nType['info']->getId(),
+                $itemL11nType['info'],
                 \trim($article->infoSales, " ,\t"),
                 ISO639x1Enum::_DE
             ));
 
             // English Language
             $obj->addL11n(new ItemL11n(
-                $itemL11nType['name1']->getId(),
+                $itemL11nType['name1'],
                 empty($t = \trim($article->name1Eng, " ,\t"))
                     ? \trim($article->name1, " ,\t")
                     : $t,
@@ -515,7 +515,7 @@ final class Importer extends ImporterAbstract
             ));
 
             $obj->addL11n(new ItemL11n(
-                $itemL11nType['name2']->getId(),
+                $itemL11nType['name2'],
                 empty($t = \trim($article->name2Eng, " ,\t"))
                     ? \trim($article->name2, " ,\t")
                     : $t,
@@ -626,7 +626,7 @@ final class Importer extends ImporterAbstract
     {
         $itemAttrValue = [];
 
-        return $itemAttrType;
+        return $itemAttrValue;
     }
 
     /**
