@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * Orange Management
  *
- * PHP Version 7.4
+ * PHP Version 8.0
  *
  * @package   Modules\Exchange
  * @copyright Dennis Eichhorn

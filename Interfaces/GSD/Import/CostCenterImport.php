@@ -2,7 +2,7 @@
 /**
  * Orange Management
  *
- * PHP Version 7.4
+ * PHP Version 8.0
  *
  * @package   Modules\Exchange\Interfaces\GSD\Import
  * @copyright Dennis Eichhorn
