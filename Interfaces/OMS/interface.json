@@ -4,5 +4,5 @@
     "website": "",
     "path": "OMS",
     "export": true,
-    "import": false
+    "import": true
 }

@@ -160,6 +160,47 @@ final class ApiController extends Controller
      */
     public function apiExchangeExport(RequestAbstract $request, ResponseAbstract $response, $data = null) : void
     {
+        $export  = $this->exportDataFromRequest($request);
+        $status  = NotificationLevel::ERROR;
+        $message = 'Export failed.';
+
+        if ($export) {
+            $status  = NotificationLevel::OK;
+            $message = 'Export succeeded.';
+        }
+
+        $response->set($request->uri->__toString(), [
+            'status'  => $status,
+            'title'   => 'Exchange',
+            'message' => $message,
+        ]);
+    }
+
+    /**
+     * Method to export data based on a request
+     *
+     * @param RequestAbstract $request Request
+     *
+     * @return bool
+     *
+     * @since 1.0.0
+     */
+    private function exportDataFromRequest(RequestAbstract $request) : bool
+    {
+        /** @var \Modules\Exchange\Models\InterfaceManager[] $interfaces */
+        $interfaces = InterfaceManagerMapper::getAll();
+        foreach ($interfaces as $interface) {
+            if ($request->getData('exchange') ?? '' === $interface->getInterfacePath()) {
+                $class    = '\\Modules\\Exchange\\Interfaces\\' . $interface->getInterfacePath() . '\\Exporter';
+                $exporter = new $class($this->app->dbPool->get());
+
+                return $exporter->exportFromRequest($request);
+            }
+        }
+
+        Directory::delete(__DIR__ . '/../tmp/');
+
+        return false;
     }
 
     /**
