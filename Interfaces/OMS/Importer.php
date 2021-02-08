@@ -120,15 +120,15 @@ final class Importer extends ImporterAbstract
         $upload = ApiController::uploadFilesToDestination($request->getFiles());
 
         $fp = \fopen($upload['file0']['path'] . '/' . $upload['file0']['filename'], 'r');
-        $header = \fgetcsv($fp, ';', '"');
+        $header = \fgetcsv($fp, 0, ';', '"');
 
         $languageArray = [];
         $supportedLanguages = \array_slice($header, 3);
 
-        while(($line = \fgetcsv($fp, ';', '"')) !== false) {
+        while(($line = \fgetcsv($fp, 0, ';', '"')) !== false) {
             $translations = \array_slice($header, 3);
 
-            foreach ($languageArray as $index => $language) {
+            foreach ($supportedLanguages as $index => $language) {
                 if (empty(\trim($language))) {
                     continue;
                 }
@@ -138,18 +138,21 @@ final class Importer extends ImporterAbstract
         }
 
         \fclose($fp);
-
         \unlink($upload['file0']['path'] . '/' . $upload['file0']['filename']);
 
         foreach ($languageArray as $module => $themes) {
             foreach ($themes as $theme => $keys) {
                 foreach ($supportedLanguages as $language) {
-                    $langFile = __DIR__ . '/../../../' . \trim($module) . '/Theme/' . $theme . '/Lang/' . \trim($language) . '.lang.php';
+                    $langFile = __DIR__ . '/../../../' . $module . '/Theme/' . $theme . '/Lang/' . \trim($language) . '.lang.php';
                     if (\is_file($langFile)) {
                         \unlink($langFile);
                     }
 
                     $fp = \fopen($langFile, 'w+');
+                    if ($fp === false) {
+                        continue;
+                    }
+
                     \fwrite($fp,
                         "<?php\n"
                         . "/**\n"
@@ -163,7 +166,7 @@ final class Importer extends ImporterAbstract
                         . " * @link      https://orange-management.org\n"
                         . " */\n"
                         . "declare(strict_types=1);\n\n"
-                        . "return [\'' . '\'] => [\n"
+                        . "return ['" . $module . "'] => [\n"
                     );
 
                     foreach ($keys as $key => $values) {
