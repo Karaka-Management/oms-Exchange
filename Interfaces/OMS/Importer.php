@@ -126,7 +126,7 @@ final class Importer extends ImporterAbstract
         $supportedLanguages = \array_slice($header, 3);
 
         while(($line = \fgetcsv($fp, 0, ';', '"')) !== false) {
-            $translations = \array_slice($header, 3);
+            $translations = \array_slice($line, 3);
 
             foreach ($supportedLanguages as $index => $language) {
                 if (empty(\trim($language))) {
@@ -166,7 +166,7 @@ final class Importer extends ImporterAbstract
                         . " * @link      https://orange-management.org\n"
                         . " */\n"
                         . "declare(strict_types=1);\n\n"
-                        . "return ['" . $module . "'] => [\n"
+                        . "return ['" . $module . "' => [\n"
                     );
 
                     foreach ($keys as $key => $values) {
