@@ -16,16 +16,9 @@ namespace Modules\Exchange\Interfaces\OMS;
 
 use Modules\Exchange\Models\ExchangeLog;
 use Modules\Exchange\Models\ExchangeType;
-use phpOMS\DataStorage\Database\Connection\ConnectionAbstract;
-use phpOMS\DataStorage\Database\Connection\ConnectionFactory;
-use phpOMS\DataStorage\Database\DatabaseStatus;
-use phpOMS\DataStorage\Database\DataMapperAbstract;
-use phpOMS\Localization\ISO3166TwoEnum;
-use phpOMS\Localization\ISO639x1Enum;
-use phpOMS\Message\RequestAbstract;
-use phpOMS\System\File\Local\Directory;
-use phpOMS\Utils\IO\Zip\Zip;
 use Modules\Exchange\Models\ExporterAbstract;
+use phpOMS\DataStorage\Database\Connection\ConnectionAbstract;
+use phpOMS\Message\RequestAbstract;
 use phpOMS\Utils\StringUtils;
 
 /**
@@ -88,11 +81,11 @@ final class Exporter extends ExporterAbstract
         if ($request->getData('type') === 'language') {
             $result = $this->exportLanguage();
 
-            $log = new ExchangeLog();
+            $log            = new ExchangeLog();
             $log->createdBy = $this->account;
             $log->setType(ExchangeType::EXPORT);
-            $log->message = 'Language file exported.'; // @todo: localize!
-            $log->subtype = 'language';
+            $log->message  = 'Language file exported.'; // @todo: localize!
+            $log->subtype  = 'language';
             $log->exchange = (int) $request->getData('id');
 
             $result['logs'][] = $log;
@@ -110,11 +103,11 @@ final class Exporter extends ExporterAbstract
      */
     public function exportLanguage() : array
     {
-        $languageArray = [];
+        $languageArray      = [];
         $supportedLanguages = [];
 
         $basePath = __DIR__ . '/../../../';
-        $modules = \scandir($basePath);
+        $modules  = \scandir($basePath);
         foreach ($modules as $module) {
             $themePath = $basePath . $module . '/Theme/';
 
@@ -143,8 +136,8 @@ final class Exporter extends ExporterAbstract
                     if (\strlen($components[0]) === 2) {
                         // normal language file
                         $supportedLanguages[] = $components[0];
-                        $array = include $themePath . $theme . '/Lang/' . $language;
-                        $array = \reset($array);
+                        $array                = include $themePath . $theme . '/Lang/' . $language;
+                        $array                = \reset($array);
 
                         if ($array === false) {
                             continue;
@@ -174,7 +167,7 @@ final class Exporter extends ExporterAbstract
                     }
 
                     $template = \file_get_contents($item->getPathname());
-                    $keys = [];
+                    $keys     = [];
                     \preg_match_all('/(\$this\->getHtml\(\')([a-zA-Z:]+)(\'\))/', $template, $keys, \PREG_PATTERN_ORDER);
 
                     foreach ($keys[2] ?? [] as $key) {
@@ -204,7 +197,7 @@ final class Exporter extends ExporterAbstract
         return [
             'type'    => 'file',
             'name'    => 'languages.csv',
-            'content' => $content
+            'content' => $content,
         ];
     }
 }

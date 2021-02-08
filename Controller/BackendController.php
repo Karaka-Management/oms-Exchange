@@ -14,12 +14,12 @@ declare(strict_types=1);
 
 namespace Modules\Exchange\Controller;
 
+use Modules\Exchange\Models\ExchangeLogMapper;
 use Modules\Exchange\Models\InterfaceManagerMapper;
 use phpOMS\Contract\RenderableInterface;
 use phpOMS\Message\RequestAbstract;
 use phpOMS\Message\ResponseAbstract;
 use phpOMS\Views\View;
-use Modules\Exchange\Models\ExchangeLogMapper;
 
 /**
  * Exchange controller class.

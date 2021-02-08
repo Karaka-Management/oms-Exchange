@@ -14,8 +14,8 @@ declare(strict_types=1);
 
 namespace Modules\Exchange\Models;
 
-use phpOMS\DataStorage\Database\DataMapperAbstract;
 use Modules\Admin\Models\AccountMapper;
+use phpOMS\DataStorage\Database\DataMapperAbstract;
 
 /**
  * Exchange log mapper class.
@@ -34,14 +34,14 @@ final class ExchangeLogMapper extends DataMapperAbstract
      * @since 1.0.0
      */
     protected static array $columns = [
-        'exchange_log_id'      => ['name' => 'exchange_log_id',    'type' => 'int',    'internal' => 'id'],
-        'exchange_log_message' => ['name' => 'exchange_log_message', 'type' => 'string', 'internal' => 'message'],
-        'exchange_log_fields'  => ['name' => 'exchange_log_fields',  'type' => 'Json',    'internal' => 'fields'],
-        'exchange_log_type'    => ['name' => 'exchange_log_type', 'type' => 'int',    'internal' => 'type'],
-        'exchange_log_subtype'    => ['name' => 'exchange_log_subtype', 'type' => 'string',    'internal' => 'subtype'],
+        'exchange_log_id'            => ['name' => 'exchange_log_id',    'type' => 'int',    'internal' => 'id'],
+        'exchange_log_message'       => ['name' => 'exchange_log_message', 'type' => 'string', 'internal' => 'message'],
+        'exchange_log_fields'        => ['name' => 'exchange_log_fields',  'type' => 'Json',    'internal' => 'fields'],
+        'exchange_log_type'          => ['name' => 'exchange_log_type', 'type' => 'int',    'internal' => 'type'],
+        'exchange_log_subtype'       => ['name' => 'exchange_log_subtype', 'type' => 'string',    'internal' => 'subtype'],
         'exchange_log_created_at'    => ['name' => 'exchange_log_created_at', 'type' => 'DateTimeImmutable',    'internal' => 'createdAt', 'readonly' => true],
         'exchange_log_created_by'    => ['name' => 'exchange_log_created_by', 'type' => 'int',    'internal' => 'createdBy', 'readonly' => true],
-        'exchange_log_exchange'    => ['name' => 'exchange_log_exchange', 'type' => 'int',    'internal' => 'exchange'],
+        'exchange_log_exchange'      => ['name' => 'exchange_log_exchange', 'type' => 'int',    'internal' => 'exchange'],
     ];
 
     /**

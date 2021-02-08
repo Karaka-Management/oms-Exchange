@@ -84,8 +84,8 @@ final class ApiController extends Controller
     {
         /** @var \Modules\Exchange\Models\InterfaceManager $interface */
         $interface = InterfaceManagerMapper::get($request->getData('id'));
-        $class    = '\\Modules\\Exchange\\Interfaces\\' . $interface->getInterfacePath() . '\\Importer';
-        $importer = new $class($this->app->dbPool->get());
+        $class     = '\\Modules\\Exchange\\Interfaces\\' . $interface->getInterfacePath() . '\\Importer';
+        $importer  = new $class($this->app->dbPool->get());
 
         return $importer->importFromRequest($request);
     }
@@ -209,8 +209,8 @@ final class ApiController extends Controller
     {
         /** @var \Modules\Exchange\Models\InterfaceManager $interface */
         $interface = InterfaceManagerMapper::get($request->getData('id'));
-        $class    = '\\Modules\\Exchange\\Interfaces\\' . $interface->getInterfacePath() . '\\Exporter';
-        $exporter = new $class($this->app->dbPool->get());
+        $class     = '\\Modules\\Exchange\\Interfaces\\' . $interface->getInterfacePath() . '\\Exporter';
+        $exporter  = new $class($this->app->dbPool->get());
 
         return $exporter->exportFromRequest($request);
     }

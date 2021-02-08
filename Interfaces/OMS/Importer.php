@@ -15,19 +15,14 @@ declare(strict_types=1);
 namespace Modules\Exchange\Interfaces\OMS;
 
 use Modules\Exchange\Models\ExchangeLog;
+use Modules\Exchange\Models\ExchangeType;
+use Modules\Exchange\Models\ImporterAbstract;
+use Modules\Media\Controller\ApiController;
 use phpOMS\DataStorage\Database\Connection\ConnectionAbstract;
 use phpOMS\DataStorage\Database\Connection\ConnectionFactory;
 use phpOMS\DataStorage\Database\DatabaseStatus;
-use phpOMS\DataStorage\Database\DataMapperAbstract;
-use phpOMS\Localization\ISO3166TwoEnum;
-use phpOMS\Localization\ISO639x1Enum;
-use phpOMS\Message\RequestAbstract;
-use phpOMS\System\File\Local\Directory;
-use phpOMS\Utils\IO\Zip\Zip;
-use Modules\Media\Controller\ApiController;
-use Modules\Exchange\Models\ImporterAbstract;
 use phpOMS\Message\Http\HttpRequest;
-use Modules\Exchange\Models\ExchangeType;
+use phpOMS\Message\RequestAbstract;
 
 /**
  * OMS import class
@@ -108,11 +103,11 @@ final class Importer extends ImporterAbstract
 
         if ($request->getData('type') === 'language') {
             $this->importLanguage($request);
-            $log = new ExchangeLog();
+            $log            = new ExchangeLog();
             $log->createdBy = $this->account;
             $log->setType(ExchangeType::IMPORT);
-            $log->message = 'Language file imported.'; // @todo: localize!
-            $log->subtype = 'language';
+            $log->message  = 'Language file imported.'; // @todo: localize!
+            $log->subtype  = 'language';
             $log->exchange = (int) $request->getData('id');
 
             $result['logs'][] = $log;
@@ -132,10 +127,10 @@ final class Importer extends ImporterAbstract
     {
         $upload = ApiController::uploadFilesToDestination($request->getFiles());
 
-        $fp = \fopen($upload['file0']['path'] . '/' . $upload['file0']['filename'], 'r');
+        $fp     = \fopen($upload['file0']['path'] . '/' . $upload['file0']['filename'], 'r');
         $header = \fgetcsv($fp, 0, ';', '"');
 
-        $languageArray = [];
+        $languageArray      = [];
         $supportedLanguages = \array_slice($header, 3);
 
         while(($line = \fgetcsv($fp, 0, ';', '"')) !== false) {
