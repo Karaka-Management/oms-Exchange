@@ -40,7 +40,7 @@ class ExchangeLog implements \JsonSerializable, ArrayableInterface
      * @var string
      * @since 1.0.0
      */
-    private string $message = '';
+    public string $message = '';
 
     /**
      * Fields.
@@ -58,6 +58,8 @@ class ExchangeLog implements \JsonSerializable, ArrayableInterface
      */
     private int $type = ExchangeType::IMPORT;
 
+    public string $subtype = '';
+
     /**
      * Date type.
      *
@@ -65,6 +67,8 @@ class ExchangeLog implements \JsonSerializable, ArrayableInterface
      * @since 1.0.0
      */
     public \DateTimeImmutable $createdAt;
+
+    public int $createdBy = 0;
 
     /**
      * Constructor.

@@ -1,8 +1,12 @@
+<?php
+
+$lang = $this->getData('lang');
+?>
 <div class="row">
     <div class="col-xs-12 col-md-6">
         <section class="portlet">
             <form id="fImport" method="POST" action="<?= \phpOMS\Uri\UriFactory::build('{/api}admin/exchange/import/profile?{?}&exchange=OMS&type=language&csrf={$CSRF}'); ?>">
-                <div class="portlet-head"><?= $this->getHtml('Langauge'); ?> - OMS</div>
+                <div class="portlet-head"><?= $this->printHtml($lang['Language']); ?> - OMS</div>
                 <div class="portlet-body">
                     <table class="layout wf-100" style="table-layout: fixed">
                         <tbody>

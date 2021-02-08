@@ -24,6 +24,7 @@ use phpOMS\Message\RequestAbstract;
 use phpOMS\System\File\Local\Directory;
 use phpOMS\Utils\IO\Zip\Zip;
 use Modules\Media\Controller\ApiController;
+use Modules\Exchange\Models\ImporterAbstract;
 
 /**
  * OMS import class
@@ -100,7 +101,7 @@ final class Importer extends ImporterAbstract
 
         $this->account = $request->header->account;
 
-        if (((bool) ($request->getData('language') ?? false))) {
+        if ($request->getData('type') === 'language') {
             $this->importLanguage($request);
         }
 
@@ -117,5 +118,64 @@ final class Importer extends ImporterAbstract
     public function importLanguage(RequestAbstract $request) : void
     {
         $upload = ApiController::uploadFilesToDestination($request->getFiles());
+
+        $fp = \fopen($upload['file0']['path'] . '/' . $upload['file0']['filename'], 'r');
+        $header = \fgetcsv($fp, ';', '"');
+
+        $languageArray = [];
+        $supportedLanguages = \array_slice($header, 3);
+
+        while(($line = \fgetcsv($fp, ';', '"')) !== false) {
+            $translations = \array_slice($header, 3);
+
+            foreach ($languageArray as $index => $language) {
+                if (empty(\trim($language))) {
+                    continue;
+                }
+
+                $languageArray[\trim($line[0])][\trim($line[1])][\trim($line[2])][\trim($language)] = $translations[$index];
+            }
+        }
+
+        \fclose($fp);
+
+        \unlink($upload['file0']['path'] . '/' . $upload['file0']['filename']);
+
+        foreach ($languageArray as $module => $themes) {
+            foreach ($themes as $theme => $keys) {
+                foreach ($supportedLanguages as $language) {
+                    $langFile = __DIR__ . '/../../../' . \trim($module) . '/Theme/' . $theme . '/Lang/' . \trim($language) . '.lang.php';
+                    if (\is_file($langFile)) {
+                        \unlink($langFile);
+                    }
+
+                    $fp = \fopen($langFile, 'w+');
+                    \fwrite($fp,
+                        "<?php\n"
+                        . "/**\n"
+                        . " * Orange Management\n"
+                        . " *\n"
+                        . " * PHP Version 8.0\n"
+                        . " *\n"
+                        . " * @copyright Dennis Eichhorn\n"
+                        . " * @license   OMS License 1.0\n"
+                        . " * @version   1.0.0\n"
+                        . " * @link      https://orange-management.org\n"
+                        . " */\n"
+                        . "declare(strict_types=1);\n\n"
+                        . "return [\'' . '\'] => [\n"
+                    );
+
+                    foreach ($keys as $key => $values) {
+                        \fwrite($fp,
+                            "    '" . $key . "' => '" . ($values[$language] ?? '') . "',\n"
+                        );
+                    }
+
+                    \fwrite($fp, "]];\n");
+                    \fclose($fp);
+                }
+            }
+        }
     }
 }

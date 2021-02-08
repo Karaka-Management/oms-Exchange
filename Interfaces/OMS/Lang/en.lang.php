@@ -13,12 +13,5 @@ declare(strict_types=1);
  * @link      https://orange-management.org
  */
 return [
-    'Account'    => 'Account',
-    'Article'    => 'Articls',
-    'CostCenter' => 'Cost Center',
-    'CostObject' => 'Cost Object',
-    'Customer'   => 'Customer',
-    'Invoice'    => 'Invoice',
-    'Options'    => 'Options',
-    'Supplier'   => 'Supplier',
+    'Language'    => 'Language',
 ];

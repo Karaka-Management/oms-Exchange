@@ -135,6 +135,14 @@ final class BackendController extends Controller
         $view->setTemplate('/Modules/Exchange/Theme/Backend/exchange-export');
         $view->addData('nav', $this->app->moduleManager->get('Navigation')->createNavigationMid(1007001001, $request, $response));
 
+        /** @var \Modules\Exchange\Models\InterfaceManager $interface */
+        $interface = InterfaceManagerMapper::get((int) $request->getData('id'));
+
+        $view->addData('interface', $interface);
+
+        $lang = include __DIR__ . '/../Interfaces/' . $interface->getInterfacePath() . '/Lang/' . $response->getLanguage() . '.lang.php';
+        $view->addData('lang', $lang);
+
         return $view;
     }
 

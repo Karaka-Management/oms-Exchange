@@ -23,6 +23,7 @@ use phpOMS\Message\RequestAbstract;
 use phpOMS\Message\ResponseAbstract;
 use phpOMS\Model\Message\FormValidation;
 use phpOMS\System\File\Local\Directory;
+use phpOMS\System\MimeType;
 
 /**
  * Exchange controller class.
@@ -160,20 +161,38 @@ final class ApiController extends Controller
      */
     public function apiExchangeExport(RequestAbstract $request, ResponseAbstract $response, $data = null) : void
     {
-        $export  = $this->exportDataFromRequest($request);
-        $status  = NotificationLevel::ERROR;
-        $message = 'Export failed.';
+        $export = $this->exportDataFromRequest($request);
+        if ($export['type'] === 'file') {
+            $file = \explode('.', $export['name']);
 
-        if ($export) {
-            $status  = NotificationLevel::OK;
-            $message = 'Export succeeded.';
+            $response->header->setDownloadable($file[0], $file[1]);
+            switch ($file[1]) {
+                case 'csv':
+                    $response->header->set(
+                        'Content-disposition', 'attachment; filename="'
+                        . $export['name']
+                        . '"'
+                    , true);
+                    //$response->header->set('Content-Type', MimeType::M_CONF, true);
+                    break;
+            }
+
+            $response->set('export', $export['content']);
+        } else {
+            $status  = NotificationLevel::ERROR;
+            $message = 'Export failed.';
+
+            if ($export['status']) {
+                $status  = NotificationLevel::OK;
+                $message = 'Export succeeded.';
+            }
+
+            $response->set($request->uri->__toString(), [
+                'status'  => $status,
+                'title'   => 'Exchange',
+                'message' => $message,
+            ]);
         }
-
-        $response->set($request->uri->__toString(), [
-            'status'  => $status,
-            'title'   => 'Exchange',
-            'message' => $message,
-        ]);
     }
 
     /**
@@ -181,11 +200,11 @@ final class ApiController extends Controller
      *
      * @param RequestAbstract $request Request
      *
-     * @return bool
+     * @return array
      *
      * @since 1.0.0
      */
-    private function exportDataFromRequest(RequestAbstract $request) : bool
+    private function exportDataFromRequest(RequestAbstract $request) : array
     {
         /** @var \Modules\Exchange\Models\InterfaceManager[] $interfaces */
         $interfaces = InterfaceManagerMapper::getAll();
@@ -200,7 +219,7 @@ final class ApiController extends Controller
 
         Directory::delete(__DIR__ . '/../tmp/');
 
-        return false;
+        return [];
     }
 
     /**
