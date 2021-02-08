@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Modules\Exchange\Interfaces\OMS;
 
+use Modules\Exchange\Models\ExchangeLog;
 use phpOMS\DataStorage\Database\Connection\ConnectionAbstract;
 use phpOMS\DataStorage\Database\Connection\ConnectionFactory;
 use phpOMS\DataStorage\Database\DatabaseStatus;
@@ -25,6 +26,8 @@ use phpOMS\System\File\Local\Directory;
 use phpOMS\Utils\IO\Zip\Zip;
 use Modules\Media\Controller\ApiController;
 use Modules\Exchange\Models\ImporterAbstract;
+use phpOMS\Message\Http\HttpRequest;
+use Modules\Exchange\Models\ExchangeType;
 
 /**
  * OMS import class
@@ -64,7 +67,7 @@ final class Importer extends ImporterAbstract
      */
     public function import(\DateTime $start, \DateTime $end) : void
     {
-        $this->importLanguage();
+        $this->importLanguage(new HttpRequest());
     }
 
     /**
@@ -72,11 +75,11 @@ final class Importer extends ImporterAbstract
      *
      * @param RequestAbstract $request Request
      *
-     * @return bool
+     * @return array
      *
      * @since 1.0.0
      */
-    public function importFromRequest(RequestAbstract $request) : bool
+    public function importFromRequest(RequestAbstract $request) : array
     {
         $start = new \DateTime($request->getData('start') ?? 'now');
         $end   = new \DateTime($request->getData('end') ?? 'now');
@@ -95,17 +98,27 @@ final class Importer extends ImporterAbstract
             $this->remote->connect();
 
             if ($this->remote->getStatus() !== DatabaseStatus::OK) {
-                return false;
+                return ['status' => false];
             }
         }
 
         $this->account = $request->header->account;
 
+        $result = ['status' => true];
+
         if ($request->getData('type') === 'language') {
             $this->importLanguage($request);
+            $log = new ExchangeLog();
+            $log->createdBy = $this->account;
+            $log->setType(ExchangeType::IMPORT);
+            $log->message = 'Language file imported.'; // @todo: localize!
+            $log->subtype = 'language';
+            $log->exchange = (int) $request->getData('id');
+
+            $result['logs'][] = $log;
         }
 
-        return true;
+        return $result;
     }
 
     /**

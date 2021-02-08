@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Modules\Exchange\Controller;
 
+use Modules\Exchange\Models\ExchangeLogMapper;
 use Modules\Exchange\Models\InterfaceManager;
 use Modules\Exchange\Models\InterfaceManagerMapper;
 use Modules\Media\Models\UploadFile;
@@ -54,7 +55,11 @@ final class ApiController extends Controller
         $status  = NotificationLevel::ERROR;
         $message = 'Import failed.';
 
-        if ($import) {
+        foreach ($import['logs'] as $log) {
+            $this->createModel($request->header->account, $log, ExchangeLogMapper::class, 'import', $request->getOrigin());
+        }
+
+        if ($import['status']) {
             $status  = NotificationLevel::OK;
             $message = 'Import succeeded.';
         }
@@ -71,26 +76,18 @@ final class ApiController extends Controller
      *
      * @param RequestAbstract $request Request
      *
-     * @return bool
+     * @return array
      *
      * @since 1.0.0
      */
-    private function importDataFromRequest(RequestAbstract $request) : bool
+    private function importDataFromRequest(RequestAbstract $request) : array
     {
-        /** @var \Modules\Exchange\Models\InterfaceManager[] $interfaces */
-        $interfaces = InterfaceManagerMapper::getAll();
-        foreach ($interfaces as $interface) {
-            if ($request->getData('exchange') ?? '' === $interface->getInterfacePath()) {
-                $class    = '\\Modules\\Exchange\\Interfaces\\' . $interface->getInterfacePath() . '\\Importer';
-                $importer = new $class($this->app->dbPool->get());
+        /** @var \Modules\Exchange\Models\InterfaceManager $interface */
+        $interface = InterfaceManagerMapper::get($request->getData('id'));
+        $class    = '\\Modules\\Exchange\\Interfaces\\' . $interface->getInterfacePath() . '\\Importer';
+        $importer = new $class($this->app->dbPool->get());
 
-                return $importer->importFromRequest($request);
-            }
-        }
-
-        Directory::delete(__DIR__ . '/../tmp/');
-
-        return false;
+        return $importer->importFromRequest($request);
     }
 
     /**
@@ -162,6 +159,10 @@ final class ApiController extends Controller
     public function apiExchangeExport(RequestAbstract $request, ResponseAbstract $response, $data = null) : void
     {
         $export = $this->exportDataFromRequest($request);
+        foreach ($export['logs'] as $log) {
+            $this->createModel($request->header->account, $log, ExchangeLogMapper::class, 'export', $request->getOrigin());
+        }
+
         if ($export['type'] === 'file') {
             $file = \explode('.', $export['name']);
 
@@ -206,20 +207,12 @@ final class ApiController extends Controller
      */
     private function exportDataFromRequest(RequestAbstract $request) : array
     {
-        /** @var \Modules\Exchange\Models\InterfaceManager[] $interfaces */
-        $interfaces = InterfaceManagerMapper::getAll();
-        foreach ($interfaces as $interface) {
-            if ($request->getData('exchange') ?? '' === $interface->getInterfacePath()) {
-                $class    = '\\Modules\\Exchange\\Interfaces\\' . $interface->getInterfacePath() . '\\Exporter';
-                $exporter = new $class($this->app->dbPool->get());
+        /** @var \Modules\Exchange\Models\InterfaceManager $interface */
+        $interface = InterfaceManagerMapper::get($request->getData('id'));
+        $class    = '\\Modules\\Exchange\\Interfaces\\' . $interface->getInterfacePath() . '\\Exporter';
+        $exporter = new $class($this->app->dbPool->get());
 
-                return $exporter->exportFromRequest($request);
-            }
-        }
-
-        Directory::delete(__DIR__ . '/../tmp/');
-
-        return [];
+        return $exporter->exportFromRequest($request);
     }
 
     /**

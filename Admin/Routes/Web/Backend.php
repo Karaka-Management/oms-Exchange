@@ -50,9 +50,20 @@ return [
             ],
         ],
     ],
-    '^.*/admin/exchange/dashboard.*$' => [
+    '^.*/admin/exchange/log/list.*$' => [
         [
-            'dest'       => '\Modules\Exchange\Controller\BackendController:viewExchangeDashboard',
+            'dest'       => '\Modules\Exchange\Controller\BackendController:viewExchangeLogList',
+            'verb'       => RouteVerb::GET,
+            'permission' => [
+                'module' => BackendController::MODULE_NAME,
+                'type'   => PermissionType::READ,
+                'state'  => PermissionState::DASHBOARD,
+            ],
+        ],
+    ],
+    '^.*/admin/exchange/log\?.*$' => [
+        [
+            'dest'       => '\Modules\Exchange\Controller\BackendController:viewExchangeLog',
             'verb'       => RouteVerb::GET,
             'permission' => [
                 'module' => BackendController::MODULE_NAME,

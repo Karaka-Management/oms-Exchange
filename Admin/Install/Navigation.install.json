@@ -19,7 +19,7 @@
                 "type": 3,
                 "subtype": 1,
                 "name": "Dashboard",
-                "uri": "{/prefix}admin/exchange/dashboard?{?}",
+                "uri": "{/prefix}admin/exchange/log/list?{?}",
                 "target": "self",
                 "icon": null,
                 "order": 1,

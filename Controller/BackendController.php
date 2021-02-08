@@ -19,6 +19,7 @@ use phpOMS\Contract\RenderableInterface;
 use phpOMS\Message\RequestAbstract;
 use phpOMS\Message\ResponseAbstract;
 use phpOMS\Views\View;
+use Modules\Exchange\Models\ExchangeLogMapper;
 
 /**
  * Exchange controller class.
@@ -42,11 +43,49 @@ final class BackendController extends Controller
      * @since 1.0.0
      * @codeCoverageIgnore
      */
-    public function viewExchangeDashboard(RequestAbstract $request, ResponseAbstract $response, $data = null) : RenderableInterface
+    public function viewExchangeLogList(RequestAbstract $request, ResponseAbstract $response, $data = null) : RenderableInterface
     {
         $view = new View($this->app->l11nManager, $request, $response);
-        $view->setTemplate('/Modules/Exchange/Theme/Backend/exchange-dashboard');
+        $view->setTemplate('/Modules/Exchange/Theme/Backend/exchange-log-list');
         $view->addData('nav', $this->app->moduleManager->get('Navigation')->createNavigationMid(1007001001, $request, $response));
+
+        if ($request->getData('ptype') === 'p') {
+            $view->setData('logs',
+                ExchangeLogMapper::getBeforePivot((int) ($request->getData('id') ?? 0), limit: 25, depth: 4)
+            );
+        } elseif ($request->getData('ptype') === 'n') {
+            $view->setData('logs',
+                ExchangeLogMapper::getAfterPivot((int) ($request->getData('id') ?? 0), limit: 25, depth: 4)
+            );
+        } else {
+            $view->setData('logs',
+                ExchangeLogMapper::getAfterPivot(0, limit: 25, depth: 4)
+            );
+        }
+
+        return $view;
+    }
+
+    /**
+     * Routing end-point for application behaviour.
+     *
+     * @param RequestAbstract  $request  Request
+     * @param ResponseAbstract $response Response
+     * @param mixed            $data     Generic data
+     *
+     * @return RenderableInterface
+     *
+     * @since 1.0.0
+     * @codeCoverageIgnore
+     */
+    public function viewExchangeLog(RequestAbstract $request, ResponseAbstract $response, $data = null) : RenderableInterface
+    {
+        $view = new View($this->app->l11nManager, $request, $response);
+        $view->setTemplate('/Modules/Exchange/Theme/Backend/exchange-log');
+        $view->addData('nav', $this->app->moduleManager->get('Navigation')->createNavigationMid(1007001001, $request, $response));
+
+        $log = ExchangeLogMapper::get((int) $request->getData('id'));
+        $view->setData('log', $log);
 
         return $view;
     }

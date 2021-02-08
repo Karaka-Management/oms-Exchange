@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace Modules\Exchange\Interfaces\OMS;
 
+use Modules\Exchange\Models\ExchangeLog;
+use Modules\Exchange\Models\ExchangeType;
 use phpOMS\DataStorage\Database\Connection\ConnectionAbstract;
 use phpOMS\DataStorage\Database\Connection\ConnectionFactory;
 use phpOMS\DataStorage\Database\DatabaseStatus;
@@ -84,10 +86,19 @@ final class Exporter extends ExporterAbstract
         $this->account = $request->header->account;
 
         if ($request->getData('type') === 'language') {
-            return $this->exportLanguage();
+            $result = $this->exportLanguage();
+
+            $log = new ExchangeLog();
+            $log->createdBy = $this->account;
+            $log->setType(ExchangeType::EXPORT);
+            $log->message = 'Language file exported.'; // @todo: localize!
+            $log->subtype = 'language';
+            $log->exchange = (int) $request->getData('id');
+
+            $result['logs'][] = $log;
         }
 
-        return [];
+        return $result;
     }
 
     /**

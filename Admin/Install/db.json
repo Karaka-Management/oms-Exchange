@@ -66,10 +66,22 @@
                 "type": "TINYINT",
                 "null": false
             },
-            "exchange_log_time": {
-                "name": "exchange_log_time",
+            "exchange_log_subtype": {
+                "name": "exchange_log_subtype",
+                "type": "VARCHAR(100)",
+                "null": false
+            },
+            "exchange_log_created_at": {
+                "name": "exchange_log_created_at",
                 "type": "DATETIME",
                 "null": false
+            },
+            "exchange_log_created_by": {
+                "name": "exchange_log_created_by",
+                "type": "INT",
+                "null": false,
+                "foreignTable": "account",
+                "foreignKey": "account_id"
             },
             "exchange_log_exchange": {
                 "name": "exchange_log_exchange",

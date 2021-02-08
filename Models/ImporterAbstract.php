@@ -52,9 +52,9 @@ abstract class ImporterAbstract
      *
      * @param RequestAbstract $request Request
      *
-     * @return bool
+     * @return array
      *
      * @since 1.0.0
      */
-    abstract public function importFromRequest(RequestAbstract $request) : bool;
+    abstract public function importFromRequest(RequestAbstract $request) : array;
 }

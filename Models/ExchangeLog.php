@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Modules\Exchange\Models;
 
+use Modules\Admin\Models\Account;
 use phpOMS\Contract\ArrayableInterface;
 
 /**
@@ -61,6 +62,14 @@ class ExchangeLog implements \JsonSerializable, ArrayableInterface
     public string $subtype = '';
 
     /**
+     * Exchange id.
+     *
+     * @var int
+     * @since 1.0.0
+     */
+    public int|InterfaceManager $exchange = 0;
+
+    /**
      * Date type.
      *
      * @var \DateTimeImmutable
@@ -68,7 +77,7 @@ class ExchangeLog implements \JsonSerializable, ArrayableInterface
      */
     public \DateTimeImmutable $createdAt;
 
-    public int $createdBy = 0;
+    public int|Account $createdBy = 0;
 
     /**
      * Constructor.
