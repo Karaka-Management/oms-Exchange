@@ -5,7 +5,7 @@
         "type": 2,
         "subtype": 1,
         "name": "Exchange",
-        "uri": "{/prefix}admin/exchange/dashboard?{?}",
+        "uri": "{/prefix}admin/exchange/log/list?{?}",
         "target": "self",
         "icon": null,
         "order": 50,
