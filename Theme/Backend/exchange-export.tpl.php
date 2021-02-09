@@ -12,7 +12,7 @@
  */
 declare(strict_types=1);
 
- $lang = $this->getData('lang');
+$lang = $this->getData('lang');
 
 /** @var \phpOMS\Views\View $this */
 echo $this->getData('nav')->render();
