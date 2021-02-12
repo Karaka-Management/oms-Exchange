@@ -132,9 +132,14 @@ final class Importer extends ImporterAbstract
 
         $languageArray      = [];
         $supportedLanguages = \array_slice($header, 3);
+        $keyLengths = [];
 
         while(($line = \fgetcsv($fp, 0, ';', '"')) !== false) {
             $translations = \array_slice($line, 3);
+
+            if (($keyLengths[\trim($line[0])][\trim($line[1])] ?? 0) < \strlen(\trim($line[2]))) {
+                $keyLengths[\trim($line[0])][\trim($line[1])] = \strlen(\trim($line[2]));
+            }
 
             foreach ($supportedLanguages as $index => $language) {
                 if (empty(\trim($language))) {
@@ -179,7 +184,7 @@ final class Importer extends ImporterAbstract
 
                     foreach ($keys as $key => $values) {
                         \fwrite($fp,
-                            "    '" . $key . "' => '" . ($values[$language] ?? '') . "',\n"
+                            "    '" . $key . "'" . \str_repeat(' ', $keyLengths[$module][$theme] - \strlen($key)) . " => '" . ($values[$language] ?? '') . "',\n"
                         );
                     }
 
