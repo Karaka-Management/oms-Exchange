@@ -132,7 +132,7 @@ final class Importer extends ImporterAbstract
 
         $languageArray      = [];
         $supportedLanguages = \array_slice($header, 3);
-        $keyLengths = [];
+        $keyLengths         = [];
 
         while(($line = \fgetcsv($fp, 0, ';', '"')) !== false) {
             $translations = \array_slice($line, 3);
