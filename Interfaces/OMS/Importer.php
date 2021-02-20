@@ -173,6 +173,7 @@ final class Importer extends ImporterAbstract
                         . " *\n"
                         . " * PHP Version 8.0\n"
                         . " *\n"
+                        . " * @package   Modules\Localization\n"
                         . " * @copyright Dennis Eichhorn\n"
                         . " * @license   OMS License 1.0\n"
                         . " * @version   1.0.0\n"
