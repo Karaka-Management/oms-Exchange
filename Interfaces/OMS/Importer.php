@@ -187,7 +187,7 @@ final class Importer extends ImporterAbstract
 
                     foreach ($keys as $key => $values) {
                         \fwrite($fp,
-                            "    '" . $key . "'" . \str_repeat(' ', $keyLengths[$module][$theme] - \strlen($key)) . " => '" . ($values[$language] ?? '') . "',\n"
+                            "    '" . $key . "'" . \str_repeat(' ', $keyLengths[$module][$theme] - \strlen($key)) . " => '" . \str_replace(['\'', '\\'], ['\\\'', '\\\\'], $values[$language] ?? '') . "',\n"
                         );
                     }
 
