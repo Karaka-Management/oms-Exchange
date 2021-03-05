@@ -133,18 +133,31 @@ final class Exporter extends ExporterAbstract
                     }
 
                     $components = \explode('.', $language);
-                    if (\strlen($components[0]) === 2) {
+                    $len = \count($components);
+
+                    if ($len === 3 || $len === 4) {
                         // normal language file
-                        $supportedLanguages[] = $components[0];
-                        $array                = include $themePath . $theme . '/Lang/' . $language;
-                        $array                = \reset($array);
+                        if ($len === 3) {
+                            $supportedLanguages[] = $components[0];
+                        } elseif ($len === 4) {
+                            $supportedLanguages[] = $components[1];
+                        }
+
+                        $array = include $themePath . $theme . '/Lang/' . $language;
+                        $array = \reset($array);
 
                         if ($array === false) {
                             continue;
                         }
 
-                        foreach ($array as $key => $value) {
-                            $languageArray[\trim($module, '/')][\trim($theme, '/')][$key][$components[0]] = $value;
+                        if ($len === 3) {
+                            foreach ($array as $key => $value) {
+                                $languageArray[\trim($module, '/')][\trim($theme, '/')][''][$key][$components[0]] = $value;
+                            }
+                        } elseif ($len === 4) {
+                            foreach ($array as $key => $value) {
+                                $languageArray[\trim($module, '/')][\trim($theme, '/')][$components[0]][$key][$components[1]] = $value;
+                            }
                         }
                     }
                 }
@@ -171,8 +184,8 @@ final class Exporter extends ExporterAbstract
                     \preg_match_all('/(\$this\->getHtml\(\')([a-zA-Z:]+)(\'\))/', $template, $keys, \PREG_PATTERN_ORDER);
 
                     foreach ($keys[2] ?? [] as $key) {
-                        if (!isset($languageArray[\trim($module, '/')][\trim($theme, '/')][$key])) {
-                            $languageArray[\trim($module, '/')][\trim($theme, '/')][$key]['en'] = '';
+                        if (!isset($languageArray[''][\trim($module, '/')][\trim($theme, '/')][$key])) {
+                            $languageArray[\trim($module, '/')][\trim($theme, '/')][''][$key]['en'] = '';
                         }
                     }
                 }
@@ -181,14 +194,16 @@ final class Exporter extends ExporterAbstract
 
         $supportedLanguages = \array_unique($supportedLanguages);
 
-        $content = '"Module";"Theme";"ID";"' . \implode('";"', $supportedLanguages) . '"';
+        $content = '"Module";"Theme";"File";"ID";"' . \implode('";"', $supportedLanguages) . '"';
         foreach ($languageArray as $module => $themes) {
-            foreach ($themes as $theme => $keys) {
-                foreach ($keys as $key => $value) {
-                    $content .= "\n\"" . $module . '";"' . $theme . '";"' . $key . '"';
+            foreach ($themes as $theme => $files) {
+                foreach ($files as $file => $keys) {
+                    foreach ($keys as $key => $value) {
+                        $content .= "\n\"" . $module . '";"' . $theme . '";"' . $file . '";"' . $key . '"';
 
-                    foreach ($supportedLanguages as $language) {
-                        $content .= ';"' . ($value[$language] ?? '') . '"';
+                        foreach ($supportedLanguages as $language) {
+                            $content .= ';"' . ($value[$language] ?? '') . '"';
+                        }
                     }
                 }
             }

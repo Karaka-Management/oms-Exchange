@@ -131,14 +131,19 @@ final class Importer extends ImporterAbstract
         $header = \fgetcsv($fp, 0, ';', '"');
 
         $languageArray      = [];
-        $supportedLanguages = \array_slice($header, 3);
+        $supportedLanguages = \array_slice($header, 4);
         $keyLengths         = [];
 
         while(($line = \fgetcsv($fp, 0, ';', '"')) !== false) {
-            $translations = \array_slice($line, 3);
+            $translations = \array_slice($line, 4);
 
-            if (($keyLengths[\trim($line[0])][\trim($line[1])] ?? 0) < \strlen(\trim($line[2]))) {
-                $keyLengths[\trim($line[0])][\trim($line[1])] = \strlen(\trim($line[2]));
+            $line[0] = \trim($line[0]);
+            $line[1] = \trim($line[1]);
+            $line[2] = \trim($line[2]);
+            $line[3] = \trim($line[3]);
+
+            if (($keyLengths[$line[0]][$line[1]][$line[2]] ?? 0) < \strlen($line[3])) {
+                $keyLengths[$line[0]][$line[1]][$line[2]] = \strlen($line[3]);
             }
 
             foreach ($supportedLanguages as $index => $language) {
@@ -146,7 +151,7 @@ final class Importer extends ImporterAbstract
                     continue;
                 }
 
-                $languageArray[\trim($line[0])][\trim($line[1])][\trim($line[2])][\trim($language)] = $translations[$index];
+                $languageArray[$line[0]][$line[1]][$line[2]][$line[3]][\trim($language)] = $translations[$index];
             }
         }
 
@@ -154,45 +159,53 @@ final class Importer extends ImporterAbstract
         \unlink($upload['file0']['path'] . '/' . $upload['file0']['filename']);
 
         foreach ($languageArray as $module => $themes) {
-            foreach ($themes as $theme => $keys) {
-                foreach ($supportedLanguages as $language) {
-                    $langFile = __DIR__ . '/../../../' . $module . '/Theme/' . $theme . '/Lang/' . \trim($language) . '.lang.php';
-                    if (\is_file($langFile)) {
-                        \unlink($langFile);
-                    }
+            foreach ($themes as $theme => $files) {
+                foreach ($files as $file => $keys) {
+                    foreach ($supportedLanguages as $language) {
+                        $langFile = __DIR__ . '/../../../'
+                            . $module . '/Theme/'
+                            . $theme . '/Lang/'
+                            . ($file === '' ? '' : $file . '.')
+                            . \trim($language)
+                            . '.lang.php';
 
-                    $fp = \fopen($langFile, 'w+');
-                    if ($fp === false) {
-                        continue;
-                    }
+                        if (\is_file($langFile)) {
+                            \unlink($langFile);
+                        }
 
-                    \fwrite($fp,
-                        "<?php\n"
-                        . "/**\n"
-                        . " * Orange Management\n"
-                        . " *\n"
-                        . " * PHP Version 8.0\n"
-                        . " *\n"
-                        . " * @package   Modules\Localization\n"
-                        . " * @copyright Dennis Eichhorn\n"
-                        . " * @license   OMS License 1.0\n"
-                        . " * @version   1.0.0\n"
-                        . " * @link      https://orange-management.org\n"
-                        . " */\n"
-                        . "declare(strict_types=1);\n\n"
-                        . "return ['" . $module . "' => [\n"
-                    );
+                        $fp = \fopen($langFile, 'w+');
+                        if ($fp === false) {
+                            continue;
+                        }
 
-                    \ksort($keys);
-
-                    foreach ($keys as $key => $values) {
                         \fwrite($fp,
-                            "    '" . $key . "'" . \str_repeat(' ', $keyLengths[$module][$theme] - \strlen($key)) . " => '" . \str_replace(['\'', '\\'], ['\\\'', '\\\\'], $values[$language] ?? '') . "',\n"
+                            "<?php\n"
+                            . "/**\n"
+                            . " * Orange Management\n"
+                            . " *\n"
+                            . " * PHP Version 8.0\n"
+                            . " *\n"
+                            . " * @package   Modules\Localization\n"
+                            . " * @copyright Dennis Eichhorn\n"
+                            . " * @license   OMS License 1.0\n"
+                            . " * @version   1.0.0\n"
+                            . " * @link      https://orange-management.org\n"
+                            . " */\n"
+                            . "declare(strict_types=1);\n\n"
+                            . "return ['" . ($file === '' ? $module : $file) . "' => [\n"
                         );
-                    }
 
-                    \fwrite($fp, "]];\n");
-                    \fclose($fp);
+                        \ksort($keys);
+
+                        foreach ($keys as $key => $values) {
+                            \fwrite($fp,
+                                "    '" . $key . "'" . \str_repeat(' ', $keyLengths[$module][$theme][$file] - \strlen($key)) . " => '" . \str_replace(['\'', '\\'], ['\\\'', '\\\\'], $values[$language] ?? '') . "',\n"
+                            );
+                        }
+
+                        \fwrite($fp, "]];\n");
+                        \fclose($fp);
+                    }
                 }
             }
         }
