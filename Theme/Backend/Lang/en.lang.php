@@ -4,6 +4,7 @@
  *
  * PHP Version 8.0
  *
+ * @package   Modules\Localization
  * @copyright Dennis Eichhorn
  * @license   OMS License 1.0
  * @version   1.0.0
@@ -12,10 +13,10 @@
 declare(strict_types=1);
 
 return ['Exchange' => [
-    'Created'   => '',
-    'CreatedAt' => '',
-    'CreatedBy' => '',
-    'Creator'   => '',
+    'Created'   => 'Created',
+    'CreatedAt' => 'Created at',
+    'CreatedBy' => 'Created by',
+    'Creator'   => 'Creator',
     'Database'  => 'Database',
     'End'       => 'End',
     'Exchange'  => 'Exchange',
@@ -26,13 +27,13 @@ return ['Exchange' => [
     'Import'    => 'Import',
     'Imports'   => 'Imports',
     'Login'     => 'Login',
-    'Logs'      => '',
+    'Logs'      => 'Logs',
     'Options'   => 'Options',
     'Password'  => 'Password',
     'Port'      => 'Port',
     'Start'     => 'Start',
-    'Subtype'   => '',
+    'Subtype'   => 'Subtype',
     'Title'     => 'Title',
-    'Type'      => '',
+    'Type'      => 'Type',
     'Website'   => 'Website',
 ]];
