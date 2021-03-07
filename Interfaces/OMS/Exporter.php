@@ -133,7 +133,7 @@ final class Exporter extends ExporterAbstract
                     }
 
                     $components = \explode('.', $language);
-                    $len = \count($components);
+                    $len        = \count($components);
 
                     if ($len === 3 || $len === 4) {
                         // normal language file
