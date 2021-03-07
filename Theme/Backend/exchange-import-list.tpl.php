@@ -31,7 +31,7 @@ echo $this->getData('nav')->render();
                         </label>
                         <label for="importList-sort-2">
                             <input type="radio" name="importList-sort" id="importList-sort-2">
-                             <i class="sort-desc fa fa-chevron-down"></i>
+                            <i class="sort-desc fa fa-chevron-down"></i>
                         </label>
                         <label>
                             <i class="filter fa fa-filter"></i>
