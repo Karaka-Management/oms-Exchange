@@ -27,11 +27,77 @@ echo $this->getData('nav')->render(); ?>
                 <thead>
                 <tr>
                     <td><?= $this->getHtml('ID', '0', '0'); ?>
+                        <label for="exchangeLogs-sort-1">
+                            <input type="radio" name="exchangeLogs-sort" id="exchangeLogs-sort-1">
+                            <i class="sort-asc fa fa-chevron-up"></i>
+                        </label>
+                        <label for="exchangeLogs-sort-2">
+                            <input type="radio" name="exchangeLogs-sort" id="exchangeLogs-sort-2">
+                             <i class="sort-desc fa fa-chevron-down"></i>
+                        </label>
+                        <label>
+                            <i class="filter fa fa-filter"></i>
+                        </label>
                     <td><?= $this->getHtml('Type'); ?>
+                        <label for="exchangeLogs-sort-3">
+                            <input type="radio" name="exchangeLogs-sort" id="exchangeLogs-sort-3">
+                            <i class="sort-asc fa fa-chevron-up"></i>
+                        </label>
+                        <label for="exchangeLogs-sort-4">
+                            <input type="radio" name="exchangeLogs-sort" id="exchangeLogs-sort-4">
+                             <i class="sort-desc fa fa-chevron-down"></i>
+                        </label>
+                        <label>
+                            <i class="filter fa fa-filter"></i>
+                        </label>
                     <td><?= $this->getHtml('Subtype'); ?>
+                        <label for="exchangeLogs-sort-5">
+                            <input type="radio" name="exchangeLogs-sort" id="exchangeLogs-sort-5">
+                            <i class="sort-asc fa fa-chevron-up"></i>
+                        </label>
+                        <label for="exchangeLogs-sort-6">
+                            <input type="radio" name="exchangeLogs-sort" id="exchangeLogs-sort-6">
+                             <i class="sort-desc fa fa-chevron-down"></i>
+                        </label>
+                        <label>
+                            <i class="filter fa fa-filter"></i>
+                        </label>
                     <td class="wf-100"><?= $this->getHtml('Exchange'); ?>
+                        <label for="exchangeLogs-sort-7">
+                            <input type="radio" name="exchangeLogs-sort" id="exchangeLogs-sort-7">
+                            <i class="sort-asc fa fa-chevron-up"></i>
+                        </label>
+                        <label for="exchangeLogs-sort-8">
+                            <input type="radio" name="exchangeLogs-sort" id="exchangeLogs-sort-8">
+                             <i class="sort-desc fa fa-chevron-down"></i>
+                        </label>
+                        <label>
+                            <i class="filter fa fa-filter"></i>
+                        </label>
                     <td><?= $this->getHtml('CreatedBy'); ?>
+                        <label for="exchangeLogs-sort-9">
+                            <input type="radio" name="exchangeLogs-sort" id="exchangeLogs-sort-9">
+                            <i class="sort-asc fa fa-chevron-up"></i>
+                        </label>
+                        <label for="exchangeLogs-sort-0">
+                            <input type="radio" name="exchangeLogs-sort" id="exchangeLogs-sort-0">
+                             <i class="sort-desc fa fa-chevron-down"></i>
+                        </label>
+                        <label>
+                            <i class="filter fa fa-filter"></i>
+                        </label>
                     <td><?= $this->getHtml('CreatedAt'); ?>
+                        <label for="exchangeLogs-sort-11">
+                            <input type="radio" name="exchangeLogs-sort" id="exchangeLogs-sort-11">
+                            <i class="sort-asc fa fa-chevron-up"></i>
+                        </label>
+                        <label for="exchangeLogs-sort-12">
+                            <input type="radio" name="exchangeLogs-sort" id="exchangeLogs-sort-12">
+                             <i class="sort-desc fa fa-chevron-down"></i>
+                        </label>
+                        <label>
+                            <i class="filter fa fa-filter"></i>
+                        </label>
                 <tbody>
                 <?php $count = 0; foreach ($logs as $key => $value) :
                     ++$count;

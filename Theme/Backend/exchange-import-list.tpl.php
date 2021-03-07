@@ -21,10 +21,21 @@ echo $this->getData('nav')->render();
     <div class="col-xs-12">
         <section class="portlet">
             <div class="portlet-head"><?= $this->getHtml('Imports'); ?><i class="fa fa-download floatRight download btn"></i></div>
-            <table class="default">
+            <table id="importList" class="default">
                 <thead>
                 <tr>
                     <td class="wf-100"><?= $this->getHtml('Title'); ?>
+                        <label for="importList-sort-1">
+                            <input type="radio" name="importList-sort" id="importList-sort-1">
+                            <i class="sort-asc fa fa-chevron-up"></i>
+                        </label>
+                        <label for="importList-sort-2">
+                            <input type="radio" name="importList-sort" id="importList-sort-2">
+                             <i class="sort-desc fa fa-chevron-down"></i>
+                        </label>
+                        <label>
+                            <i class="filter fa fa-filter"></i>
+                        </label>
                 <tbody>
                 <?php $count = 0; foreach ($interfaces as $key => $value) : ++$count;
                 $url         = \phpOMS\Uri\UriFactory::build('{/prefix}admin/exchange/import/profile?{?}&id=' . $value->getId()); ?>
