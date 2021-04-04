@@ -198,6 +198,8 @@ final class Importer extends ImporterAbstract
                         \ksort($keys);
 
                         foreach ($keys as $key => $values) {
+                            $key = \ltrim($key, '*');
+
                             \fwrite($fp,
                                 "    '" . $key . "'"
                                 . \str_repeat(' ', $keyLengths[$module][$theme][$file] - \strlen($key))

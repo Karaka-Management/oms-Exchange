@@ -22,6 +22,7 @@ use phpOMS\Message\Http\RequestStatusCode;
 use phpOMS\Message\NotificationLevel;
 use phpOMS\Message\RequestAbstract;
 use phpOMS\Message\ResponseAbstract;
+use phpOMS\Message\Http\HttpResponse;
 use phpOMS\Model\Message\FormValidation;
 use phpOMS\System\File\Local\Directory;
 use phpOMS\System\MimeType;
@@ -147,7 +148,7 @@ final class ApiController extends Controller
      * Api method to export data
      *
      * @param RequestAbstract  $request  Request
-     * @param ResponseAbstract $response Response
+     * @param HttpResponse     $response Response
      * @param mixed            $data     Generic data
      *
      * @return void
@@ -156,7 +157,7 @@ final class ApiController extends Controller
      *
      * @since 1.0.0
      */
-    public function apiExchangeExport(RequestAbstract $request, ResponseAbstract $response, $data = null) : void
+    public function apiExchangeExport(RequestAbstract $request, HttpResponse $response, $data = null) : void
     {
         $export = $this->exportDataFromRequest($request);
         foreach ($export['logs'] as $log) {

@@ -164,6 +164,7 @@ final class Exporter extends ExporterAbstract
             }
 
             // search for translations in tpl files which are not included in the language fieles
+            $tplKeys = [];
             foreach ($themes as $theme) {
                 if (!\is_dir($themePath . $theme) || $theme === '.' || $theme === '..') {
                     continue;
@@ -184,6 +185,7 @@ final class Exporter extends ExporterAbstract
                     \preg_match_all('/(\$this\->getHtml\(\')([a-zA-Z:]+)(\'\))/', $template, $keys, \PREG_PATTERN_ORDER);
 
                     foreach ($keys[2] ?? [] as $key) {
+                        $tplKeys[\trim($module, '/')][\trim($theme, '/')][''][$key]['en'] = '';
                         if (!isset($languageArray[''][\trim($module, '/')][\trim($theme, '/')][$key])) {
                             $languageArray[\trim($module, '/')][\trim($theme, '/')][''][$key]['en'] = '';
                         }
@@ -199,7 +201,8 @@ final class Exporter extends ExporterAbstract
             foreach ($themes as $theme => $files) {
                 foreach ($files as $file => $keys) {
                     foreach ($keys as $key => $value) {
-                        $content .= "\n\"" . $module . '";"' . $theme . '";"' . $file . '";"' . $key . '"';
+                        $content .= "\n\"" . $module . '";"' . $theme . '";"' . $file . '";"';
+                        $content .= (!isset($tplKeys[$module][$theme]['']) ? '*' : '') . $key . '"';
 
                         foreach ($supportedLanguages as $language) {
                             $content .= ';"' . ($value[$language] ?? '') . '"';
