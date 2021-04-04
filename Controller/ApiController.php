@@ -18,11 +18,11 @@ use Modules\Exchange\Models\ExchangeLogMapper;
 use Modules\Exchange\Models\InterfaceManager;
 use Modules\Exchange\Models\InterfaceManagerMapper;
 use Modules\Media\Models\UploadFile;
+use phpOMS\Message\Http\HttpResponse;
 use phpOMS\Message\Http\RequestStatusCode;
 use phpOMS\Message\NotificationLevel;
 use phpOMS\Message\RequestAbstract;
 use phpOMS\Message\ResponseAbstract;
-use phpOMS\Message\Http\HttpResponse;
 use phpOMS\Model\Message\FormValidation;
 use phpOMS\System\File\Local\Directory;
 use phpOMS\System\MimeType;
@@ -147,9 +147,9 @@ final class ApiController extends Controller
     /**
      * Api method to export data
      *
-     * @param RequestAbstract  $request  Request
-     * @param HttpResponse     $response Response
-     * @param mixed            $data     Generic data
+     * @param RequestAbstract $request  Request
+     * @param HttpResponse    $response Response
+     * @param mixed           $data     Generic data
      *
      * @return void
      *
