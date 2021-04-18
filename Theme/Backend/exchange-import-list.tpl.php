@@ -21,7 +21,7 @@ echo $this->getData('nav')->render();
     <div class="col-xs-12">
         <section class="portlet">
             <div class="portlet-head"><?= $this->getHtml('Imports'); ?><i class="fa fa-download floatRight download btn"></i></div>
-            <table id="importList" class="default">
+            <table id="importList" class="default sticky">
                 <thead>
                 <tr>
                     <td class="wf-100"><?= $this->getHtml('Title'); ?>
