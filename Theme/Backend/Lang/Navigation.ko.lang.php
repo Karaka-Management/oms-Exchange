@@ -13,8 +13,8 @@
 declare(strict_types=1);
 
 return ['Navigation' => [
-    'Dashboard' => 'Dashboard',
-    'Exchange'  => 'Exchange',
-    'Export'    => 'Export',
-    'Import'    => 'Import',
+    'Dashboard' => '',
+    'Exchange'  => '',
+    'Export'    => '',
+    'Import'    => '',
 ]];

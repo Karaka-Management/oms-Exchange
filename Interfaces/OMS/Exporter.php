@@ -117,9 +117,13 @@ final class Exporter extends ExporterAbstract
                 continue;
             }
 
+            $module = \trim($module, '/');
+
             $themes = \scandir($themePath);
             foreach ($themes as $theme) {
+                $theme    = \trim($theme, '/');
                 $langPath = $themePath . $theme . '/Lang/';
+
                 if (!\is_dir($themePath . $theme) || $theme === '.' || $theme === '..'
                     || !\is_dir($langPath)
                 ) {
@@ -152,11 +156,11 @@ final class Exporter extends ExporterAbstract
 
                         if ($len === 3) {
                             foreach ($array as $key => $value) {
-                                $languageArray[\trim($module, '/')][\trim($theme, '/')][''][$key][$components[0]] = $value;
+                                $languageArray[$module][$theme][''][$key][$components[0]] = $value;
                             }
                         } elseif ($len === 4) {
                             foreach ($array as $key => $value) {
-                                $languageArray[\trim($module, '/')][\trim($theme, '/')][$components[0]][$key][$components[1]] = $value;
+                                $languageArray[$module][$theme][$components[0]][$key][$components[1]] = $value;
                             }
                         }
                     }
@@ -170,6 +174,8 @@ final class Exporter extends ExporterAbstract
                     continue;
                 }
 
+                $theme = \trim($theme, '/');
+
                 $iterator = new \RecursiveIteratorIterator(
                     new \RecursiveDirectoryIterator($themePath . $theme . '/', \RecursiveDirectoryIterator::SKIP_DOTS),
                     \RecursiveIteratorIterator::SELF_FIRST
@@ -182,12 +188,12 @@ final class Exporter extends ExporterAbstract
 
                     $template = \file_get_contents($item->getPathname());
                     $keys     = [];
-                    \preg_match_all('/(\$this\->getHtml\(\')([a-zA-Z:]+)(\'\))/', $template, $keys, \PREG_PATTERN_ORDER);
+                    \preg_match_all('/(\$this\->getHtml\(\')([0-9a-zA-Z:]+)(\'\))/', $template, $keys, \PREG_PATTERN_ORDER);
 
                     foreach ($keys[2] ?? [] as $key) {
-                        $tplKeys[\trim($module, '/')][\trim($theme, '/')][''][$key]['en'] = '';
-                        if (!isset($languageArray[''][\trim($module, '/')][\trim($theme, '/')][$key])) {
-                            $languageArray[\trim($module, '/')][\trim($theme, '/')][''][$key]['en'] = '';
+                        if (!isset($languageArray[''][$module][$theme][$key])) {
+                            $tplKeys[$module][$theme][''][$key]['en']       = '';
+                            $languageArray[$module][$theme][''][$key]['en'] = '';
                         }
                     }
                 }
@@ -202,7 +208,7 @@ final class Exporter extends ExporterAbstract
                 foreach ($files as $file => $keys) {
                     foreach ($keys as $key => $value) {
                         $content .= "\n\"" . $module . '";"' . $theme . '";"' . $file . '";"';
-                        $content .= (!isset($tplKeys[$module][$theme]['']) ? '*' : '') . $key . '"';
+                        $content .= ($file === '' && isset($tplKeys[$module][$theme][''][$key]) ? '*' : '') . $key . '"';
 
                         foreach ($supportedLanguages as $language) {
                             $content .= ';"' . ($value[$language] ?? '') . '"';
