@@ -234,7 +234,7 @@ final class ApiController extends Controller
         Directory::delete(__DIR__ . '/../tmp/');
 
         $upload = new UploadFile();
-        $upload->setOutputDir(__DIR__ . '/../tmp/');
+        $upload->outputDir = __DIR__ . '/../tmp/';
 
         $upload->upload($request->getFiles());
     }
