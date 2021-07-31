@@ -67,9 +67,7 @@ class ExchangeLog implements \JsonSerializable, ArrayableInterface
      * @var int
      * @since 1.0.0
      */
-    public int |
-
-InterfaceManager $exchange = 0;
+    public int|InterfaceManager $exchange = 0;
 
     /**
      * Date type.
@@ -79,9 +77,13 @@ InterfaceManager $exchange = 0;
      */
     public \DateTimeImmutable $createdAt;
 
-    public int |
-
-Account $createdBy = 0;
+    /**
+     * Created by account.
+     *
+     * @var int|Account
+     * @since 1.0.0
+     */
+    public int|Account $createdBy = 0;
 
     /**
      * Constructor.
