@@ -48,6 +48,19 @@ final class Exporter extends ExporterAbstract
     private int $account = 1;
 
     /**
+     * Constructor
+     *
+     * @param ConnectionAbstract $local Database connection
+     *
+     * @since 1.0.0
+     */
+    public function __construct(ConnectionAbstract $local)
+    {
+        $this->local = $local;
+        $this->app->l11nManager->loadLanguageFile('Exchange', __DIR__ . '/Lang/lang.php');
+    }
+
+    /**
      * Export all data in time span
      *
      * @param \DateTime $start Start time (inclusive)
@@ -84,7 +97,7 @@ final class Exporter extends ExporterAbstract
             $log            = new ExchangeLog();
             $log->createdBy = $this->account;
             $log->setType(ExchangeType::EXPORT);
-            $log->message  = 'Language file exported.'; // @todo: localize!
+            $log->message  = $this->app->l11nManager->getText($request->header->l11n->getLanguage(), 'Exchange', '', 'LangFileExported');
             $log->subtype  = 'language';
             $log->exchange = (int) $request->getData('id');
 

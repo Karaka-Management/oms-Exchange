@@ -51,6 +51,19 @@ final class Importer extends ImporterAbstract
     private int $account = 1;
 
     /**
+     * Constructor
+     *
+     * @param ConnectionAbstract $local Database connection
+     *
+     * @since 1.0.0
+     */
+    public function __construct(ConnectionAbstract $local)
+    {
+        $this->local = $local;
+        $this->app->l11nManager->loadLanguageFile('Exchange', __DIR__ . '/Lang/lang.php');
+    }
+
+    /**
      * Import all data in time span
      *
      * @param \DateTime $start Start time (inclusive)
@@ -106,7 +119,7 @@ final class Importer extends ImporterAbstract
             $log            = new ExchangeLog();
             $log->createdBy = $this->account;
             $log->setType(ExchangeType::IMPORT);
-            $log->message  = 'Language file imported.'; // @todo: localize!
+            $log->message  = $this->app->l11nManager->getText($request->header->l11n->getLanguage(), 'Exchange', '', 'LangFileImported');
             $log->subtype  = 'language';
             $log->exchange = (int) $request->getData('id');
 
