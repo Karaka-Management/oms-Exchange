@@ -23,7 +23,7 @@ return [
             'dest'       => '\Modules\Exchange\Controller\BackendController:viewExchangeImportList',
             'verb'       => RouteVerb::GET,
             'permission' => [
-                'module' => BackendController::MODULE_NAME,
+                'module' => BackendController::NAME,
                 'type'   => PermissionType::READ,
                 'state'  => PermissionState::IMPORT,
             ],
@@ -34,7 +34,7 @@ return [
             'dest'       => '\Modules\Exchange\Controller\BackendController:viewExchangeExportList',
             'verb'       => RouteVerb::GET,
             'permission' => [
-                'module' => BackendController::MODULE_NAME,
+                'module' => BackendController::NAME,
                 'type'   => PermissionType::READ,
                 'state'  => PermissionState::EXPORT,
             ],
@@ -45,7 +45,7 @@ return [
             'dest'       => '\Modules\Exchange\Controller\BackendController:viewExchangeImport',
             'verb'       => RouteVerb::GET,
             'permission' => [
-                'module' => BackendController::MODULE_NAME,
+                'module' => BackendController::NAME,
                 'type'   => PermissionType::READ,
                 'state'  => PermissionState::IMPORT,
             ],
@@ -56,7 +56,7 @@ return [
             'dest'       => '\Modules\Exchange\Controller\BackendController:viewExchangeExport',
             'verb'       => RouteVerb::GET,
             'permission' => [
-                'module' => BackendController::MODULE_NAME,
+                'module' => BackendController::NAME,
                 'type'   => PermissionType::READ,
                 'state'  => PermissionState::EXPORT,
             ],
@@ -67,7 +67,7 @@ return [
             'dest'       => '\Modules\Exchange\Controller\BackendController:viewExchangeLogList',
             'verb'       => RouteVerb::GET,
             'permission' => [
-                'module' => BackendController::MODULE_NAME,
+                'module' => BackendController::NAME,
                 'type'   => PermissionType::READ,
                 'state'  => PermissionState::DASHBOARD,
             ],
@@ -78,7 +78,7 @@ return [
             'dest'       => '\Modules\Exchange\Controller\BackendController:viewExchangeLog',
             'verb'       => RouteVerb::GET,
             'permission' => [
-                'module' => BackendController::MODULE_NAME,
+                'module' => BackendController::NAME,
                 'type'   => PermissionType::READ,
                 'state'  => PermissionState::DASHBOARD,
             ],

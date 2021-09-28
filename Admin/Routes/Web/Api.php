@@ -23,7 +23,7 @@ return [
             'dest'       => '\Modules\Exchange\Controller\ApiController:apiExchangeImport',
             'verb'       => RouteVerb::SET,
             'permission' => [
-                'module' => ApiController::MODULE_NAME,
+                'module' => ApiController::NAME,
                 'type'   => PermissionType::CREATE,
                 'state'  => PermissionState::IMPORT,
             ],
@@ -34,7 +34,7 @@ return [
             'dest'       => '\Modules\Exchange\Controller\ApiController:apiExchangeExport',
             'verb'       => RouteVerb::SET,
             'permission' => [
-                'module' => ApiController::MODULE_NAME,
+                'module' => ApiController::NAME,
                 'type'   => PermissionType::CREATE,
                 'state'  => PermissionState::EXPORT,
             ],
