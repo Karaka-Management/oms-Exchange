@@ -36,8 +36,8 @@ final class Importer extends ImporterAbstract
      *
      * @since 1.0.0
      */
-    public function importFromRequest(RequestAbstract $request) : bool
+    public function importFromRequest(RequestAbstract $request) : array
     {
-        return true;
+        return [];
     }
 }

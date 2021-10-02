@@ -122,7 +122,7 @@ final class Importer extends ImporterAbstract
      *
      * @since 1.0.0
      */
-    public function importFromRequest(RequestAbstract $request) : bool
+    public function importFromRequest(RequestAbstract $request) : array
     {
         $start = new \DateTime($request->getData('start') ?? 'now');
         $end   = new \DateTime($request->getData('end') ?? 'now');
@@ -173,7 +173,7 @@ final class Importer extends ImporterAbstract
             $this->importInvoice($start, $end);
         }
 
-        return true;
+        return [];
     }
 
     /**
