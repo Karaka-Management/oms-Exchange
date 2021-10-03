@@ -121,6 +121,11 @@ final class Exporter extends ExporterAbstract
 
         $basePath = __DIR__ . '/../../../';
         $modules  = \scandir($basePath);
+
+        if ($modules === false) {
+            return [];
+        }
+
         foreach ($modules as $module) {
             $themePath = $basePath . $module . '/Theme/';
 
@@ -131,8 +136,12 @@ final class Exporter extends ExporterAbstract
             }
 
             $module = \trim($module, '/');
-
             $themes = \scandir($themePath);
+
+            if ($themes === false) {
+               continue; // @codeCoverageIgnore
+            }
+
             foreach ($themes as $theme) {
                 $theme    = \trim($theme, '/');
                 $langPath = $themePath . $theme . '/Lang/';
@@ -144,6 +153,10 @@ final class Exporter extends ExporterAbstract
                 }
 
                 $languages = \scandir($themePath . $theme . '/Lang/');
+                if ($languages === false) {
+                    continue; // @codeCoverageIgnore
+                }
+
                 foreach ($languages as $language) {
                     if (\stripos($language, '.lang.') === false || $language === '.' || $language === '..') {
                         continue;

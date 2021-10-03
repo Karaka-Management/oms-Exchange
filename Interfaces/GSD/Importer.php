@@ -118,7 +118,7 @@ final class Importer extends ImporterAbstract
      *
      * @param RequestAbstract $request Request
      *
-     * @return bool
+     * @return array
      *
      * @since 1.0.0
      */
@@ -142,7 +142,7 @@ final class Importer extends ImporterAbstract
         $this->account = $request->header->account;
 
         if ($this->remote->getStatus() !== DatabaseStatus::OK) {
-            return false;
+            return [];
         }
 
         if (((bool) ($request->getData('customers') ?? false))) {

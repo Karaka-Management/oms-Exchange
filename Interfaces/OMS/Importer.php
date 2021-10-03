@@ -140,7 +140,11 @@ final class Importer extends ImporterAbstract
     {
         $upload = ApiController::uploadFilesToDestination($request->getFiles());
 
-        $fp     = \fopen($upload['file0']['path'] . '/' . $upload['file0']['filename'], 'r');
+        $fp = \fopen($upload['file0']['path'] . '/' . $upload['file0']['filename'], 'r');
+        if ($fp === false) {
+            return;
+        }
+
         $header = \fgetcsv($fp, 0, ';', '"');
 
         $languageArray      = [];
