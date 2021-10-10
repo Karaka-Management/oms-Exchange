@@ -17,6 +17,7 @@ namespace Modules\Exchange\Interfaces\OMS;
 use Modules\Exchange\Models\ExchangeLog;
 use Modules\Exchange\Models\ExchangeType;
 use Modules\Exchange\Models\ExporterAbstract;
+use phpOMS\Localization\L11nManager;
 use phpOMS\DataStorage\Database\Connection\ConnectionAbstract;
 use phpOMS\Message\RequestAbstract;
 use phpOMS\Utils\StringUtils;
@@ -32,14 +33,6 @@ use phpOMS\Utils\StringUtils;
 final class Exporter extends ExporterAbstract
 {
     /**
-     * Database connection.
-     *
-     * @var ConnectionAbstract
-     * @since 1.0.0
-     */
-    private ConnectionAbstract $remote;
-
-    /**
      * Account
      *
      * @var int
@@ -48,16 +41,12 @@ final class Exporter extends ExporterAbstract
     private int $account = 1;
 
     /**
-     * Constructor
-     *
-     * @param ConnectionAbstract $local Database connection
-     *
-     * @since 1.0.0
+     * {@inheritdoc}
      */
-    public function __construct(ConnectionAbstract $local)
+    public function __construct(ConnectionAbstract $local, L11nManager $l11n)
     {
-        $this->local = $local;
-        $this->app->l11nManager->loadLanguageFile('Exchange', __DIR__ . '/Lang/lang.php');
+        parent::__construct($local, $l11n);
+        $this->l11n->loadLanguageFile('Exchange', __DIR__ . '/Lang/lang.php');
     }
 
     /**
@@ -72,7 +61,7 @@ final class Exporter extends ExporterAbstract
      */
     public function export(\DateTime $start, \DateTime $end) : void
     {
-        $this->exportLanguage($start, $end);
+        $this->exportLanguage();
     }
 
     /**
@@ -91,13 +80,15 @@ final class Exporter extends ExporterAbstract
 
         $this->account = $request->header->account;
 
+        $result = [];
+
         if ($request->getData('type') === 'language') {
             $result = $this->exportLanguage();
 
             $log            = new ExchangeLog();
             $log->createdBy = $this->account;
             $log->setType(ExchangeType::EXPORT);
-            $log->message  = $this->app->l11nManager->getText($request->header->l11n->getLanguage(), 'Exchange', '', 'LangFileExported');
+            $log->message  = $this->l11n->getText($request->header->l11n->getLanguage(), 'Exchange', '', 'LangFileExported');
             $log->subtype  = 'language';
             $log->exchange = (int) $request->getData('id');
 
@@ -214,6 +205,11 @@ final class Exporter extends ExporterAbstract
 
                     $template = \file_get_contents($item->getPathname());
                     $keys     = [];
+
+                    if ($template === false) {
+                        continue; // @codeCoverageIgnore
+                    }
+
                     \preg_match_all('/(\$this\->getHtml\(\')([0-9a-zA-Z:]+)(\'\))/', $template, $keys, \PREG_PATTERN_ORDER);
 
                     foreach ($keys[2] ?? [] as $key) {

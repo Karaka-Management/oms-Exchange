@@ -75,14 +75,6 @@ use phpOMS\Utils\IO\Zip\Zip;
 final class Importer extends ImporterAbstract
 {
     /**
-     * Database connection.
-     *
-     * @var ConnectionAbstract
-     * @since 1.0.0
-     */
-    private ConnectionAbstract $remote;
-
-    /**
      * Account
      *
      * @var int
@@ -465,7 +457,7 @@ final class Importer extends ImporterAbstract
 
                 $media[$number]       = new Media();
                 $media[$number]->name = (string) $number;
-                $media[$number]->type = 'backend_image';
+                $media[$number]->type = null;
                 $media[$number]->setPath('/Modules/Media/Files/Modules/ItemManagement/Articles/Images/' . $image);
                 $media[$number]->setVirtualPath('/Modules/ItemManagement/Articles/Images');
                 $media[$number]->extension = \explode('.', $image)[1];

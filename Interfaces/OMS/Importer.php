@@ -16,6 +16,7 @@ namespace Modules\Exchange\Interfaces\OMS;
 
 use Modules\Exchange\Models\ExchangeLog;
 use Modules\Exchange\Models\ExchangeType;
+use phpOMS\Localization\L11nManager;
 use Modules\Exchange\Models\ImporterAbstract;
 use Modules\Media\Controller\ApiController;
 use phpOMS\DataStorage\Database\Connection\ConnectionAbstract;
@@ -35,14 +36,6 @@ use phpOMS\Message\RequestAbstract;
 final class Importer extends ImporterAbstract
 {
     /**
-     * Database connection.
-     *
-     * @var ConnectionAbstract
-     * @since 1.0.0
-     */
-    private ConnectionAbstract $remote;
-
-    /**
      * Account
      *
      * @var int
@@ -51,16 +44,12 @@ final class Importer extends ImporterAbstract
     private int $account = 1;
 
     /**
-     * Constructor
-     *
-     * @param ConnectionAbstract $local Database connection
-     *
-     * @since 1.0.0
+     * {@inheritdoc}
      */
-    public function __construct(ConnectionAbstract $local)
+    public function __construct(ConnectionAbstract $local, ConnectionAbstract $remote, L11nManager $l11n)
     {
-        $this->local = $local;
-        $this->app->l11nManager->loadLanguageFile('Exchange', __DIR__ . '/Lang/lang.php');
+        parent::__construct($local, $remote, $l11n);
+        $this->l11n->loadLanguageFile('Exchange', __DIR__ . '/Lang/lang.php');
     }
 
     /**
@@ -119,7 +108,7 @@ final class Importer extends ImporterAbstract
             $log            = new ExchangeLog();
             $log->createdBy = $this->account;
             $log->setType(ExchangeType::IMPORT);
-            $log->message  = $this->app->l11nManager->getText($request->header->l11n->getLanguage(), 'Exchange', '', 'LangFileImported');
+            $log->message  = $this->l11n->getText($request->header->l11n->getLanguage(), 'Exchange', '', 'LangFileImported');
             $log->subtype  = 'language';
             $log->exchange = (int) $request->getData('id');
 
@@ -146,6 +135,10 @@ final class Importer extends ImporterAbstract
         }
 
         $header = \fgetcsv($fp, 0, ';', '"');
+
+        if ($header === false) {
+            return; // @codeCoverageIgnore
+        }
 
         $languageArray      = [];
         $supportedLanguages = \array_slice($header, 4);

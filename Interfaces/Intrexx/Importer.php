@@ -32,7 +32,7 @@ final class Importer extends ImporterAbstract
      *
      * @param RequestAbstract $request Request
      *
-     * @return bool
+     * @return array
      *
      * @since 1.0.0
      */
