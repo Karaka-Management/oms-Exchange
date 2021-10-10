@@ -17,8 +17,8 @@ namespace Modules\Exchange\Interfaces\OMS;
 use Modules\Exchange\Models\ExchangeLog;
 use Modules\Exchange\Models\ExchangeType;
 use Modules\Exchange\Models\ExporterAbstract;
-use phpOMS\Localization\L11nManager;
 use phpOMS\DataStorage\Database\Connection\ConnectionAbstract;
+use phpOMS\Localization\L11nManager;
 use phpOMS\Message\RequestAbstract;
 use phpOMS\Utils\StringUtils;
 

@@ -16,12 +16,12 @@ namespace Modules\Exchange\Interfaces\OMS;
 
 use Modules\Exchange\Models\ExchangeLog;
 use Modules\Exchange\Models\ExchangeType;
-use phpOMS\Localization\L11nManager;
 use Modules\Exchange\Models\ImporterAbstract;
 use Modules\Media\Controller\ApiController;
 use phpOMS\DataStorage\Database\Connection\ConnectionAbstract;
 use phpOMS\DataStorage\Database\Connection\ConnectionFactory;
 use phpOMS\DataStorage\Database\DatabaseStatus;
+use phpOMS\Localization\L11nManager;
 use phpOMS\Message\Http\HttpRequest;
 use phpOMS\Message\RequestAbstract;
 

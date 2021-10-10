@@ -63,9 +63,9 @@ abstract class ImporterAbstract
      */
     public function __construct(ConnectionAbstract $local, ConnectionAbstract $remote, L11nManager $l11n)
     {
-        $this->local = $local;
+        $this->local  = $local;
         $this->remote = $remote;
-        $this->l11n  = $l11n;
+        $this->l11n   = $l11n;
     }
 
     /**
