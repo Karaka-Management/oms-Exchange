@@ -130,7 +130,7 @@ final class Exporter extends ExporterAbstract
             $themes = \scandir($themePath);
 
             if ($themes === false) {
-               continue; // @codeCoverageIgnore
+                continue; // @codeCoverageIgnore
             }
 
             foreach ($themes as $theme) {
