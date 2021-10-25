@@ -55,13 +55,13 @@ final class Exporter extends ExporterAbstract
      * @param \DateTime $start Start time (inclusive)
      * @param \DateTime $end   End time (inclusive)
      *
-     * @return void
+     * @return array
      *
      * @since 1.0.0
      */
-    public function export(\DateTime $start, \DateTime $end) : void
+    public function export(\DateTime $start, \DateTime $end) : array
     {
-        $this->exportLanguage();
+        return $this->exportLanguage();
     }
 
     /**

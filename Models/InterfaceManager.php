@@ -98,7 +98,7 @@ class InterfaceManager
      */
     public function getInterfacePath() : string
     {
-        return $this->info['path'];
+        return $this->info['path'] ?? '';
     }
 
     /**
@@ -110,7 +110,7 @@ class InterfaceManager
      */
     public function getName() : string
     {
-        return $this->info['name'];
+        return $this->info['name'] ?? '';
     }
 
     /**
@@ -122,7 +122,7 @@ class InterfaceManager
      */
     public function hasImport() : bool
     {
-        return $this->info['import'];
+        return $this->info['import'] ?? false;
     }
 
     /**
@@ -134,7 +134,7 @@ class InterfaceManager
      */
     public function hasExport() : bool
     {
-        return $this->info['export'];
+        return $this->info['export'] ?? false;
     }
 
     /**
@@ -187,13 +187,13 @@ class InterfaceManager
      *
      * @since 1.0.0
      */
-    public function set(string $path, $data, string $delim = '/') : void
+    public function set(string $path, mixed $data, string $delim = '/') : void
     {
         if (!\is_scalar($data) && !\is_array($data) && !($data instanceof \JsonSerializable)) {
             throw new \InvalidArgumentException('Type of $data "' . \gettype($data) . '" is not supported.');
         }
 
-        ArrayUtils::setArray($path, $this->info, $data, $delim, true);
+        $this->info = ArrayUtils::setArray($path, $this->info, $data, $delim, true);
     }
 
     /**

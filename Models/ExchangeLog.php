@@ -46,6 +46,8 @@ class ExchangeLog implements \JsonSerializable, ArrayableInterface
     /**
      * Fields.
      *
+     * What where the values used in the exchange form to reproduce this output (exchange specific)?
+     *
      * @var array
      * @since 1.0.0
      */
@@ -59,6 +61,12 @@ class ExchangeLog implements \JsonSerializable, ArrayableInterface
      */
     private int $type = ExchangeType::IMPORT;
 
+    /**
+     * Exchange specific subtype.
+     *
+     * @var string
+     * @since 1.0.0
+     */
     public string $subtype = '';
 
     /**
@@ -134,30 +142,6 @@ class ExchangeLog implements \JsonSerializable, ArrayableInterface
     }
 
     /**
-     * @return string
-     *
-     * @since 1.0.0
-     */
-    public function getMessage() : string
-    {
-        return $this->message;
-    }
-
-    /**
-     * Set message
-     *
-     * @param string $message Log message
-     *
-     * @return void
-     *
-     * @since 1.0.0
-     */
-    public function setMessage(string $message) : void
-    {
-        $this->message = $message;
-    }
-
-    /**
      * Get fields.
      *
      * @return array
@@ -193,7 +177,7 @@ class ExchangeLog implements \JsonSerializable, ArrayableInterface
             'message'  => $this->message,
             'type'     => $this->type,
             'fields'   => $this->fields,
-            'datetime' => $this->createdAt,
+            'createdAt' => $this->createdAt,
         ];
     }
 
