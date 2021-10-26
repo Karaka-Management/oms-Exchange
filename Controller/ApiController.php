@@ -26,6 +26,9 @@ use phpOMS\Message\ResponseAbstract;
 use phpOMS\Model\Message\FormValidation;
 use phpOMS\System\File\Local\Directory;
 use phpOMS\System\MimeType;
+use phpOMS\Autoloader;
+use phpOMS\Localization\L11nManager;
+use phpOMS\DataStorage\Database\Connection\NullConnection;
 
 /**
  * Exchange controller class.
@@ -85,8 +88,14 @@ final class ApiController extends Controller
     {
         /** @var \Modules\Exchange\Models\InterfaceManager $interface */
         $interface = InterfaceManagerMapper::get($request->getData('id'));
-        $class     = '\\Modules\\Exchange\\Interfaces\\' . $interface->getInterfacePath() . '\\Importer';
-        $importer  = new $class($this->app->dbPool->get());
+        $dirname   = \basename(\dirname($interface->getPath()));
+
+        if (!Autoloader::exists($class = '\\Modules\\Exchange\\Interfaces\\' . $dirname . '\\Importer')) {
+            return [];
+        }
+
+        // @todo: implement real remote connection if available
+        $importer = new $class($this->app->dbPool->get(), new NullConnection(), new L11nManager($this->app->appName));
 
         return $importer->importFromRequest($request);
     }
@@ -135,7 +144,7 @@ final class ApiController extends Controller
         }
 
         $interface = new InterfaceManager(
-            __DIR__ . '/../Interfaces/' . $request->getData('interface') . '/interface.json'
+            \realpath(__DIR__ . '/../Interfaces/' . $request->getData('interface') . '/interface.json')
         );
         $interface->load();
 
@@ -160,11 +169,27 @@ final class ApiController extends Controller
     public function apiExchangeExport(RequestAbstract $request, HttpResponse $response, $data = null) : void
     {
         $export = $this->exportDataFromRequest($request);
-        foreach ($export['logs'] as $log) {
-            $this->createModel($request->header->account, $log, ExchangeLogMapper::class, 'export', $request->getOrigin());
+
+        if (!isset($export['type'], $export['logs'])) {
+            $response->header->status = RequestStatusCode::R_400;
+
+            $status  = NotificationLevel::ERROR;
+            $message = 'Export failed.';
+
+            $response->set($request->uri->__toString(), [
+                'status'  => $status,
+                'title'   => 'Exchange',
+                'message' => $message,
+            ]);
+
+            return;
         }
 
         if ($export['type'] === 'file') {
+            foreach ($export['logs'] as $log) {
+                $this->createModel($request->header->account, $log, ExchangeLogMapper::class, 'export', $request->getOrigin());
+            }
+
             $file = \explode('.', $export['name']);
 
             $response->header->setDownloadable($file[0], $file[1]);
@@ -179,21 +204,7 @@ final class ApiController extends Controller
                     break;
             }
 
-            $response->set('export', $export['content']);
-        } else {
-            $status  = NotificationLevel::ERROR;
-            $message = 'Export failed.';
-
-            if ($export['status']) {
-                $status  = NotificationLevel::OK;
-                $message = 'Export succeeded.';
-            }
-
-            $response->set($request->uri->__toString(), [
-                'status'  => $status,
-                'title'   => 'Exchange',
-                'message' => $message,
-            ]);
+            $response->set($request->uri->__toString(), $export['content']);
         }
     }
 
@@ -210,8 +221,13 @@ final class ApiController extends Controller
     {
         /** @var \Modules\Exchange\Models\InterfaceManager $interface */
         $interface = InterfaceManagerMapper::get($request->getData('id'));
-        $class     = '\\Modules\\Exchange\\Interfaces\\' . $interface->getInterfacePath() . '\\Exporter';
-        $exporter  = new $class($this->app->dbPool->get());
+        $dirname   = \basename(\dirname($interface->getPath()));
+
+        if (!Autoloader::exists($class = '\\Modules\\Exchange\\Interfaces\\' . $dirname . '\\Exporter')) {
+            return [];
+        }
+
+        $exporter = new $class($this->app->dbPool->get(), new L11nManager($this->app->appName));
 
         return $exporter->exportFromRequest($request);
     }

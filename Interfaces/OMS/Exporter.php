@@ -114,7 +114,7 @@ final class Exporter extends ExporterAbstract
         $modules  = \scandir($basePath);
 
         if ($modules === false) {
-            return [];
+            return []; // @codeCoverageIgnore
         }
 
         foreach ($modules as $module) {
@@ -168,7 +168,7 @@ final class Exporter extends ExporterAbstract
                         $array = \reset($array);
 
                         if ($array === false) {
-                            continue;
+                            continue; // @codeCoverageIgnore
                         }
 
                         if ($len === 3) {

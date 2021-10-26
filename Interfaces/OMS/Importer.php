@@ -131,7 +131,7 @@ final class Importer extends ImporterAbstract
 
         $fp = \fopen($upload['file0']['path'] . '/' . $upload['file0']['filename'], 'r');
         if ($fp === false) {
-            return;
+            return; // @codeCoverageIgnore
         }
 
         $header = \fgetcsv($fp, 0, ';', '"');
@@ -158,7 +158,7 @@ final class Importer extends ImporterAbstract
 
             foreach ($supportedLanguages as $index => $language) {
                 if (empty(\trim($language))) {
-                    continue;
+                    continue; // @codeCoverageIgnore
                 }
 
                 $languageArray[$line[0]][$line[1]][$line[2]][$line[3]][\trim($language)] = $translations[$index];
@@ -185,7 +185,7 @@ final class Importer extends ImporterAbstract
 
                         $fp = \fopen($langFile, 'w+');
                         if ($fp === false) {
-                            continue;
+                            continue; // @codeCoverageIgnore
                         }
 
                         \fwrite($fp,

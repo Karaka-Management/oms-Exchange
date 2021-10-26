@@ -19,6 +19,7 @@ use phpOMS\Localization\L11nManager;
 use phpOMS\DataStorage\Database\Connection\NullConnection;
 use phpOMS\Uri\HttpUri;
 use phpOMS\Message\Http\HttpRequest;
+use phpOMS\Utils\TestUtils;
 
 /**
  * @internal
@@ -47,7 +48,7 @@ final class ImporterTest extends \PHPUnit\Framework\TestCase
         $request->setData('id', '123');
         $request->setData('type', 'language');
 
-        if (!\is_file()) {
+        if (!\is_file(__DIR__ . '/test_tmp.csv')) {
             \copy(__DIR__ . '/test.csv', __DIR__ . '/test_tmp.csv');
         }
 
