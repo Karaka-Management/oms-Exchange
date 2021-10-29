@@ -15,10 +15,10 @@ declare(strict_types=1);
 namespace Modules\Exchange\tests\Interfacs\OMS;
 
 use Modules\Exchange\Interfaces\OMS\Importer;
-use phpOMS\Localization\L11nManager;
 use phpOMS\DataStorage\Database\Connection\NullConnection;
-use phpOMS\Uri\HttpUri;
+use phpOMS\Localization\L11nManager;
 use phpOMS\Message\Http\HttpRequest;
+use phpOMS\Uri\HttpUri;
 use phpOMS\Utils\TestUtils;
 
 /**

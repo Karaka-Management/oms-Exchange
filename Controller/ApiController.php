@@ -18,6 +18,9 @@ use Modules\Exchange\Models\ExchangeLogMapper;
 use Modules\Exchange\Models\InterfaceManager;
 use Modules\Exchange\Models\InterfaceManagerMapper;
 use Modules\Media\Models\UploadFile;
+use phpOMS\Autoloader;
+use phpOMS\DataStorage\Database\Connection\NullConnection;
+use phpOMS\Localization\L11nManager;
 use phpOMS\Message\Http\HttpResponse;
 use phpOMS\Message\Http\RequestStatusCode;
 use phpOMS\Message\NotificationLevel;
@@ -26,9 +29,6 @@ use phpOMS\Message\ResponseAbstract;
 use phpOMS\Model\Message\FormValidation;
 use phpOMS\System\File\Local\Directory;
 use phpOMS\System\MimeType;
-use phpOMS\Autoloader;
-use phpOMS\Localization\L11nManager;
-use phpOMS\DataStorage\Database\Connection\NullConnection;
 
 /**
  * Exchange controller class.

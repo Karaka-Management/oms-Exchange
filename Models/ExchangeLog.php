@@ -173,10 +173,10 @@ class ExchangeLog implements \JsonSerializable, ArrayableInterface
     public function toArray() : array
     {
         return [
-            'id'       => $this->id,
-            'message'  => $this->message,
-            'type'     => $this->type,
-            'fields'   => $this->fields,
+            'id'        => $this->id,
+            'message'   => $this->message,
+            'type'      => $this->type,
+            'fields'    => $this->fields,
             'createdAt' => $this->createdAt,
         ];
     }

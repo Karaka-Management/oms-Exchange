@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace Modules\Exchange\tests\Models;
 
 use Modules\Exchange\Models\InterfaceManager;
-use Modules\Exchange\Models\ExchangeType;
 
 /**
  * @internal

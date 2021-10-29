@@ -15,11 +15,11 @@ declare(strict_types=1);
 namespace Modules\Exchange\tests\Models;
 
 use Modules\Exchange\Models\ExporterAbstract;
-use phpOMS\Message\RequestAbstract;
-use phpOMS\Message\Http\HttpRequest;
 use phpOMS\DataStorage\Database\Connection\SQLiteConnection;
-use phpOMS\Uri\HttpUri;
 use phpOMS\Localization\L11nManager;
+use phpOMS\Message\Http\HttpRequest;
+use phpOMS\Message\RequestAbstract;
+use phpOMS\Uri\HttpUri;
 
 /**
  * @internal

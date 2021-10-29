@@ -64,7 +64,7 @@ final class ExchangeLogTest extends \PHPUnit\Framework\TestCase
     public function testFieldsInputOutput() : void
     {
         $this->log->setFields($fields = [
-            'name' => 'test',
+            'name'  => 'test',
             'start' => 'now',
         ]);
         self::assertEquals($fields, $this->log->getFields());
@@ -84,10 +84,10 @@ final class ExchangeLogTest extends \PHPUnit\Framework\TestCase
 
         self::assertEquals(
             [
-                'id'    => 0,
+                'id'      => 0,
                 'message' => '123456',
-                'type' => ExchangeType::EXPORT,
-                'fields' => [],
+                'type'    => ExchangeType::EXPORT,
+                'fields'  => [],
             ],
             $serialized
         );

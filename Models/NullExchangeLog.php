@@ -24,7 +24,7 @@ namespace Modules\Exchange\Models;
  */
 final class NullExchangeLog extends ExchangeLog
 {
-	/**
+    /**
      * Constructor
      *
      * @param int $id Model id

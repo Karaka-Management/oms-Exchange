@@ -24,7 +24,7 @@ namespace Modules\Exchange\Models;
  */
 final class NullInterfaceManager extends InterfaceManager
 {
-	/**
+    /**
      * Constructor
      *
      * @param int $id Model id
