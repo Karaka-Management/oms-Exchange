@@ -56,7 +56,7 @@ use Modules\SupplierManagement\Models\Supplier;
 use Modules\SupplierManagement\Models\SupplierMapper;
 use phpOMS\DataStorage\Database\Connection\ConnectionFactory;
 use phpOMS\DataStorage\Database\DatabaseStatus;
-use phpOMS\DataStorage\Database\DataMapperAbstract;
+use phpOMS\DataStorage\Database\Mapper\DataMapperFactory;
 use phpOMS\Localization\ISO3166TwoEnum;
 use phpOMS\Localization\ISO639x1Enum;
 use phpOMS\Message\RequestAbstract;
@@ -181,7 +181,7 @@ final class Importer extends ImporterAbstract
      */
     public function importCostCenter(\DateTime $start, \DateTime $end) : void
     {
-        DataMapperAbstract::setConnection($this->remote);
+        DataMapperFactory::db($this->remote);
         $query = GSDCostCenterMapper::getQuery();
         $query->where('FiKostenstellen_3.row_create_time', '>=', $start)
             ->andWhere('FiKostenstellen_3.row_create_time', '<=', $end);
@@ -189,14 +189,14 @@ final class Importer extends ImporterAbstract
         /** @var GSDCostCenter[] $costCenters */
         $costCenters = GSDCostCenterMapper::getAllByQuery($query);
 
-        DataMapperAbstract::setConnection($this->local);
+        DataMapperFactory::db($this->local);
 
         foreach ($costCenters as $cc) {
             $obj             = new CostCenter();
             $obj->code       = $cc->getCostCenter();
             $obj->l11n->name = \trim($cc->description, " ,\t");
 
-            CostCenterMapper::create($obj);
+            CostCenterMapper::create()->execute($obj);
         }
     }
 
@@ -212,7 +212,7 @@ final class Importer extends ImporterAbstract
      */
     public function importCostObject(\DateTime $start, \DateTime $end) : void
     {
-        DataMapperAbstract::setConnection($this->remote);
+        DataMapperFactory::db($this->remote);
         $query = GSDCostObjectMapper::getQuery();
         $query->where('FiKostentraeger_3.row_create_time', '>=', $start)
             ->andWhere('FiKostentraeger_3.row_create_time', '<=', $end);
@@ -220,14 +220,14 @@ final class Importer extends ImporterAbstract
         /** @var GSDCostObject[] $costObjects */
         $costObjects = GSDCostObjectMapper::getAllByQuery($query);
 
-        DataMapperAbstract::setConnection($this->local);
+        DataMapperFactory::db($this->local);
 
         foreach ($costObjects as $co) {
             $obj             = new CostObject();
             $obj->code       = $co->getCostObject();
             $obj->l11n->name = \trim($co->description, " ,\t");
 
-            CostObjectMapper::create($obj);
+            CostObjectMapper::create()->execute($obj);
         }
     }
 
@@ -243,7 +243,7 @@ final class Importer extends ImporterAbstract
      */
     public function importCustomer(\DateTime $start, \DateTime $end) : void
     {
-        DataMapperAbstract::setConnection($this->remote);
+        DataMapperFactory::db($this->remote);
         $query = GSDCustomerMapper::getQuery();
         $query->where('Kunden_3.row_create_time', '>=', $start)
             ->andWhere('Kunden_3.row_create_time', '<=', $end);
@@ -251,7 +251,7 @@ final class Importer extends ImporterAbstract
         /** @var GSDCustomer[] $customers */
         $customers = GSDCustomerMapper::getAllByQuery($query);
 
-        DataMapperAbstract::setConnection($this->local);
+        DataMapperFactory::db($this->local);
 
         foreach ($customers as $customer) {
             $account        = new Account();
@@ -306,7 +306,7 @@ final class Importer extends ImporterAbstract
                 $obj->addContactElement($email);
             }
 
-            ClientMapper::create($obj);
+            ClientMapper::create()->execute($obj);
         }
     }
 
@@ -322,7 +322,7 @@ final class Importer extends ImporterAbstract
      */
     public function importSupplier(\DateTime $start, \DateTime $end) : void
     {
-        DataMapperAbstract::setConnection($this->remote);
+        DataMapperFactory::db($this->remote);
         $query = GSDSupplierMapper::getQuery();
         $query->where('Lieferanten_3.row_create_time', '>=', $start)
             ->andWhere('Lieferanten_3.row_create_time', '<=', $end);
@@ -330,7 +330,7 @@ final class Importer extends ImporterAbstract
         /** @var GSDSupplier[] $suppliers */
         $suppliers = GSDSupplierMapper::getAllByQuery($query);
 
-        DataMapperAbstract::setConnection($this->local);
+        DataMapperFactory::db($this->local);
 
         foreach ($suppliers as $supplier) {
             $account        = new Account();
@@ -385,7 +385,7 @@ final class Importer extends ImporterAbstract
                 $obj->addContactElement($email);
             }
 
-            SupplierMapper::create($obj);
+            SupplierMapper::create()->execute($obj);
         }
     }
 
@@ -416,7 +416,7 @@ final class Importer extends ImporterAbstract
      */
     public function importArticle(\DateTime $start, \DateTime $end, array $files = []) : void
     {
-        DataMapperAbstract::setConnection($this->remote);
+        DataMapperFactory::db($this->remote);
         $query = GSDArticleMapper::getQuery();
         $query->where('Artikel_3.row_create_time', '>=', $start)
             ->andWhere('Artikel_3.row_create_time', '<=', $end);
@@ -424,7 +424,7 @@ final class Importer extends ImporterAbstract
         /** @var GSDArticle[] $articles */
         $articles = GSDArticleMapper::getAllByQuery($query);
 
-        DataMapperAbstract::setConnection($this->local);
+        DataMapperFactory::db($this->local);
 
         $itemL11nType  = $this->createItemL11nTypes();
         $itemAttrType  = $this->createItemAttributeTypes();
@@ -465,7 +465,7 @@ final class Importer extends ImporterAbstract
                 $media[$number]->size      = (int) \filesize($imagePath . '/' . $image);
                 $media[$number]->createdBy = new NullAccount($this->account);
 
-                MediaMapper::create($media[$number]);
+                MediaMapper::create()->execute($media[$number]);
             }
         }
 
@@ -519,7 +519,7 @@ final class Importer extends ImporterAbstract
                 $obj->addFile($media[$number]);
             }
 
-            ItemMapper::create($obj);
+            ItemMapper::create()->execute($obj);
         }
     }
 
@@ -534,19 +534,19 @@ final class Importer extends ImporterAbstract
     {
         $itemL11nType = [];
 
-        if (($itemL11nType['name1'] = ItemL11nTypeMapper::getBy('name1', 'itemmgmt_attr_type_name')) instanceof NullItemL11nType) {
+        if (($itemL11nType['name1'] = ItemL11nTypeMapper::get()->where('title', 'name1')->execute()) instanceof NullItemL11nType) {
             $itemL11nType['name1'] = new ItemL11nType('name1');
-            ItemL11nTypeMapper::create($itemL11nType['name1']);
+            ItemL11nTypeMapper::create()->execute($itemL11nType['name1']);
         }
 
-        if (($itemL11nType['name2'] = ItemL11nTypeMapper::getBy('name2', 'itemmgmt_attr_type_name')) instanceof NullItemL11nType) {
+        if (($itemL11nType['name2'] = ItemL11nTypeMapper::get()->where('title', 'name2')->execute()) instanceof NullItemL11nType) {
             $itemL11nType['name2'] = new ItemL11nType('name2');
-            ItemL11nTypeMapper::create($itemL11nType['name2']);
+            ItemL11nTypeMapper::create()->execute($itemL11nType['name2']);
         }
 
-        if (($itemL11nType['info'] = ItemL11nTypeMapper::getBy('info', 'itemmgmt_attr_type_name')) instanceof NullItemL11nType) {
+        if (($itemL11nType['info'] = ItemL11nTypeMapper::get()->where('title', 'info')->execute()) instanceof NullItemL11nType) {
             $itemL11nType['info'] = new ItemL11nType('info');
-            ItemL11nTypeMapper::create($itemL11nType['info']);
+            ItemL11nTypeMapper::create()->execute($itemL11nType['info']);
         }
 
         return $itemL11nType;
@@ -563,44 +563,44 @@ final class Importer extends ImporterAbstract
     {
         $itemAttrType = [];
 
-        if (($itemAttrType['tradegroup'] = ItemAttributeTypeMapper::getBy('tradegroup', 'name')) instanceof NullItemAttributeType) {
+        if (($itemAttrType['tradegroup'] = ItemAttributeTypeMapper::get()->where('name', 'tradegroup')->execute()) instanceof NullItemAttributeType) {
             $itemAttrType['tradegroup'] = new ItemAttributeType('tradegroup');
-            ItemAttributeTypeMapper::create($itemAttrType['tradegroup']);
+            ItemAttributeTypeMapper::create()->execute($itemAttrType['tradegroup']);
 
-            ItemAttributeTypeL11nMapper::create(new ItemAttributeTypeL11n($itemAttrType['tradegroup']->getId(), 'Trade Group', ISO639x1Enum::_EN));
-            ItemAttributeTypeL11nMapper::create(new ItemAttributeTypeL11n($itemAttrType['tradegroup']->getId(), 'Handelsgruppe', ISO639x1Enum::_DE));
+            ItemAttributeTypeL11nMapper::create()->execute(new ItemAttributeTypeL11n($itemAttrType['tradegroup']->getId(), 'Trade Group', ISO639x1Enum::_EN));
+            ItemAttributeTypeL11nMapper::create()->execute(new ItemAttributeTypeL11n($itemAttrType['tradegroup']->getId(), 'Handelsgruppe', ISO639x1Enum::_DE));
         }
 
-        if (($itemAttrType['exportcontrolgroup'] = ItemAttributeTypeMapper::getBy('exportcontrolgroup', 'name')) instanceof NullItemAttributeType) {
+        if (($itemAttrType['exportcontrolgroup'] = ItemAttributeTypeMapper::get()->where('name', 'exportcontrolgroup')->execute()) instanceof NullItemAttributeType) {
             $itemAttrType['exportcontrolgroup'] = new ItemAttributeType('exportcontrolgroup');
-            ItemAttributeTypeMapper::create($itemAttrType['exportcontrolgroup']);
+            ItemAttributeTypeMapper::create()->execute($itemAttrType['exportcontrolgroup']);
 
-            ItemAttributeTypeL11nMapper::create(new ItemAttributeTypeL11n($itemAttrType['exportcontrolgroup']->getId(), 'Export Control Group', ISO639x1Enum::_EN));
-            ItemAttributeTypeL11nMapper::create(new ItemAttributeTypeL11n($itemAttrType['exportcontrolgroup']->getId(), 'Exportkontrollgruppe', ISO639x1Enum::_DE));
+            ItemAttributeTypeL11nMapper::create()->execute(new ItemAttributeTypeL11n($itemAttrType['exportcontrolgroup']->getId(), 'Export Control Group', ISO639x1Enum::_EN));
+            ItemAttributeTypeL11nMapper::create()->execute(new ItemAttributeTypeL11n($itemAttrType['exportcontrolgroup']->getId(), 'Exportkontrollgruppe', ISO639x1Enum::_DE));
         }
 
-        if (($itemAttrType['medicalgroup'] = ItemAttributeTypeMapper::getBy('medicalgroup', 'name')) instanceof NullItemAttributeType) {
+        if (($itemAttrType['medicalgroup'] = ItemAttributeTypeMapper::get()->where('name', 'medicalgroup')->execute()) instanceof NullItemAttributeType) {
             $itemAttrType['medicalgroup'] = new ItemAttributeType('medicalgroup');
-            ItemAttributeTypeMapper::create($itemAttrType['medicalgroup']);
+            ItemAttributeTypeMapper::create()->execute($itemAttrType['medicalgroup']);
 
-            ItemAttributeTypeL11nMapper::create(new ItemAttributeTypeL11n($itemAttrType['medicalgroup']->getId(), 'Medical Device Group', ISO639x1Enum::_EN));
-            ItemAttributeTypeL11nMapper::create(new ItemAttributeTypeL11n($itemAttrType['medicalgroup']->getId(), 'Medezinproduktklasse', ISO639x1Enum::_DE));
+            ItemAttributeTypeL11nMapper::create()->execute(new ItemAttributeTypeL11n($itemAttrType['medicalgroup']->getId(), 'Medical Device Group', ISO639x1Enum::_EN));
+            ItemAttributeTypeL11nMapper::create()->execute(new ItemAttributeTypeL11n($itemAttrType['medicalgroup']->getId(), 'Medezinproduktklasse', ISO639x1Enum::_DE));
         }
 
-        if (($itemAttrType['customsnumber'] = ItemAttributeTypeMapper::getBy('customsnumber', 'name')) instanceof NullItemAttributeType) {
+        if (($itemAttrType['customsnumber'] = ItemAttributeTypeMapper::get()->where('name', 'customsnumber')->execute()) instanceof NullItemAttributeType) {
             $itemAttrType['customsnumber'] = new ItemAttributeType('customsnumber');
-            ItemAttributeTypeMapper::create($itemAttrType['customsnumber']);
+            ItemAttributeTypeMapper::create()->execute($itemAttrType['customsnumber']);
 
-            ItemAttributeTypeL11nMapper::create(new ItemAttributeTypeL11n($itemAttrType['customsnumber']->getId(), 'Customs Number', ISO639x1Enum::_EN));
-            ItemAttributeTypeL11nMapper::create(new ItemAttributeTypeL11n($itemAttrType['customsnumber']->getId(), 'Zolltarifnummer', ISO639x1Enum::_DE));
+            ItemAttributeTypeL11nMapper::create()->execute(new ItemAttributeTypeL11n($itemAttrType['customsnumber']->getId(), 'Customs Number', ISO639x1Enum::_EN));
+            ItemAttributeTypeL11nMapper::create()->execute(new ItemAttributeTypeL11n($itemAttrType['customsnumber']->getId(), 'Zolltarifnummer', ISO639x1Enum::_DE));
         }
 
-        if (($itemAttrType['unnumber'] = ItemAttributeTypeMapper::getBy('unnumber', 'name')) instanceof NullItemAttributeType) {
+        if (($itemAttrType['unnumber'] = ItemAttributeTypeMapper::get()->where('name', 'unnumber')->execute()) instanceof NullItemAttributeType) {
             $itemAttrType['unnumber'] = new ItemAttributeType('unnumber');
-            ItemAttributeTypeMapper::create($itemAttrType['unnumber']);
+            ItemAttributeTypeMapper::create()->execute($itemAttrType['unnumber']);
 
-            ItemAttributeTypeL11nMapper::create(new ItemAttributeTypeL11n($itemAttrType['unnumber']->getId(), 'UN-Number', ISO639x1Enum::_EN));
-            ItemAttributeTypeL11nMapper::create(new ItemAttributeTypeL11n($itemAttrType['unnumber']->getId(), 'UN-Nummer', ISO639x1Enum::_DE));
+            ItemAttributeTypeL11nMapper::create()->execute(new ItemAttributeTypeL11n($itemAttrType['unnumber']->getId(), 'UN-Number', ISO639x1Enum::_EN));
+            ItemAttributeTypeL11nMapper::create()->execute(new ItemAttributeTypeL11n($itemAttrType['unnumber']->getId(), 'UN-Nummer', ISO639x1Enum::_DE));
         }
 
         return $itemAttrType;

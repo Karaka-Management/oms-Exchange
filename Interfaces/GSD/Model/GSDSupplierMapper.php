@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Modules\Exchange\Interfaces\GSD\Model;
 
-use phpOMS\DataStorage\Database\DataMapperAbstract;
+use phpOMS\DataStorage\Database\Mapper\DataMapperFactory;
 
 /**
  * Mapper class.
@@ -24,7 +24,7 @@ use phpOMS\DataStorage\Database\DataMapperAbstract;
  * @link    https://orange-management.org
  * @since   1.0.0
  */
-final class GSDSupplierMapper extends DataMapperAbstract
+final class GSDSupplierMapper extends DataMapperFactory
 {
     /**
      * Columns.
@@ -32,7 +32,7 @@ final class GSDSupplierMapper extends DataMapperAbstract
      * @var array<string, array{name:string, type:string, internal:string, autocomplete?:bool, readonly?:bool, writeonly?:bool, annotations?:array}>
      * @since 1.0.0
      */
-    protected static array $columns = [
+    public const COLUMNS = [
         'row_id'                 => ['name' => 'row_id',            'type' => 'int',      'internal' => 'id'],
         'row_create_time'        => ['name' => 'row_create_time',   'type' => 'DateTimeImmutable', 'internal' => 'createdAt', 'readonly' => true],
         'row_create_user'        => ['name' => 'row_create_user',   'type' => 'int',      'internal' => 'createdBy', 'readonly' => true],
@@ -51,7 +51,7 @@ final class GSDSupplierMapper extends DataMapperAbstract
      * @var array<string, array{mapper:string, external:string, by?:string, column?:string, conditional?:bool}>
      * @since 1.0.0
      */
-    protected static array $ownsOne = [
+    public const OWNS_ONE = [
         'addr' => [
             'mapper'     => GSDAddressMapper::class,
             'external'   => 'AdressId',
@@ -64,7 +64,7 @@ final class GSDSupplierMapper extends DataMapperAbstract
      * @var string
      * @since 1.0.0
      */
-    protected static string $table = 'Lieferanten';
+    public const TABLE = 'Lieferanten';
 
     /**
      * Created at.
@@ -72,7 +72,7 @@ final class GSDSupplierMapper extends DataMapperAbstract
      * @var string
      * @since 1.0.0
      */
-    protected static string $createdAt = 'row_create_time';
+    public const CREATED_AT = 'row_create_time';
 
     /**
      * Primary field name.
@@ -80,5 +80,5 @@ final class GSDSupplierMapper extends DataMapperAbstract
      * @var string
      * @since 1.0.0
      */
-    protected static string $primaryField = 'row_id';
+    public const PRIMARYFIELD ='row_id';
 }

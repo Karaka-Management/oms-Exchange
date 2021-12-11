@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Modules\Exchange\Models;
 
-use phpOMS\DataStorage\Database\DataMapperAbstract;
+use phpOMS\DataStorage\Database\Mapper\DataMapperFactory;
 
 /**
  * Mapper class.
@@ -24,7 +24,7 @@ use phpOMS\DataStorage\Database\DataMapperAbstract;
  * @link    https://orange-management.org
  * @since   1.0.0
  */
-final class InterfaceManagerMapper extends DataMapperAbstract
+final class InterfaceManagerMapper extends DataMapperFactory
 {
     /**
      * Columns.
@@ -32,7 +32,7 @@ final class InterfaceManagerMapper extends DataMapperAbstract
      * @var array<string, array{name:string, type:string, internal:string, autocomplete?:bool, readonly?:bool, writeonly?:bool, annotations?:array}>
      * @since 1.0.0
      */
-    protected static array $columns = [
+    public const COLUMNS = [
         'exchange_id'      => ['name' => 'exchange_id',      'type' => 'int',    'internal' => 'id'],
         'exchange_title'   => ['name' => 'exchange_title',   'type' => 'string', 'internal' => 'info/name'],
         'exchange_path'    => ['name' => 'exchange_path',    'type' => 'string', 'internal' => 'path'],
@@ -48,7 +48,7 @@ final class InterfaceManagerMapper extends DataMapperAbstract
      * @var string
      * @since 1.0.0
      */
-    protected static string $table = 'exchange';
+    public const TABLE = 'exchange';
 
     /**
      * Primary field name.
@@ -56,5 +56,5 @@ final class InterfaceManagerMapper extends DataMapperAbstract
      * @var string
      * @since 1.0.0
      */
-    protected static string $primaryField = 'exchange_id';
+    public const PRIMARYFIELD ='exchange_id';
 }

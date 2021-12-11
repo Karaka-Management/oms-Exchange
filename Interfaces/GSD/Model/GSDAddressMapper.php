@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Modules\Exchange\Interfaces\GSD\Model;
 
-use phpOMS\DataStorage\Database\DataMapperAbstract;
+use phpOMS\DataStorage\Database\Mapper\DataMapperFactory;
 
 /**
  * Mapper class.
@@ -24,7 +24,7 @@ use phpOMS\DataStorage\Database\DataMapperAbstract;
  * @link    https://orange-management.org
  * @since   1.0.0
  */
-final class GSDAddressMapper extends DataMapperAbstract
+final class GSDAddressMapper extends DataMapperFactory
 {
     /**
      * Columns.
@@ -32,7 +32,7 @@ final class GSDAddressMapper extends DataMapperAbstract
      * @var array<string, array{name:string, type:string, internal:string, autocomplete?:bool, readonly?:bool, writeonly?:bool, annotations?:array}>
      * @since 1.0.0
      */
-    protected static array $columns = [
+    public const COLUMNS = [
         'Nummer'             => ['name' => 'Nummer',     'type' => 'int',      'internal' => 'id'],
         'row_create_time'    => ['name' => 'row_create_time', 'type' => 'DateTimeImmutable', 'internal' => 'createdAt'],
         'row_create_user'    => ['name' => 'row_create_user', 'type' => 'int',      'internal' => 'createdBy'],
@@ -55,7 +55,7 @@ final class GSDAddressMapper extends DataMapperAbstract
      * @var string
      * @since 1.0.0
      */
-    protected static string $table = 'Adressen';
+    public const TABLE = 'Adressen';
 
     /**
      * Created at.
@@ -63,7 +63,7 @@ final class GSDAddressMapper extends DataMapperAbstract
      * @var string
      * @since 1.0.0
      */
-    protected static string $createdAt = 'row_create_time';
+    public const CREATED_AT = 'row_create_time';
 
     /**
      * Primary field name.
@@ -71,5 +71,5 @@ final class GSDAddressMapper extends DataMapperAbstract
      * @var string
      * @since 1.0.0
      */
-    protected static string $primaryField = 'Nummer';
+    public const PRIMARYFIELD ='Nummer';
 }

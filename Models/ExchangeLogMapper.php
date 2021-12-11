@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace Modules\Exchange\Models;
 
 use Modules\Admin\Models\AccountMapper;
-use phpOMS\DataStorage\Database\DataMapperAbstract;
+use phpOMS\DataStorage\Database\Mapper\DataMapperFactory;
 
 /**
  * Exchange log mapper class.
@@ -25,7 +25,7 @@ use phpOMS\DataStorage\Database\DataMapperAbstract;
  * @link    https://orange-management.org
  * @since   1.0.0
  */
-final class ExchangeLogMapper extends DataMapperAbstract
+final class ExchangeLogMapper extends DataMapperFactory
 {
     /**
      * Columns.
@@ -33,7 +33,7 @@ final class ExchangeLogMapper extends DataMapperAbstract
      * @var array<string, array{name:string, type:string, internal:string, autocomplete?:bool, readonly?:bool, writeonly?:bool, annotations?:array}>
      * @since 1.0.0
      */
-    protected static array $columns = [
+    public const COLUMNS = [
         'exchange_log_id'            => ['name' => 'exchange_log_id',    'type' => 'int',    'internal' => 'id'],
         'exchange_log_message'       => ['name' => 'exchange_log_message', 'type' => 'string', 'internal' => 'message'],
         'exchange_log_fields'        => ['name' => 'exchange_log_fields',  'type' => 'Json',    'internal' => 'fields'],
@@ -50,7 +50,7 @@ final class ExchangeLogMapper extends DataMapperAbstract
      * @var string
      * @since 1.0.0
      */
-    protected static string $model = ExchangeLog::class;
+    public const MODEL = ExchangeLog::class;
 
     /**
      * Primary table.
@@ -58,7 +58,7 @@ final class ExchangeLogMapper extends DataMapperAbstract
      * @var string
      * @since 1.0.0
      */
-    protected static string $table = 'exchange_log';
+    public const TABLE = 'exchange_log';
 
     /**
      * Primary field name.
@@ -66,7 +66,7 @@ final class ExchangeLogMapper extends DataMapperAbstract
      * @var string
      * @since 1.0.0
      */
-    protected static string $primaryField = 'exchange_log_id';
+    public const PRIMARYFIELD ='exchange_log_id';
 
     /**
      * Belongs to.
@@ -74,7 +74,7 @@ final class ExchangeLogMapper extends DataMapperAbstract
      * @var array<string, array{mapper:string, external:string}>
      * @since 1.0.0
      */
-    protected static array $belongsTo = [
+    public const BELONGS_TO = [
         'createdBy' => [
             'mapper'     => AccountMapper::class,
             'external'   => 'exchange_log_created_by',

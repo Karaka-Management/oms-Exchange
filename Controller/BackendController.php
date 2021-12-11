@@ -52,15 +52,15 @@ final class BackendController extends Controller
 
         if ($request->getData('ptype') === 'p') {
             $view->setData('logs',
-                ExchangeLogMapper::getBeforePivot((int) ($request->getData('id') ?? 0), limit: 25, depth: 4)
+                ExchangeLogMapper::getAll()->where('id', (int) ($request->getData('id') ?? 0), '<')->limit(25)->execute()
             );
         } elseif ($request->getData('ptype') === 'n') {
             $view->setData('logs',
-                ExchangeLogMapper::getAfterPivot((int) ($request->getData('id') ?? 0), limit: 25, depth: 4)
+                ExchangeLogMapper::getAll()->where('id', (int) ($request->getData('id') ?? 0), '>')->limit(25)->execute()
             );
         } else {
             $view->setData('logs',
-                ExchangeLogMapper::getAfterPivot(0, limit: 25, depth: 4)
+                ExchangeLogMapper::getAll()->where('id', 0, '>')->limit(25)->execute()
             );
         }
 
@@ -85,7 +85,7 @@ final class BackendController extends Controller
         $view->setTemplate('/Modules/Exchange/Theme/Backend/exchange-log');
         $view->addData('nav', $this->app->moduleManager->get('Navigation')->createNavigationMid(1007001001, $request, $response));
 
-        $log = ExchangeLogMapper::get((int) $request->getData('id'));
+        $log = ExchangeLogMapper::get()->where('id', (int) $request->getData('id'))->execute();
         $view->setData('log', $log);
 
         return $view;
@@ -110,7 +110,7 @@ final class BackendController extends Controller
         $view->addData('nav', $this->app->moduleManager->get('Navigation')->createNavigationMid(1007001001, $request, $response));
 
         /** @var \Modules\Exchange\Models\InterfaceManager[] $interfaces */
-        $interfaces = InterfaceManagerMapper::getAll();
+        $interfaces = InterfaceManagerMapper::getAll()->execute();
 
         $export = [];
         foreach ($interfaces as $interface) {
@@ -143,7 +143,7 @@ final class BackendController extends Controller
         $view->addData('nav', $this->app->moduleManager->get('Navigation')->createNavigationMid(1007001001, $request, $response));
 
         /** @var \Modules\Exchange\Models\InterfaceManager[] $interfaces */
-        $interfaces = InterfaceManagerMapper::getAll();
+        $interfaces = InterfaceManagerMapper::getAll()->execute();
 
         $import = [];
         foreach ($interfaces as $interface) {
@@ -176,7 +176,7 @@ final class BackendController extends Controller
         $view->addData('nav', $this->app->moduleManager->get('Navigation')->createNavigationMid(1007001001, $request, $response));
 
         /** @var \Modules\Exchange\Models\InterfaceManager $interface */
-        $interface = InterfaceManagerMapper::get((int) $request->getData('id'));
+        $interface = InterfaceManagerMapper::get()->where('id', (int) $request->getData('id'))->execute();
 
         $view->addData('interface', $interface);
 
@@ -205,7 +205,7 @@ final class BackendController extends Controller
         $view->addData('nav', $this->app->moduleManager->get('Navigation')->createNavigationMid(1007001001, $request, $response));
 
         /** @var \Modules\Exchange\Models\InterfaceManager $interface */
-        $interface = InterfaceManagerMapper::get((int) $request->getData('id'));
+        $interface = InterfaceManagerMapper::get()->where('id', (int) $request->getData('id'))->execute();
 
         $view->addData('interface', $interface);
 

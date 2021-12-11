@@ -28,7 +28,6 @@ use phpOMS\Message\RequestAbstract;
 use phpOMS\Message\ResponseAbstract;
 use phpOMS\Model\Message\FormValidation;
 use phpOMS\System\File\Local\Directory;
-use phpOMS\System\MimeType;
 
 /**
  * Exchange controller class.
@@ -87,7 +86,7 @@ final class ApiController extends Controller
     private function importDataFromRequest(RequestAbstract $request) : array
     {
         /** @var \Modules\Exchange\Models\InterfaceManager $interface */
-        $interface = InterfaceManagerMapper::get($request->getData('id'));
+        $interface = InterfaceManagerMapper::get()->where('id', $request->getData('id'))->execute();
         $dirname   = \basename(\dirname($interface->getPath()));
 
         if (!Autoloader::exists($class = '\\Modules\\Exchange\\Interfaces\\' . $dirname . '\\Importer')) {
@@ -148,7 +147,7 @@ final class ApiController extends Controller
         );
         $interface->load();
 
-        InterfaceManagerMapper::create($interface);
+        InterfaceManagerMapper::create()->execute($interface);
 
         $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Interface', 'Interface successfully installed', $interface);
     }
@@ -220,7 +219,7 @@ final class ApiController extends Controller
     private function exportDataFromRequest(RequestAbstract $request) : array
     {
         /** @var \Modules\Exchange\Models\InterfaceManager $interface */
-        $interface = InterfaceManagerMapper::get($request->getData('id'));
+        $interface = InterfaceManagerMapper::get()->where('id', $request->getData('id'))->execute();
         $dirname   = \basename(\dirname($interface->getPath()));
 
         if (!Autoloader::exists($class = '\\Modules\\Exchange\\Interfaces\\' . $dirname . '\\Exporter')) {

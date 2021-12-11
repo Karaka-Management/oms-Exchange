@@ -55,7 +55,7 @@ final class Installer extends InstallerAbstract
             $exchange = new InterfaceManager(__DIR__ . '/../Interfaces/' . $interface);
             $exchange->load();
 
-            InterfaceManagerMapper::create($exchange);
+            InterfaceManagerMapper::create()->execute($exchange);
         }
     }
     */
