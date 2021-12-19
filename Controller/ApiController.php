@@ -142,9 +142,12 @@ final class ApiController extends Controller
             return;
         }
 
-        $interface = new InterfaceManager(
-            \realpath(__DIR__ . '/../Interfaces/' . $request->getData('interface') . '/interface.json')
-        );
+        $interfacePath = \realpath(__DIR__ . '/../Interfaces/' . $request->getData('interface') . '/interface.json');
+        if ($interfacePath === false) {
+            return; // @codeCoverageIgnore
+        }
+
+        $interface = new InterfaceManager($interfacePath);
         $interface->load();
 
         InterfaceManagerMapper::create()->execute($interface);

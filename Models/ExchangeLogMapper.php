@@ -34,14 +34,14 @@ final class ExchangeLogMapper extends DataMapperFactory
      * @since 1.0.0
      */
     public const COLUMNS = [
-        'exchange_log_id'            => ['name' => 'exchange_log_id',    'type' => 'int',    'internal' => 'id'],
-        'exchange_log_message'       => ['name' => 'exchange_log_message', 'type' => 'string', 'internal' => 'message'],
-        'exchange_log_fields'        => ['name' => 'exchange_log_fields',  'type' => 'Json',    'internal' => 'fields'],
-        'exchange_log_type'          => ['name' => 'exchange_log_type', 'type' => 'int',    'internal' => 'type'],
-        'exchange_log_subtype'       => ['name' => 'exchange_log_subtype', 'type' => 'string',    'internal' => 'subtype'],
-        'exchange_log_created_at'    => ['name' => 'exchange_log_created_at', 'type' => 'DateTimeImmutable',    'internal' => 'createdAt', 'readonly' => true],
-        'exchange_log_created_by'    => ['name' => 'exchange_log_created_by', 'type' => 'int',    'internal' => 'createdBy', 'readonly' => true],
-        'exchange_log_exchange'      => ['name' => 'exchange_log_exchange', 'type' => 'int',    'internal' => 'exchange'],
+        'exchange_log_id'         => ['name' => 'exchange_log_id',         'type' => 'int',               'internal' => 'id'],
+        'exchange_log_message'    => ['name' => 'exchange_log_message',    'type' => 'string',            'internal' => 'message'],
+        'exchange_log_fields'     => ['name' => 'exchange_log_fields',     'type' => 'Json',              'internal' => 'fields'],
+        'exchange_log_type'       => ['name' => 'exchange_log_type',       'type' => 'int',               'internal' => 'type'],
+        'exchange_log_subtype'    => ['name' => 'exchange_log_subtype',    'type' => 'string',            'internal' => 'subtype'],
+        'exchange_log_created_at' => ['name' => 'exchange_log_created_at', 'type' => 'DateTimeImmutable', 'internal' => 'createdAt', 'readonly' => true],
+        'exchange_log_created_by' => ['name' => 'exchange_log_created_by', 'type' => 'int',               'internal' => 'createdBy', 'readonly' => true],
+        'exchange_log_exchange'   => ['name' => 'exchange_log_exchange',   'type' => 'int',               'internal' => 'exchange'],
     ];
 
     /**
@@ -76,12 +76,12 @@ final class ExchangeLogMapper extends DataMapperFactory
      */
     public const BELONGS_TO = [
         'createdBy' => [
-            'mapper'     => AccountMapper::class,
-            'external'   => 'exchange_log_created_by',
+            'mapper'   => AccountMapper::class,
+            'external' => 'exchange_log_created_by',
         ],
         'exchange' => [
-            'mapper'     => InterfaceManagerMapper::class,
-            'external'   => 'exchange_log_exchange',
+            'mapper'   => InterfaceManagerMapper::class,
+            'external' => 'exchange_log_exchange',
         ],
     ];
 }

@@ -181,15 +181,11 @@ final class Importer extends ImporterAbstract
      */
     public function importCostCenter(\DateTime $start, \DateTime $end) : void
     {
-        DataMapperFactory::db($this->remote);
-        $query = GSDCostCenterMapper::getQuery();
-        $query->where('FiKostenstellen_3.row_create_time', '>=', $start)
-            ->andWhere('FiKostenstellen_3.row_create_time', '<=', $end);
-
         /** @var GSDCostCenter[] $costCenters */
-        $costCenters = GSDCostCenterMapper::getAllByQuery($query);
-
-        DataMapperFactory::db($this->local);
+        $costCenters = GSDCostCenterMapper::getAll($this->remote)
+            ->where('createdAt', $start, '>=')
+            ->where('createdAt', $end, '<=')
+            ->execute();
 
         foreach ($costCenters as $cc) {
             $obj             = new CostCenter();
@@ -212,15 +208,11 @@ final class Importer extends ImporterAbstract
      */
     public function importCostObject(\DateTime $start, \DateTime $end) : void
     {
-        DataMapperFactory::db($this->remote);
-        $query = GSDCostObjectMapper::getQuery();
-        $query->where('FiKostentraeger_3.row_create_time', '>=', $start)
-            ->andWhere('FiKostentraeger_3.row_create_time', '<=', $end);
-
         /** @var GSDCostObject[] $costObjects */
-        $costObjects = GSDCostObjectMapper::getAllByQuery($query);
-
-        DataMapperFactory::db($this->local);
+        $costObjects = GSDCostObjectMapper::getAll($this->remote)
+            ->where('createdAt', $start, '>=')
+            ->where('createdAt', $end, '<=')
+            ->execute();
 
         foreach ($costObjects as $co) {
             $obj             = new CostObject();
@@ -243,15 +235,11 @@ final class Importer extends ImporterAbstract
      */
     public function importCustomer(\DateTime $start, \DateTime $end) : void
     {
-        DataMapperFactory::db($this->remote);
-        $query = GSDCustomerMapper::getQuery();
-        $query->where('Kunden_3.row_create_time', '>=', $start)
-            ->andWhere('Kunden_3.row_create_time', '<=', $end);
-
         /** @var GSDCustomer[] $customers */
-        $customers = GSDCustomerMapper::getAllByQuery($query);
-
-        DataMapperFactory::db($this->local);
+        $customers = GSDCustomerMapper::getAll($this->remote)
+            ->where('createdAt', $start, '>=')
+            ->where('createdAt', $end, '<=')
+            ->execute();
 
         foreach ($customers as $customer) {
             $account        = new Account();
@@ -278,7 +266,7 @@ final class Importer extends ImporterAbstract
                 $phone = new ContactElement();
                 $phone->setType(ContactType::PHONE);
                 $phone->setSubtype(0);
-                $phone->setContent(\trim($customer->addr->phone, ",. \t"));
+                $phone->content = \trim($customer->addr->phone, ",. \t");
                 $obj->addContactElement($phone);
             }
 
@@ -286,7 +274,7 @@ final class Importer extends ImporterAbstract
                 $website = new ContactElement();
                 $website->setType(ContactType::WEBSITE);
                 $website->setSubtype(0);
-                $website->setContent(\trim($customer->addr->website, ",. \t"));
+                $website->content = \trim($customer->addr->website, ",. \t");
                 $obj->addContactElement($website);
             }
 
@@ -294,7 +282,7 @@ final class Importer extends ImporterAbstract
                 $fax = new ContactElement();
                 $fax->setType(ContactType::FAX);
                 $fax->setSubtype(0);
-                $fax->setContent(\trim($customer->addr->fax, ",. \t"));
+                $fax->content = \trim($customer->addr->fax, ",. \t");
                 $obj->addContactElement($fax);
             }
 
@@ -302,7 +290,7 @@ final class Importer extends ImporterAbstract
                 $email = new ContactElement();
                 $email->setType(ContactType::EMAIL);
                 $email->setSubtype(0);
-                $email->setContent(\trim($customer->addr->email, ",. \t"));
+                $email->content = \trim($customer->addr->email, ",. \t");
                 $obj->addContactElement($email);
             }
 
@@ -322,15 +310,11 @@ final class Importer extends ImporterAbstract
      */
     public function importSupplier(\DateTime $start, \DateTime $end) : void
     {
-        DataMapperFactory::db($this->remote);
-        $query = GSDSupplierMapper::getQuery();
-        $query->where('Lieferanten_3.row_create_time', '>=', $start)
-            ->andWhere('Lieferanten_3.row_create_time', '<=', $end);
-
         /** @var GSDSupplier[] $suppliers */
-        $suppliers = GSDSupplierMapper::getAllByQuery($query);
-
-        DataMapperFactory::db($this->local);
+        $suppliers = GSDSupplierMapper::getAll($this->remote)
+            ->where('createdAt', $start, '>=')
+            ->where('createdAt', $end, '<=')
+            ->execute();
 
         foreach ($suppliers as $supplier) {
             $account        = new Account();
@@ -357,7 +341,7 @@ final class Importer extends ImporterAbstract
                 $phone = new ContactElement();
                 $phone->setType(ContactType::PHONE);
                 $phone->setSubtype(0);
-                $phone->setContent(\trim($supplier->addr->phone, ",. \t"));
+                $phone->content = \trim($supplier->addr->phone, ",. \t");
                 $obj->addContactElement($phone);
             }
 
@@ -365,7 +349,7 @@ final class Importer extends ImporterAbstract
                 $website = new ContactElement();
                 $website->setType(ContactType::WEBSITE);
                 $website->setSubtype(0);
-                $website->setContent(\trim($supplier->addr->website, ",. \t"));
+                $website->content = \trim($supplier->addr->website, ",. \t");
                 $obj->addContactElement($website);
             }
 
@@ -373,7 +357,7 @@ final class Importer extends ImporterAbstract
                 $fax = new ContactElement();
                 $fax->setType(ContactType::FAX);
                 $fax->setSubtype(0);
-                $fax->setContent(\trim($supplier->addr->fax, ",. \t"));
+                $fax->content = \trim($supplier->addr->fax, ",. \t");
                 $obj->addContactElement($fax);
             }
 
@@ -381,7 +365,7 @@ final class Importer extends ImporterAbstract
                 $email = new ContactElement();
                 $email->setType(ContactType::EMAIL);
                 $email->setSubtype(0);
-                $email->setContent(\trim($supplier->addr->email, ",. \t"));
+                $email->content = \trim($supplier->addr->email, ",. \t");
                 $obj->addContactElement($email);
             }
 
@@ -416,15 +400,11 @@ final class Importer extends ImporterAbstract
      */
     public function importArticle(\DateTime $start, \DateTime $end, array $files = []) : void
     {
-        DataMapperFactory::db($this->remote);
-        $query = GSDArticleMapper::getQuery();
-        $query->where('Artikel_3.row_create_time', '>=', $start)
-            ->andWhere('Artikel_3.row_create_time', '<=', $end);
-
         /** @var GSDArticle[] $articles */
-        $articles = GSDArticleMapper::getAllByQuery($query);
-
-        DataMapperFactory::db($this->local);
+        $articles = GSDArticleMapper::getAll($this->remote)
+            ->where('createdAt', $start, '>=')
+            ->where('createdAt', $end, '<=')
+            ->execute();
 
         $itemL11nType  = $this->createItemL11nTypes();
         $itemAttrType  = $this->createItemAttributeTypes();
