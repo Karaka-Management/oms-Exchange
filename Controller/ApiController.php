@@ -19,6 +19,7 @@ use Modules\Exchange\Models\InterfaceManager;
 use Modules\Exchange\Models\InterfaceManagerMapper;
 use Modules\Media\Models\UploadFile;
 use phpOMS\Autoloader;
+use phpOMS\DataStorage\Database\Connection\ConnectionFactory;
 use phpOMS\DataStorage\Database\Connection\NullConnection;
 use phpOMS\Localization\L11nManager;
 use phpOMS\Message\Http\HttpResponse;
@@ -89,12 +90,26 @@ final class ApiController extends Controller
         $interface = InterfaceManagerMapper::get()->where('id', $request->getData('id'))->execute();
         $dirname   = \basename(\dirname($interface->getPath()));
 
-        if (!Autoloader::exists($class = '\\Modules\\Exchange\\Interfaces\\' . $dirname . '\\Importer')) {
+        /** @var class-string<\Modules\Exchange\Models\ImporterAbstract> $class */
+        $class = '\\Modules\\Exchange\\Interfaces\\' . $dirname . '\\Importer';
+        if (!Autoloader::exists($class)) {
             return [];
         }
 
-        // @todo: implement real remote connection if available
-        $importer = new $class($this->app->dbPool->get(), new NullConnection(), new L11nManager($this->app->appName));
+        $remoteConnection = new NullConnection();
+        if (!empty($request->getData('dbtype'))) {
+            $remoteConnection = ConnectionFactory::create([
+                'db'       => $request->getData('dbtype') ?? null,
+                'host'     => $request->getData('dbhost') ?? null,
+                'port'     => $request->getData('dbport') ?? null,
+                'database' => $request->getData('dbdatabase') ?? null,
+                'login'    => $request->getData('dblogin') ?? null,
+                'password' => $request->getData('dbpassword') ?? null,
+            ]);
+        }
+
+        /** @var \Modules\Exchange\Models\ImporterAbstract $importer */
+        $importer = new $class($this->app->dbPool->get(), $remoteConnection, new L11nManager($this->app->appName));
 
         return $importer->importFromRequest($request);
     }
