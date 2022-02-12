@@ -189,7 +189,7 @@ final class Exporter extends ExporterAbstract
                 }
             }
 
-            // search for translations in tpl files which are not included in the language fieles
+            // search for translations in tpl files which are not included in the language files
             $tplKeys = [];
             foreach ($themes as $theme) {
                 if (!\is_dir($themePath . $theme) || $theme === '.' || $theme === '..') {
@@ -218,7 +218,7 @@ final class Exporter extends ExporterAbstract
                     \preg_match_all('/(\$this\->getHtml\(\')([0-9a-zA-Z:\-]+)(\'\))/', $template, $keys, \PREG_PATTERN_ORDER);
 
                     foreach ($keys[2] ?? [] as $key) {
-                        if (!isset($languageArray[''][$module][$theme][$key])) {
+                        if (!isset($languageArray[$module][$theme][''][$key])) {
                             $tplKeys[$module][$theme][''][$key]['en']       = '';
                             $languageArray[$module][$theme][''][$key]['en'] = '';
                         }
