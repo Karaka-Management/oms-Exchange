@@ -15,4 +15,5 @@ declare(strict_types=1);
 return [
     'Language'    => 'Language',
     'LangFileExported'    => 'Language file got expoerted',
+    'LangFileImported'    => 'Language file got imported',
 ];

@@ -13,8 +13,8 @@
 declare(strict_types=1);
 
 return ['Navigation' => [
-    'Dashboard' => '',
-    'Exchange'  => '',
-    'Export'    => '',
-    'Import'    => '',
+    'Dashboard' => '仪表板',
+    'Exchange'  => '交换',
+    'Export'    => '出口',
+    'Import'    => '进口',
 ]];

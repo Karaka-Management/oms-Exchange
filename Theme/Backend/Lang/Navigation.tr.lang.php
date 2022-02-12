@@ -13,8 +13,8 @@
 declare(strict_types=1);
 
 return ['Navigation' => [
-    'Dashboard' => '',
-    'Exchange'  => '',
-    'Export'    => '',
-    'Import'    => '',
+    'Dashboard' => 'Gösterge Paneli',
+    'Exchange'  => 'Değiş tokuş',
+    'Export'    => 'İhracat',
+    'Import'    => 'İçe aktarmak',
 ]];

@@ -13,8 +13,8 @@
 declare(strict_types=1);
 
 return ['Navigation' => [
-    'Dashboard' => '',
-    'Exchange'  => '',
-    'Export'    => '',
-    'Import'    => '',
+    'Dashboard' => 'Irányítópult',
+    'Exchange'  => 'Csere',
+    'Export'    => 'Export',
+    'Import'    => 'Behozatal',
 ]];
