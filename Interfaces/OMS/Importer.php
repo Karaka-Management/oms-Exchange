@@ -218,7 +218,7 @@ final class Importer extends ImporterAbstract
                                 "    '" . $key . "'"
                                 . \str_repeat(' ', $keyLengths[$module][$theme][$file] - \strlen($key))
                                 . " => '"
-                                . \str_replace(['\'', '\\'], ['\\\'', '\\\\'], $values[$language] ?? '')
+                                . \str_replace(['\\', '\''], ['\\\\', '\\\''], $values[$language] ?? '')
                                 . "',\n"
                             );
                         }
