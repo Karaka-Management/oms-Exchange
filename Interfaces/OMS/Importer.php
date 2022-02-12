@@ -49,7 +49,6 @@ final class Importer extends ImporterAbstract
     public function __construct(ConnectionAbstract $local, ConnectionAbstract $remote, L11nManager $l11n)
     {
         parent::__construct($local, $remote, $l11n);
-        $this->l11n->loadLanguageFile('Exchange', __DIR__ . '/Lang/lang.php');
     }
 
     /**
@@ -80,6 +79,11 @@ final class Importer extends ImporterAbstract
     {
         $start = new \DateTime($request->getData('start') ?? 'now');
         $end   = new \DateTime($request->getData('end') ?? 'now');
+
+        $lang             = [];
+        $lang['Exchange'] = include __DIR__ . '/Lang/' . $request->getLanguage() . '.lang.php';
+
+        $this->l11n->loadLanguage($request->header->l11n->getLanguage(), 'Exchange', $lang);
 
         if ($request->getData('db') !== null) {
             $this->remote = ConnectionFactory::create([

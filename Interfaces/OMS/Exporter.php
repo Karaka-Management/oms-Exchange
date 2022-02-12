@@ -46,7 +46,6 @@ final class Exporter extends ExporterAbstract
     public function __construct(ConnectionAbstract $local, L11nManager $l11n)
     {
         parent::__construct($local, $l11n);
-        $this->l11n->loadLanguageFile('Exchange', __DIR__ . '/Lang/lang.php');
     }
 
     /**
