@@ -80,6 +80,11 @@ final class Exporter extends ExporterAbstract
 
         $this->account = $request->header->account;
 
+        $lang             = [];
+        $lang['Exchange'] = include __DIR__ . '/Lang/' . $request->getLanguage() . '.lang.php';
+
+        $this->l11n->loadLanguage($request->header->l11n->getLanguage(), 'Exchange', $lang);
+
         $result = [];
 
         if ($request->getData('type') === 'language') {
@@ -210,7 +215,7 @@ final class Exporter extends ExporterAbstract
                         continue; // @codeCoverageIgnore
                     }
 
-                    \preg_match_all('/(\$this\->getHtml\(\')([0-9a-zA-Z:]+)(\'\))/', $template, $keys, \PREG_PATTERN_ORDER);
+                    \preg_match_all('/(\$this\->getHtml\(\')([0-9a-zA-Z:\-]+)(\'\))/', $template, $keys, \PREG_PATTERN_ORDER);
 
                     foreach ($keys[2] ?? [] as $key) {
                         if (!isset($languageArray[''][$module][$theme][$key])) {

@@ -35,7 +35,8 @@ final class InterfaceManagerMapper extends DataMapperFactory
     public const COLUMNS = [
         'exchange_id'      => ['name' => 'exchange_id',      'type' => 'int',    'internal' => 'id'],
         'exchange_title'   => ['name' => 'exchange_title',   'type' => 'string', 'internal' => 'info/name'],
-        'exchange_path'    => ['name' => 'exchange_path',    'type' => 'string', 'internal' => 'path'],
+        'exchange_info'    => ['name' => 'exchange_info',    'type' => 'string', 'internal' => 'path'],
+        'exchange_path'    => ['name' => 'exchange_path',    'type' => 'string', 'internal' => 'info/path'],
         'exchange_version' => ['name' => 'exchange_version', 'type' => 'string', 'internal' => 'info/version'],
         'exchange_export'  => ['name' => 'exchange_export',  'type' => 'bool',   'internal' => 'info/export'],
         'exchange_import'  => ['name' => 'exchange_import',  'type' => 'bool',   'internal' => 'info/import'],
