@@ -153,7 +153,7 @@ final class Exporter extends ExporterAbstract
                 }
 
                 foreach ($languages as $language) {
-                    if (\stripos($language, '.lang.') === false || $language === '.' || $language === '..') {
+                    if (\stripos($language, '.lang.') === false) {
                         continue;
                     }
 
