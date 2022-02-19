@@ -1,6 +1,6 @@
 <?php
 /**
- * Orange Management
+ * Karaka
  *
  * PHP Version 8.0
  *
@@ -8,7 +8,7 @@
  * @copyright Dennis Eichhorn
  * @license   OMS License 1.0
  * @version   1.0.0
- * @link      https://orange-management.org
+ * @link      https://karaka.app
  */
 declare(strict_types=1);
 
@@ -30,7 +30,7 @@ use phpOMS\Message\RequestAbstract;
  *
  * @package Modules\Exchange\Models\Interfaces\OMS
  * @license OMS License 1.0
- * @link    https://orange-management.org
+ * @link    https://karaka.app
  * @since   1.0.0
  */
 final class Importer extends ImporterAbstract
@@ -195,7 +195,7 @@ final class Importer extends ImporterAbstract
                         \fwrite($fp,
                             "<?php\n"
                             . "/**\n"
-                            . " * Orange Management\n"
+                            . " * Karaka\n"
                             . " *\n"
                             . " * PHP Version 8.0\n"
                             . " *\n"
@@ -203,7 +203,7 @@ final class Importer extends ImporterAbstract
                             . " * @copyright Dennis Eichhorn\n"
                             . " * @license   OMS License 1.0\n"
                             . " * @version   1.0.0\n"
-                            . " * @link      https://orange-management.org\n"
+                            . " * @link      https://karaka.app\n"
                             . " */\n"
                             . "declare(strict_types=1);\n\n"
                             . "return ['" . ($file === '' ? $module : $file) . "' => [\n"

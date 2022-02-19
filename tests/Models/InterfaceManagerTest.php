@@ -1,6 +1,6 @@
 <?php
 /**
- * Orange Management
+ * Karaka
  *
  * PHP Version 8.0
  *
@@ -8,7 +8,7 @@
  * @copyright Dennis Eichhorn
  * @license   OMS License 1.0
  * @version   1.0.0
- * @link      https://orange-management.org
+ * @link      https://karaka.app
  */
 declare(strict_types=1);
 
@@ -70,8 +70,8 @@ final class InterfaceManagerTest extends \PHPUnit\Framework\TestCase
         $this->interface = new InterfaceManager(__DIR__ . '/testInterface.json');
         $this->interface->load();
 
-        $this->interface->set('website', 'https://orange-management.org');
-        self::assertEquals('https://orange-management.org', $this->interface->get()['website']);
+        $this->interface->set('website', 'https://karaka.app');
+        self::assertEquals('https://karaka.app', $this->interface->get()['website']);
 
         self::assertNotEquals(
             \json_decode(\file_get_contents(__DIR__ . '/testInterface.json'), true),
