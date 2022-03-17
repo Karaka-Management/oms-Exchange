@@ -13,7 +13,7 @@
 declare(strict_types=1);
 
 use Modules\Exchange\Controller\ApiController;
-use Modules\Exchange\Models\PermissionState;
+use Modules\Exchange\Models\PermissionCategory;
 use phpOMS\Account\PermissionType;
 use phpOMS\Router\RouteVerb;
 
@@ -25,7 +25,7 @@ return [
             'permission' => [
                 'module' => ApiController::NAME,
                 'type'   => PermissionType::CREATE,
-                'state'  => PermissionState::IMPORT,
+                'state'  => PermissionCategory::IMPORT,
             ],
         ],
     ],
@@ -36,7 +36,7 @@ return [
             'permission' => [
                 'module' => ApiController::NAME,
                 'type'   => PermissionType::CREATE,
-                'state'  => PermissionState::EXPORT,
+                'state'  => PermissionCategory::EXPORT,
             ],
         ],
     ],

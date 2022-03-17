@@ -13,7 +13,7 @@
 declare(strict_types=1);
 
 use Modules\Exchange\Controller\BackendController;
-use Modules\Exchange\Models\PermissionState;
+use Modules\Exchange\Models\PermissionCategory;
 use phpOMS\Account\PermissionType;
 use phpOMS\Router\RouteVerb;
 
@@ -25,7 +25,7 @@ return [
             'permission' => [
                 'module' => BackendController::NAME,
                 'type'   => PermissionType::READ,
-                'state'  => PermissionState::IMPORT,
+                'state'  => PermissionCategory::IMPORT,
             ],
         ],
     ],
@@ -36,7 +36,7 @@ return [
             'permission' => [
                 'module' => BackendController::NAME,
                 'type'   => PermissionType::READ,
-                'state'  => PermissionState::EXPORT,
+                'state'  => PermissionCategory::EXPORT,
             ],
         ],
     ],
@@ -47,7 +47,7 @@ return [
             'permission' => [
                 'module' => BackendController::NAME,
                 'type'   => PermissionType::READ,
-                'state'  => PermissionState::IMPORT,
+                'state'  => PermissionCategory::IMPORT,
             ],
         ],
     ],
@@ -58,7 +58,7 @@ return [
             'permission' => [
                 'module' => BackendController::NAME,
                 'type'   => PermissionType::READ,
-                'state'  => PermissionState::EXPORT,
+                'state'  => PermissionCategory::EXPORT,
             ],
         ],
     ],
@@ -69,7 +69,7 @@ return [
             'permission' => [
                 'module' => BackendController::NAME,
                 'type'   => PermissionType::READ,
-                'state'  => PermissionState::DASHBOARD,
+                'state'  => PermissionCategory::DASHBOARD,
             ],
         ],
     ],
@@ -80,7 +80,7 @@ return [
             'permission' => [
                 'module' => BackendController::NAME,
                 'type'   => PermissionType::READ,
-                'state'  => PermissionState::DASHBOARD,
+                'state'  => PermissionCategory::DASHBOARD,
             ],
         ],
     ],
