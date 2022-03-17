@@ -44,9 +44,9 @@ final class Installer extends InstallerAbstract
      * {@inheritdoc}
      */
     /*
-    public static function install(DatabasePool $dbPool, ModuleInfo $info, SettingsInterface $cfgHandler) : void
+    public static function install(ApplicationAbstract $app, ModuleInfo $info, SettingsInterface $cfgHandler) : void
     {
-        parent::install($dbPool, $info, $cfgHandler);
+        parent::install($app, $info, $cfgHandler);
 
 
         $interfaces = Directory::list(__DIR__ . '/../Interfaces', '.*interface\.json', true);
