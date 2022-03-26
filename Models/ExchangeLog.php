@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace Modules\Exchange\Models;
 
 use Modules\Admin\Models\Account;
-use phpOMS\Contract\ArrayableInterface;
 
 /**
  * Exchange class.
@@ -25,7 +24,7 @@ use phpOMS\Contract\ArrayableInterface;
  * @link    https://karaka.app
  * @since   1.0.0
  */
-class ExchangeLog implements \JsonSerializable, ArrayableInterface
+class ExchangeLog implements \JsonSerializable
 {
     /**
      * Article ID.
