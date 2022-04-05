@@ -99,7 +99,7 @@ final class ApiController extends Controller
         $remoteConnection = new NullConnection();
         if (!empty($request->getData('dbtype'))) {
             $remoteConnection = ConnectionFactory::create([
-                'db'       => $request->getData('dbtype') ?? null,
+                'db'       => $request->getData('dbtype'),
                 'host'     => $request->getData('dbhost') ?? null,
                 'port'     => $request->getData('dbport') ?? null,
                 'database' => $request->getData('dbdatabase') ?? null,

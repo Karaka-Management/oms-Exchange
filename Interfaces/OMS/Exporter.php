@@ -17,8 +17,6 @@ namespace Modules\Exchange\Interfaces\OMS;
 use Modules\Exchange\Models\ExchangeLog;
 use Modules\Exchange\Models\ExchangeType;
 use Modules\Exchange\Models\ExporterAbstract;
-use phpOMS\DataStorage\Database\Connection\ConnectionAbstract;
-use phpOMS\Localization\L11nManager;
 use phpOMS\Message\RequestAbstract;
 use phpOMS\Utils\StringUtils;
 
@@ -39,14 +37,6 @@ final class Exporter extends ExporterAbstract
      * @since 1.0.0
      */
     private int $account = 1;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function __construct(ConnectionAbstract $local, L11nManager $l11n)
-    {
-        parent::__construct($local, $l11n);
-    }
 
     /**
      * Export all data in time span

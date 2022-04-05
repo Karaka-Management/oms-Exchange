@@ -18,10 +18,8 @@ use Modules\Exchange\Models\ExchangeLog;
 use Modules\Exchange\Models\ExchangeType;
 use Modules\Exchange\Models\ImporterAbstract;
 use Modules\Media\Controller\ApiController;
-use phpOMS\DataStorage\Database\Connection\ConnectionAbstract;
 use phpOMS\DataStorage\Database\Connection\ConnectionFactory;
 use phpOMS\DataStorage\Database\DatabaseStatus;
-use phpOMS\Localization\L11nManager;
 use phpOMS\Message\Http\HttpRequest;
 use phpOMS\Message\RequestAbstract;
 
@@ -42,14 +40,6 @@ final class Importer extends ImporterAbstract
      * @since 1.0.0
      */
     private int $account = 1;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function __construct(ConnectionAbstract $local, ConnectionAbstract $remote, L11nManager $l11n)
-    {
-        parent::__construct($local, $remote, $l11n);
-    }
 
     /**
      * Import all data in time span
@@ -87,7 +77,7 @@ final class Importer extends ImporterAbstract
 
         if ($request->getData('db') !== null) {
             $this->remote = ConnectionFactory::create([
-                'db'             => (string) ($request->getData('db') ?? ''),
+                'db'             => (string) ($request->getData('db')),
                 'host'           => (string) ($request->getData('host') ?? ''),
                 'port'           => (int) ($request->getData('port') ?? 0),
                 'database'       => (string) ($request->getData('database') ?? ''),
