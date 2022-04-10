@@ -13,7 +13,7 @@ declare(strict_types=1);
  * @link      https://karaka.app
  */
 return [
-    'Language'    => 'Language',
+    'Language'            => 'Language',
     'LangFileExported'    => 'Language file got exported',
     'LangFileImported'    => 'Language file got imported',
 ];
