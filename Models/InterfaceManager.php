@@ -14,8 +14,10 @@ declare(strict_types=1);
 
 namespace Modules\Exchange\Models;
 
-use phpOMS\System\File\PathException;
-use phpOMS\Utils\ArrayUtils;
+use Modules\Admin\Models\Account;
+use Modules\Admin\Models\NullAccount;
+use Modules\Media\Models\Collection;
+use Modules\Media\Models\NullCollection;
 
 /**
  * ModuleInfo class.
@@ -38,20 +40,76 @@ class InterfaceManager
     protected int $id = 0;
 
     /**
-     * File path.
+     * Title.
      *
      * @var string
      * @since 1.0.0
      */
-    private string $path = '';
+    public string $title = '';
 
     /**
-     * Info data.
+     * Interface Version.
      *
-     * @var array<string, mixed>
+     * @var string
      * @since 1.0.0
      */
-    private $info = [];
+    public string $version = '';
+
+    /**
+     * Interface Website.
+     *
+     * @var string
+     * @since 1.0.0
+     */
+    public string $website = '';
+
+    /**
+     * Export.
+     *
+     * @var bool
+     * @since 1.0.0
+     */
+    public bool $hasExport = false;
+
+    /**
+     * Import.
+     *
+     * @var bool
+     * @since 1.0.0
+     */
+    public bool $hasImport = true;
+
+    /**
+     * Creator.
+     *
+     * @var Account
+     * @since 1.0.0
+     */
+    public Account $createdBy;
+
+    /**
+     * Created.
+     *
+     * @var \DateTimeImmutable
+     * @since 1.0.0
+     */
+    public \DateTimeImmutable $createdAt;
+
+    /**
+     * Template source.
+     *
+     * @var Collection
+     * @since 1.0.0
+     */
+    public Collection $source;
+
+    /**
+     * Settings.
+     *
+     * @var ExchangeSettings[]
+     * @since 1.0.0
+     */
+    protected array $settings = [];
 
     /**
      * Object constructor.
@@ -60,9 +118,11 @@ class InterfaceManager
      *
      * @since 1.0.0
      */
-    public function __construct(string $path = '')
+    public function __construct()
     {
-        $this->path = $path;
+        $this->createdBy = new NullAccount();
+        $this->createdAt = new \DateTimeImmutable('now');
+        $this->source    = new NullCollection();
     }
 
     /**
@@ -78,133 +138,34 @@ class InterfaceManager
     }
 
     /**
-     * Get info path
+     * Get settings.
      *
-     * @return string
+     * @return ExchangeSetting[]
      *
      * @since 1.0.0
      */
-    public function getPath() : string
+    public function getSettings() : array
     {
-        return $this->path;
+        return $this->settings;
     }
 
     /**
-     * Get info path
+     * Adding new setting.
      *
-     * @return string
+     * @param ExchangeSetting $setting Setting
      *
-     * @since 1.0.0
-     */
-    public function getInterfacePath() : string
-    {
-        return $this->info['path'] ?? '';
-    }
-
-    /**
-     * Get info name
-     *
-     * @return string
+     * @return int
      *
      * @since 1.0.0
      */
-    public function getName() : string
+    public function addSetting(ExchangeSetting $setting) : int
     {
-        return $this->info['name'] ?? '';
-    }
+        $this->settings[] = $setting;
 
-    /**
-     * Provides import interface
-     *
-     * @return bool
-     *
-     * @since 1.0.0
-     */
-    public function hasImport() : bool
-    {
-        return $this->info['import'] ?? false;
-    }
+        \end($this->settings);
+        $key = (int) \key($this->settings);
+        \reset($this->settings);
 
-    /**
-     * Provides export interface
-     *
-     * @return bool
-     *
-     * @since 1.0.0
-     */
-    public function hasExport() : bool
-    {
-        return $this->info['export'] ?? false;
-    }
-
-    /**
-     * Load info data from path.
-     *
-     * @return void
-     *
-     * @throws PathException This exception is thrown in case the info file path doesn't exist
-     *
-     * @since 1.0.0
-     */
-    public function load() : void
-    {
-        if (!\is_file($this->path)) {
-            throw new PathException($this->path);
-        }
-
-        $content    = \file_get_contents($this->path);
-        $this->info = \json_decode($content !== false ? $content : '[]', true);
-    }
-
-    /**
-     * Update info file
-     *
-     * @return void
-     *
-     * @throws PathException This exception is thrown in case the info file path doesn't exist
-     *
-     * @since 1.0.0
-     */
-    public function update() : void
-    {
-        if (!\is_file($this->path)) {
-            throw new PathException($this->path);
-        }
-
-        \file_put_contents($this->path, \json_encode($this->info, \JSON_PRETTY_PRINT));
-    }
-
-    /**
-     * Set data
-     *
-     * @param string $path  Value path
-     * @param mixed  $data  Scalar or array of data to set
-     * @param string $delim Delimiter of path
-     *
-     * @return void
-     *
-     * @throws \InvalidArgumentException This exception is thrown if the data is not scalar, array or jsonSerializable
-     *
-     * @since 1.0.0
-     */
-    public function set(string $path, mixed $data, string $delim = '/') : void
-    {
-        if (!\is_scalar($data) && !\is_array($data) && !($data instanceof \JsonSerializable)) {
-            throw new \InvalidArgumentException('Type of $data "' . \gettype($data) . '" is not supported.');
-        }
-
-        $this->info = ArrayUtils::setArray($path, $this->info, $data, $delim, true);
-    }
-
-    /**
-     * Get info data.
-     *
-     * @return array<string, mixed>
-     *
-     * @since 1.0.0
-     */
-    public function get() : array
-    {
-        return $this->info;
+        return $key;
     }
 }

@@ -108,7 +108,7 @@ echo $this->getData('nav')->render(); ?>
                         <td><a href="<?= $url; ?>"><?= $value->getId(); ?></a>
                         <td><a href="<?= $url; ?>"><?= $value->getType(); ?></a>
                         <td><a href="<?= $url; ?>"><?= $value->subtype; ?></a>
-                        <td><a href="<?= $url; ?>"><?= $value->exchange->getName(); ?></a>
+                        <td><a href="<?= $url; ?>"><?= $value->exchange->title; ?></a>
                         <td><a href="<?= $url; ?>"><?= $value->createdBy->name1; ?></a>
                         <td><a href="<?= $url; ?>"><?= $value->createdAt->format('Y-m-d'); ?></a>
                 <?php endforeach; ?>

@@ -34,6 +34,14 @@ abstract class ExporterAbstract
      * @var ConnectionAbstract
      * @since 1.0.0
      */
+    protected ConnectionAbstract $remote;
+
+    /**
+     * Database connection.
+     *
+     * @var ConnectionAbstract
+     * @since 1.0.0
+     */
     protected ConnectionAbstract $local;
 
     /**
@@ -47,15 +55,17 @@ abstract class ExporterAbstract
     /**
      * Constructor
      *
-     * @param ConnectionAbstract $local Database connection
-     * @param L11nManager        $l11n  Localization manager
+     * @param ConnectionAbstract $local  Database connection
+     * @param ConnectionAbstract $remote Database connection
+     * @param L11nManager        $l11n   Localization manager
      *
      * @since 1.0.0
      */
-    public function __construct(ConnectionAbstract $local, L11nManager $l11n)
+    public function __construct(ConnectionAbstract $local, ConnectionAbstract $remote, L11nManager $l11n)
     {
-        $this->local = $local;
-        $this->l11n  = $l11n;
+        $this->local  = $local;
+        $this->remote = $remote;
+        $this->l11n   = $l11n;
     }
 
     /**

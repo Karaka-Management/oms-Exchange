@@ -14,10 +14,19 @@ declare(strict_types=1);
 
 namespace Modules\Exchange\Controller;
 
+use Modules\Admin\Models\NullAccount;
 use Modules\Exchange\Models\ExchangeLogMapper;
+use Modules\Exchange\Models\ExchangeSetting;
+use Modules\Exchange\Models\ExchangeSettingMapper;
 use Modules\Exchange\Models\InterfaceManager;
+use Modules\Exchange\Models\PermissionCategory;
 use Modules\Exchange\Models\InterfaceManagerMapper;
+use Modules\Media\Models\CollectionMapper;
+use Modules\Media\Models\NullCollection;
+use Modules\Media\Models\NullMedia;
+use Modules\Media\Models\PathSettings;
 use Modules\Media\Models\UploadFile;
+use phpOMS\Account\PermissionType;
 use phpOMS\Autoloader;
 use phpOMS\DataStorage\Database\Connection\ConnectionFactory;
 use phpOMS\DataStorage\Database\Connection\NullConnection;
@@ -29,6 +38,8 @@ use phpOMS\Message\RequestAbstract;
 use phpOMS\Message\ResponseAbstract;
 use phpOMS\Model\Message\FormValidation;
 use phpOMS\System\File\Local\Directory;
+use phpOMS\Utils\Parser\Markdown\Markdown;
+use phpOMS\Utils\StringUtils;
 
 /**
  * Exchange controller class.
@@ -87,30 +98,43 @@ final class ApiController extends Controller
     private function importDataFromRequest(RequestAbstract $request) : array
     {
         /** @var \Modules\Exchange\Models\InterfaceManager $interface */
-        $interface = InterfaceManagerMapper::get()->where('id', $request->getData('id'))->execute();
-        $dirname   = \basename(\dirname($interface->getPath()));
+        $interface = InterfaceManagerMapper::get()
+            ->with('source')
+            ->with('source/sources')
+            ->where('id', $request->getData('id'))
+            ->execute();
 
-        /** @var class-string<\Modules\Exchange\Models\ImporterAbstract> $class */
-        $class = '\\Modules\\Exchange\\Interfaces\\' . $dirname . '\\Importer';
-        if (!Autoloader::exists($class)) {
-            return [];
-        }
+        $files = $interface->source->getSources();
+        foreach ($files as $tMedia) {
+            $path = $tMedia->getAbsolutePath();
 
-        $remoteConnection = new NullConnection();
-        if (!empty($request->getData('dbtype'))) {
-            $remoteConnection = ConnectionFactory::create([
-                'db'       => $request->getData('dbtype'),
-                'host'     => $request->getData('dbhost') ?? null,
-                'port'     => $request->getData('dbport') ?? null,
-                'database' => $request->getData('dbdatabase') ?? null,
-                'login'    => $request->getData('dblogin') ?? null,
-                'password' => $request->getData('dbpassword') ?? null,
-            ]);
+            switch (true) {
+                case StringUtils::endsWith($path, 'Importer.php'):
+                    require_once $path;
+
+                    $remoteConnection = new NullConnection();
+                    if (!empty($request->getData('dbtype'))) {
+                        $remoteConnection = ConnectionFactory::create([
+                            'db'       => $request->getData('dbtype'),
+                            'host'     => $request->getData('dbhost') ?? null,
+                            'port'     => $request->getData('dbport') ?? null,
+                            'database' => $request->getData('dbdatabase') ?? null,
+                            'login'    => $request->getData('dblogin') ?? null,
+                            'password' => $request->getData('dbpassword') ?? null,
+                        ]);
+                    }
+
+                    $importer = new \Modules\Exchange\Interface\Importer(
+                        $this->app->dbPool->get(),
+                        $remoteConnection,
+                        new L11nManager($this->app->appName)
+                    );
+
+                    break;
+            }
         }
 
         /** @var \Modules\Exchange\Models\ImporterAbstract $importer */
-        $importer = new $class($this->app->dbPool->get(), $remoteConnection, new L11nManager($this->app->appName));
-
         return $importer->importFromRequest($request);
     }
 
@@ -126,8 +150,8 @@ final class ApiController extends Controller
     private function validateInterfaceInstall(RequestAbstract $request) : array
     {
         $val = [];
-        if (($val['interface'] = empty($request->getData('interface')))
-            || ($val['path'] = !\is_dir(__DIR__ . '/../Interfaces/' . $request->getData('interface')))
+        if (($val['title'] = empty($request->getData('title')))
+            || ($val['files'] = empty($request->getFiles()))
         ) {
             return $val;
         }
@@ -150,6 +174,9 @@ final class ApiController extends Controller
      */
     public function apiInterfaceInstall(RequestAbstract $request, ResponseAbstract $response, $data = null) : void
     {
+        $uploadedFiles = $request->getFiles();
+        $files         = [];
+
         if (!empty($val = $this->validateInterfaceInstall($request))) {
             $response->set('interface_install', new FormValidation($val));
             $response->header->status = RequestStatusCode::R_400;
@@ -157,17 +184,87 @@ final class ApiController extends Controller
             return;
         }
 
-        $interfacePath = \realpath(__DIR__ . '/../Interfaces/' . $request->getData('interface') . '/interface.json');
-        if ($interfacePath === false) {
-            return; // @codeCoverageIgnore
+        // is allowed to create
+        if (!$this->app->accountManager->get($request->header->account)->hasPermission(PermissionType::CREATE, $this->app->orgId, null, self::NAME, PermissionCategory::TEMPLATE)) {
+            $response->header->status = RequestStatusCode::R_403;
+
+            return;
         }
 
-        $interface = new InterfaceManager($interfacePath);
-        $interface->load();
+        $path = '/Modules/Exchange/Interface/' . $request->getData('title');
 
-        InterfaceManagerMapper::create()->execute($interface);
+        /** @var \Modules\Media\Models\Media[] $uploaded */
+        $uploaded = $this->app->moduleManager->get('Media')->uploadFiles(
+            $request->getDataList('names'),
+            $request->getDataList('filenames'),
+            $uploadedFiles,
+            $request->header->account,
+            __DIR__ . '/../../../Modules/Media/Files' . $path,
+            $path,
+            pathSettings: PathSettings::FILE_PATH
+        );
 
-        $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Interface', 'Interface successfully installed', $interface);
+        foreach ($uploaded as $upload) {
+            if ($upload instanceof NullMedia) {
+                continue;
+            }
+
+            $files[] = $upload;
+        }
+
+        /** @var \Modules\Media\Models\Collection $collection */
+        $collection = $this->app->moduleManager->get('Media')->createMediaCollectionFromMedia(
+            (string) ($request->getData('name') ?? ''),
+            (string) ($request->getData('description') ?? ''),
+            $files,
+            $request->header->account
+        );
+
+        if ($collection instanceof NullCollection) {
+            $response->header->status = RequestStatusCode::R_403;
+            $this->fillJsonResponse($request, $response, NotificationLevel::ERROR, 'Interface', 'Couldn\'t create collection for interface', null);
+
+            return;
+        }
+
+        $collection->setPath('/Modules/Media/Files/Modules/Exchange/Interface/' . ((string) ($request->getData('title') ?? '')));
+        $collection->setVirtualPath('/Modules/Exchange/Interface');
+
+        CollectionMapper::create()->execute($collection);
+
+        $interface = $this->createInterfaceFromRequest($request, $collection->getId());
+
+        $this->createModel($request->header->account, $interface, InterfaceManagerMapper::class, 'interface', $request->getOrigin());
+
+        $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Interface', 'Interface successfully created', $interface);
+    }
+
+    /**
+     * Method to create template from request.
+     *
+     * @param RequestAbstract $request Request
+     *
+     * @return InterfaceManager
+     *
+     * @since 1.0.0
+     */
+    private function createInterfaceFromRequest(RequestAbstract $request, int $collectionId) : InterfaceManager
+    {
+        $interface            = new InterfaceManager();
+        $interface->title     = $request->getData('title') ?? '';
+        $interface->hasExport = (bool) ($request->getData('export') ?? false);
+        $interface->hasImport = (bool) ($request->getData('import') ?? false);
+        $interface->website   = $request->getData('website') ?? '';
+        $interface->version   = $request->getData('version') ?? '';
+        $interface->createdBy = new NullAccount($request->header->account);
+
+        if ($collectionId > 0) {
+            $interface->source = new NullCollection($collectionId);
+        }
+
+        $interface->createdBy = new NullAccount($request->header->account);
+
+        return $interface;
     }
 
     /**
@@ -237,24 +334,39 @@ final class ApiController extends Controller
     private function exportDataFromRequest(RequestAbstract $request) : array
     {
         /** @var \Modules\Exchange\Models\InterfaceManager $interface */
-        $interface = InterfaceManagerMapper::get()->where('id', $request->getData('id'))->execute();
-        $dirname   = \basename(\dirname($interface->getPath()));
+        $interface = InterfaceManagerMapper::get()
+            ->with('source')
+            ->with('source/sources')
+            ->where('id', $request->getData('id'))
+            ->execute();
 
-        if (!Autoloader::exists($class = '\\Modules\\Exchange\\Interfaces\\' . $dirname . '\\Exporter')) {
-            return [];
+        $files = $interface->source->getSources();
+        foreach ($files as $tMedia) {
+            $path = $tMedia->getAbsolutePath();
+
+            switch (true) {
+                case StringUtils::endsWith($path, 'Exporter.php'):
+                    require_once $path;
+
+                    $exporter = new \Modules\Exchange\Interface\Exporter(
+                        $this->app->dbPool->get(),
+                        new NullConnection(),
+                        new L11nManager($this->app->appName)
+                    );
+
+                    break;
+            }
         }
-
-        $exporter = new $class($this->app->dbPool->get(), new L11nManager($this->app->appName));
 
         return $exporter->exportFromRequest($request);
     }
 
     /**
-     * Api method to handle file upload
+     * Api method to create setting
      *
-     * @param RequestAbstract  $request  Request
-     * @param ResponseAbstract $response Response
-     * @param mixed            $data     Generic data
+     * @param RequestAbstract $request  Request
+     * @param HttpResponse    $response Response
+     * @param mixed           $data     Generic data
      *
      * @return void
      *
@@ -262,13 +374,60 @@ final class ApiController extends Controller
      *
      * @since 1.0.0
      */
-    public function apiExchangeUpload(RequestAbstract $request, ResponseAbstract $response, $data = null) : void
+    public function apiExchangeSettingCreate(RequestAbstract $request, HttpResponse $response, $data = null) : void
     {
-        Directory::delete(__DIR__ . '/../tmp/');
+        if (!empty($val = $this->validateSettingCreate($request))) {
+            $response->set('setting_create', new FormValidation($val));
+            $response->header->status = RequestStatusCode::R_400;
 
-        $upload            = new UploadFile();
-        $upload->outputDir = __DIR__ . '/../tmp/';
+            return;
+        }
 
-        $upload->upload($request->getFiles());
+        $setting = $this->createSettingFromRequest($request);
+
+        $this->createModel($request->header->account, $setting, ExchangeSettingMapper::class, 'setting', $request->getOrigin());
+
+        $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Setting', 'Setting successfully created', $setting);
+    }
+
+    /**
+     * Method to validate account creation from request
+     *
+     * @param RequestAbstract $request Request
+     *
+     * @return array<string, bool>
+     *
+     * @since 1.0.0
+     */
+    private function validateSettingCreate(RequestAbstract $request) : array
+    {
+        $val = [];
+        if (($val['title'] = empty($request->getData('title')))
+            || ($val['id'] = empty($request->getData('id')))
+            || ($val['data'] = empty($request->getData('data')))
+        ) {
+            return $val;
+        }
+
+        return [];
+    }
+
+    /**
+     * Method to create template from request.
+     *
+     * @param RequestAbstract $request Request
+     *
+     * @return ExchangeSetting
+     *
+     * @since 1.0.0
+     */
+    private function createSettingFromRequest(RequestAbstract $request) : ExchangeSetting
+    {
+        $setting = new ExchangeSetting();
+        $setting->title = $request->getData('title') ?? '';
+        $setting->exchange = (int) ($request->getData('id') ?? 0);
+        $setting->setData(\json_decode((string) ($request->getData('data') ?? '{}'), true));
+
+        return $setting;
     }
 }

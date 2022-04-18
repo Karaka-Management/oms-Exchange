@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace Modules\Exchange\Models;
 
+use Modules\Admin\Models\AccountMapper;
+use Modules\Media\Models\CollectionMapper;
 use phpOMS\DataStorage\Database\Mapper\DataMapperFactory;
 
 /**
@@ -33,14 +35,15 @@ final class InterfaceManagerMapper extends DataMapperFactory
      * @since 1.0.0
      */
     public const COLUMNS = [
-        'exchange_id'      => ['name' => 'exchange_id',      'type' => 'int',    'internal' => 'id'],
-        'exchange_title'   => ['name' => 'exchange_title',   'type' => 'string', 'internal' => 'info/name'],
-        'exchange_info'    => ['name' => 'exchange_info',    'type' => 'string', 'internal' => 'path'],
-        'exchange_path'    => ['name' => 'exchange_path',    'type' => 'string', 'internal' => 'info/path'],
-        'exchange_version' => ['name' => 'exchange_version', 'type' => 'string', 'internal' => 'info/version'],
-        'exchange_export'  => ['name' => 'exchange_export',  'type' => 'bool',   'internal' => 'info/export'],
-        'exchange_import'  => ['name' => 'exchange_import',  'type' => 'bool',   'internal' => 'info/import'],
-        'exchange_website' => ['name' => 'exchange_website', 'type' => 'string', 'internal' => 'info/website'],
+        'exchange_interface_id'      => ['name' => 'exchange_interface_id',      'type' => 'int',    'internal' => 'id'],
+        'exchange_interface_title'   => ['name' => 'exchange_interface_title',   'type' => 'string', 'internal' => 'title'],
+        'exchange_interface_version' => ['name' => 'exchange_interface_version', 'type' => 'string', 'internal' => 'version'],
+        'exchange_interface_export'  => ['name' => 'exchange_interface_export',  'type' => 'bool',   'internal' => 'hasExport'],
+        'exchange_interface_import'  => ['name' => 'exchange_interface_import',  'type' => 'bool',   'internal' => 'hasImport'],
+        'exchange_interface_website' => ['name' => 'exchange_interface_website', 'type' => 'string', 'internal' => 'website'],
+        'exchange_interface_media'             => ['name' => 'exchange_interface_media',       'type' => 'int',   'internal' => 'source'],
+        'exchange_interface_created_at'        => ['name' => 'exchange_interface_created_at', 'type' => 'DateTimeImmutable', 'internal' => 'createdAt', 'readonly' => true],
+        'exchange_interface_created_by'        => ['name' => 'exchange_interface_created_by', 'type' => 'int', 'internal' => 'createdBy', 'readonly' => true],
     ];
 
     /**
@@ -49,7 +52,7 @@ final class InterfaceManagerMapper extends DataMapperFactory
      * @var string
      * @since 1.0.0
      */
-    public const TABLE = 'exchange';
+    public const TABLE = 'exchange_interface';
 
     /**
      * Primary field name.
@@ -57,5 +60,46 @@ final class InterfaceManagerMapper extends DataMapperFactory
      * @var string
      * @since 1.0.0
      */
-    public const PRIMARYFIELD ='exchange_id';
+    public const PRIMARYFIELD ='exchange_interface_id';
+
+    /**
+     * Belongs to.
+     *
+     * @var array<string, array{mapper:string, external:string}>
+     * @since 1.0.0
+     */
+    public const BELONGS_TO = [
+        'createdBy' => [
+            'mapper'     => AccountMapper::class,
+            'external'   => 'exchange_interface_created_by',
+        ],
+    ];
+
+    /**
+     * Has one relation.
+     *
+     * @var array<string, array{mapper:string, external:string, by?:string, column?:string, conditional?:bool}>
+     * @since 1.0.0
+     */
+    public const OWNS_ONE = [
+        'source' => [
+            'mapper'     => CollectionMapper::class,
+            'external'   => 'exchange_interface_media',
+        ],
+    ];
+
+    /**
+     * Has many relation.
+     *
+     * @var array<string, array{mapper:string, table:string, self?:?string, external?:?string, column?:string}>
+     * @since 1.0.0
+     */
+    public const HAS_MANY = [
+        'settings' => [
+            'mapper'       => ExchangeSettingMapper::class,
+            'table'        => 'exchange_settings',
+            'self'         => 'exchange_settings_exchange',
+            'external'     => null,
+        ],
+    ];
 }

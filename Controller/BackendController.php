@@ -114,7 +114,7 @@ final class BackendController extends Controller
 
         $export = [];
         foreach ($interfaces as $interface) {
-            if ($interface->hasExport()) {
+            if ($interface->hasExport) {
                 $export[] = $interface;
             }
         }
@@ -147,7 +147,7 @@ final class BackendController extends Controller
 
         $import = [];
         foreach ($interfaces as $interface) {
-            if ($interface->hasImport()) {
+            if ($interface->hasImport) {
                 $import[] = $interface;
             }
         }
@@ -176,11 +176,19 @@ final class BackendController extends Controller
         $view->addData('nav', $this->app->moduleManager->get('Navigation')->createNavigationMid(1007001001, $request, $response));
 
         /** @var \Modules\Exchange\Models\InterfaceManager $interface */
-        $interface = InterfaceManagerMapper::get()->where('id', (int) $request->getData('id'))->execute();
+        $interface = InterfaceManagerMapper::get()
+            ->with('source')
+            ->with('settings')
+            ->where('id', (int) $request->getData('id'))
+            ->execute();
 
         $view->addData('interface', $interface);
+        $view->addData('db', $this->app->dbPool->get());
 
-        $lang = include __DIR__ . '/../Interfaces/' . $interface->getInterfacePath() . '/Lang/' . $response->getLanguage() . '.lang.php';
+        $lang = include $interface->source->getAbsolutePath()
+            . $interface->source->name
+            . '/Lang/' . $response->getLanguage() . '.lang.php';
+
         $view->addData('lang', $lang);
 
         return $view;
@@ -205,11 +213,19 @@ final class BackendController extends Controller
         $view->addData('nav', $this->app->moduleManager->get('Navigation')->createNavigationMid(1007001001, $request, $response));
 
         /** @var \Modules\Exchange\Models\InterfaceManager $interface */
-        $interface = InterfaceManagerMapper::get()->where('id', (int) $request->getData('id'))->execute();
+        $interface = InterfaceManagerMapper::get()
+            ->with('source')
+            ->with('settings')
+            ->where('id', (int) $request->getData('id'))
+            ->execute();
 
         $view->addData('interface', $interface);
+        $view->addData('db', $this->app->dbPool->get());
 
-        $lang = include __DIR__ . '/../Interfaces/' . $interface->getInterfacePath() . '/Lang/' . $response->getLanguage() . '.lang.php';
+        $lang = include $interface->source->getAbsolutePath()
+            . $interface->source->name
+            . '/Lang/' . $response->getLanguage() . '.lang.php';
+
         $view->addData('lang', $lang);
 
         return $view;

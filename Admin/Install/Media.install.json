@@ -1,0 +1,16 @@
+[
+    {
+        "type": "collection",
+        "create_directory": true,
+        "name": "Exchange",
+        "virtualPath": "/Modules",
+        "user": 1
+    },
+    {
+        "type": "collection",
+        "create_directory": true,
+        "name": "Interfaces",
+        "virtualPath": "/Modules/Exchange",
+        "user": 1
+    }
+]

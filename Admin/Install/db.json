@@ -1,48 +1,94 @@
 {
-    "exchange": {
-        "name": "exchange",
+    "exchange_interface": {
+        "name": "exchange_interface",
         "fields": {
-            "exchange_id": {
-                "name": "exchange_id",
+            "exchange_interface_id": {
+                "name": "exchange_interface_id",
                 "type": "INT",
                 "null": false,
                 "primary": true,
                 "autoincrement": true
             },
-            "exchange_title": {
-                "name": "exchange_title",
+            "exchange_interface_title": {
+                "name": "exchange_interface_title",
                 "type": "VARCHAR(255)",
                 "null": false
             },
-            "exchange_info": {
-                "name": "exchange_info",
-                "type": "VARCHAR(255)",
-                "null": false
-            },
-            "exchange_path": {
-                "name": "exchange_path",
-                "type": "VARCHAR(255)",
-                "null": false
-            },
-            "exchange_import": {
-                "name": "exchange_import",
+            "exchange_interface_import": {
+                "name": "exchange_interface_import",
                 "type": "TINYINT",
                 "null": false
             },
-            "exchange_export": {
-                "name": "exchange_export",
+            "exchange_interface_export": {
+                "name": "exchange_interface_export",
                 "type": "TINYINT",
                 "null": false
             },
-            "exchange_website": {
-                "name": "exchange_website",
+            "exchange_interface_website": {
+                "name": "exchange_interface_website",
                 "type": "VARCHAR(255)",
                 "null": false
             },
-            "exchange_version": {
-                "name": "exchange_version",
+            "exchange_interface_version": {
+                "name": "exchange_interface_version",
                 "type": "VARCHAR(50)",
                 "null": false
+            },
+            "exchange_interface_media": {
+                "name": "exchange_interface_media",
+                "type": "INT",
+                "null": false,
+                "foreignTable": "media",
+                "foreignKey": "media_id"
+            },
+            "exchange_interface_created_at": {
+                "name": "exchange_interface_created_at",
+                "type": "DATETIME",
+                "null": false
+            },
+            "exchange_interface_created_by": {
+                "name": "exchange_interface_created_by",
+                "type": "INT",
+                "null": false,
+                "foreignTable": "account",
+                "foreignKey": "account_id"
+            }
+        }
+    },
+    "exchange_settings": {
+        "name": "exchange_settings",
+        "fields": {
+            "exchange_settings_id": {
+                "name": "exchange_settings_id",
+                "type": "INT",
+                "null": false,
+                "primary": true,
+                "autoincrement": true
+            },
+            "exchange_settings_title": {
+                "name": "exchange_interface_title",
+                "type": "VARCHAR(255)",
+                "null": false
+            },
+            "exchange_settings_data": {
+                "name": "exchange_settings_data",
+                "type": "TEXT",
+                "null": false
+            },
+            "exchange_settings_job": {
+                "name": "exchange_settings_job",
+                "type": "INT",
+                "default": null,
+                "null": true,
+                "foreignTable": "job",
+                "foreignKey": "job_id"
+            },
+            "exchange_settings_exchange": {
+                "name": "exchange_settings_exchange",
+                "type": "INT",
+                "null": false,
+                "foreignTable": "exchange_interface",
+                "foreignKey": "exchange_interface_id"
             }
         }
     },
@@ -93,8 +139,8 @@
                 "type": "INT",
                 "default": null,
                 "null": true,
-                "foreignTable": "exchange",
-                "foreignKey": "exchange_id"
+                "foreignTable": "exchange_interface",
+                "foreignKey": "exchange_interface_id"
             }
         }
     }

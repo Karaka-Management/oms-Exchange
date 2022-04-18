@@ -17,4 +17,8 @@ $lang = $this->getData('lang');
 /** @var \phpOMS\Views\View $this */
 echo $this->getData('nav')->render();
 
-include __DIR__ . '/../../Interfaces/' . $this->getData('interface')->getInterfacePath() . '/export.tpl.php';
+$interface = $this->getData('interface');
+
+include $interface->source->getAbsolutePath()
+    . $interface->source->name . '/'
+    . 'export.tpl.php';

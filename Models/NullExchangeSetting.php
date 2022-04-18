@@ -14,23 +14,25 @@ declare(strict_types=1);
 
 namespace Modules\Exchange\Models;
 
-use phpOMS\Stdlib\Base\Enum;
-
 /**
- * Permision state enum.
+ * Null model.
  *
  * @package Modules\Exchange\Models
  * @license OMS License 1.0
  * @link    https://karaka.app
  * @since   1.0.0
  */
-abstract class PermissionCategory extends Enum
+final class NullExchangeSetting extends ExchangeSetting
 {
-    public const IMPORT = 1;
-
-    public const EXPORT = 2;
-
-    public const DASHBOARD = 3;
-
-    public const TEMPLATE = 4;
+    /**
+     * Constructor
+     *
+     * @param int $id Model id
+     *
+     * @since 1.0.0
+     */
+    public function __construct(int $id = 0)
+    {
+        $this->id = $id;
+    }
 }

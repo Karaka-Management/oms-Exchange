@@ -1,8 +1,7 @@
 {
-    "name": "OMS",
+    "name": "Database Exchanger",
     "version": "1.0.0",
     "website": "",
-    "path": "OMS",
     "export": true,
     "import": true
 }
