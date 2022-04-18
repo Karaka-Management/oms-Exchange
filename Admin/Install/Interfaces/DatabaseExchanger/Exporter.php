@@ -57,7 +57,6 @@ final class Exporter extends ExporterAbstract
      *
      * @param RequestAbstract $request Request
      *
-     *
      * @return array
      *
      * @since 1.0.0

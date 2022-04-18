@@ -19,15 +19,13 @@ use Modules\Exchange\Models\ExchangeLogMapper;
 use Modules\Exchange\Models\ExchangeSetting;
 use Modules\Exchange\Models\ExchangeSettingMapper;
 use Modules\Exchange\Models\InterfaceManager;
-use Modules\Exchange\Models\PermissionCategory;
 use Modules\Exchange\Models\InterfaceManagerMapper;
+use Modules\Exchange\Models\PermissionCategory;
 use Modules\Media\Models\CollectionMapper;
 use Modules\Media\Models\NullCollection;
 use Modules\Media\Models\NullMedia;
 use Modules\Media\Models\PathSettings;
-use Modules\Media\Models\UploadFile;
 use phpOMS\Account\PermissionType;
-use phpOMS\Autoloader;
 use phpOMS\DataStorage\Database\Connection\ConnectionFactory;
 use phpOMS\DataStorage\Database\Connection\NullConnection;
 use phpOMS\Localization\L11nManager;
@@ -37,8 +35,6 @@ use phpOMS\Message\NotificationLevel;
 use phpOMS\Message\RequestAbstract;
 use phpOMS\Message\ResponseAbstract;
 use phpOMS\Model\Message\FormValidation;
-use phpOMS\System\File\Local\Directory;
-use phpOMS\Utils\Parser\Markdown\Markdown;
 use phpOMS\Utils\StringUtils;
 
 /**
@@ -423,8 +419,8 @@ final class ApiController extends Controller
      */
     private function createSettingFromRequest(RequestAbstract $request) : ExchangeSetting
     {
-        $setting = new ExchangeSetting();
-        $setting->title = $request->getData('title') ?? '';
+        $setting           = new ExchangeSetting();
+        $setting->title    = $request->getData('title') ?? '';
         $setting->exchange = (int) ($request->getData('id') ?? 0);
         $setting->setData(\json_decode((string) ($request->getData('data') ?? '{}'), true));
 

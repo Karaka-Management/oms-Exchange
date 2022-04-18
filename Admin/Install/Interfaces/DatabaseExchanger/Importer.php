@@ -49,7 +49,6 @@ final class Importer extends ImporterAbstract
      */
     public function import(\DateTime $start, \DateTime $end) : void
     {
-
     }
 
     /**
