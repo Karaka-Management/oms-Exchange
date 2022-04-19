@@ -26,7 +26,7 @@ $lang = $this->getData('lang') ?? [];
 // @todo: show job reference
 
 $interface = $this->getData('interface');
-$settings = $interface->getSettings();
+$settings  = $interface->getSettings();
 
 $currentSetting = $settings[(int) ($this->request->getData('setting') ?? 0)] ?? new NullExchangeSetting();
 $settingData    = $currentSetting->getData();
@@ -43,21 +43,21 @@ if (!empty($settingData)) {
     $importConnection = ($settingData['import']['db']['self'] ?? true)
         ? $this->getData('db') ?? new NullConnection()
         : ConnectionFactory::create([
-            'db' => $settingData['import']['db']['db'],
-            'host' => $settingData['import']['db']['host'],
-            'port' => $settingData['import']['db']['port'],
+            'db'       => $settingData['import']['db']['db'],
+            'host'     => $settingData['import']['db']['host'],
+            'port'     => $settingData['import']['db']['port'],
             'database' => $settingData['import']['db']['database'],
-            'login' => $settingData['import']['db']['login'],
+            'login'    => $settingData['import']['db']['login'],
             'password' => $settingData['import']['db']['password'],
         ]);
     $exportConnection = ($settingData['export']['db']['self'] ?? true)
         ? $this->getData('db') ?? new NullConnection()
         : ConnectionFactory::create([
-            'db' => $settingData['export']['db']['db'],
-            'host' => $settingData['export']['db']['host'],
-            'port' => $settingData['export']['db']['port'],
+            'db'       => $settingData['export']['db']['db'],
+            'host'     => $settingData['export']['db']['host'],
+            'port'     => $settingData['export']['db']['port'],
             'database' => $settingData['export']['db']['database'],
-            'login' => $settingData['export']['db']['login'],
+            'login'    => $settingData['export']['db']['login'],
             'password' => $settingData['export']['db']['password'],
     ]);
 
@@ -101,8 +101,8 @@ $isNew = $currentSetting instanceof NullExchangeSetting;
                         <tr><td><label for="iDatabaseType"><?= $lang['Connection']; ?></label>
                         <tr><td>
                             <select id="iConnection" name="type">
-                                <option value="<?= $lang['Custom'] ?>"<?= ($settingData['import']['db']['self'] ?? false) ? '' : ' selected' ?>><?= $lang['Custom']; ?>
-                                <option value="<?= $lang['Self'] ?>" <?= ($settingData['import']['db']['self'] ?? false) ? ' selected' : '' ?>><?= $lang['Self']; ?>
+                                <option value="<?= $lang['Custom']; ?>"<?= ($settingData['import']['db']['self'] ?? false) ? '' : ' selected'; ?>><?= $lang['Custom']; ?>
+                                <option value="<?= $lang['Self']; ?>" <?= ($settingData['import']['db']['self'] ?? false) ? ' selected' : ''; ?>><?= $lang['Self']; ?>
                             </select>
                         <tr><td><label for="iDatabaseType"><?= $lang['Type']; ?></label>
                         <tr><td>
@@ -140,8 +140,8 @@ $isNew = $currentSetting instanceof NullExchangeSetting;
                         <tr><td><label for="iDatabaseType"><?= $lang['Connection']; ?></label>
                         <tr><td>
                             <select id="iConnection" name="type">
-                            <option value="<?= $lang['Custom'] ?>"<?= ($settingData['export']['db']['self'] ?? false) ? '' : ' selected' ?>><?= $lang['Custom']; ?>
-                                <option value="<?= $lang['Self'] ?>" <?= ($settingData['export']['db']['self'] ?? false) ? ' selected' : '' ?>><?= $lang['Self']; ?>
+                            <option value="<?= $lang['Custom']; ?>"<?= ($settingData['export']['db']['self'] ?? false) ? '' : ' selected'; ?>><?= $lang['Custom']; ?>
+                                <option value="<?= $lang['Self']; ?>" <?= ($settingData['export']['db']['self'] ?? false) ? ' selected' : ''; ?>><?= $lang['Self']; ?>
                             </select>
                         <tr><td><label for="iDatabaseType"><?= $lang['Type']; ?></label>
                         <tr><td>
@@ -222,8 +222,8 @@ $isNew = $currentSetting instanceof NullExchangeSetting;
                                 foreach ($currentImportTableFields as $field) :
                             ?>
                             <tr>
-                                <td><label class="radio" for="import-<?= $field['COLUMN_NAME'] ?>">
-                                        <input id="import-<?= $field['COLUMN_NAME'] ?>" type="radio" name="import-field" value="1">
+                                <td><label class="radio" for="import-<?= $field['COLUMN_NAME']; ?>">
+                                        <input id="import-<?= $field['COLUMN_NAME']; ?>" type="radio" name="import-field" value="1">
                                         <span class="checkmark"></span>
                                     </label>
                                 <td><?= $field['DATA_TYPE']; ?>
@@ -254,8 +254,8 @@ $isNew = $currentSetting instanceof NullExchangeSetting;
                                 foreach ($currentExportTableFields as $field) :
                             ?>
                             <tr>
-                                <td><label class="radio" for="export-<?= $field['COLUMN_NAME'] ?>">
-                                        <input id="export-<?= $field['COLUMN_NAME'] ?>" type="radio" name="export-field" value="1">
+                                <td><label class="radio" for="export-<?= $field['COLUMN_NAME']; ?>">
+                                        <input id="export-<?= $field['COLUMN_NAME']; ?>" type="radio" name="export-field" value="1">
                                         <span class="checkmark"></span>
                                     </label>
                                 <td><?= $field['DATA_TYPE']; ?>

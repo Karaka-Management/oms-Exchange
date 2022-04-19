@@ -34,9 +34,9 @@ final class ExchangeSettingMapper extends DataMapperFactory
      */
     public const COLUMNS = [
         'exchange_settings_id'         => ['name' => 'exchange_settings_id',         'type' => 'int',               'internal' => 'id'],
-        'exchange_settings_title'     => ['name' => 'exchange_settings_title',     'type' => 'string',              'internal' => 'title'],
-        'exchange_settings_data'    => ['name' => 'exchange_settings_data',    'type' => 'Json',            'internal' => 'data'],
-        'exchange_settings_job'   => ['name' => 'exchange_settings_job',   'type' => 'int',               'internal' => 'job'],
+        'exchange_settings_title'      => ['name' => 'exchange_settings_title',     'type' => 'string',              'internal' => 'title'],
+        'exchange_settings_data'       => ['name' => 'exchange_settings_data',    'type' => 'Json',            'internal' => 'data'],
+        'exchange_settings_job'        => ['name' => 'exchange_settings_job',   'type' => 'int',               'internal' => 'job'],
         'exchange_settings_exchange'   => ['name' => 'exchange_settings_exchange',   'type' => 'int',               'internal' => 'exchange'],
     ];
 

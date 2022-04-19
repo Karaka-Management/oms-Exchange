@@ -35,12 +35,12 @@ final class InterfaceManagerMapper extends DataMapperFactory
      * @since 1.0.0
      */
     public const COLUMNS = [
-        'exchange_interface_id'      => ['name' => 'exchange_interface_id',      'type' => 'int',    'internal' => 'id'],
-        'exchange_interface_title'   => ['name' => 'exchange_interface_title',   'type' => 'string', 'internal' => 'title'],
-        'exchange_interface_version' => ['name' => 'exchange_interface_version', 'type' => 'string', 'internal' => 'version'],
-        'exchange_interface_export'  => ['name' => 'exchange_interface_export',  'type' => 'bool',   'internal' => 'hasExport'],
-        'exchange_interface_import'  => ['name' => 'exchange_interface_import',  'type' => 'bool',   'internal' => 'hasImport'],
-        'exchange_interface_website' => ['name' => 'exchange_interface_website', 'type' => 'string', 'internal' => 'website'],
+        'exchange_interface_id'                => ['name' => 'exchange_interface_id',      'type' => 'int',    'internal' => 'id'],
+        'exchange_interface_title'             => ['name' => 'exchange_interface_title',   'type' => 'string', 'internal' => 'title'],
+        'exchange_interface_version'           => ['name' => 'exchange_interface_version', 'type' => 'string', 'internal' => 'version'],
+        'exchange_interface_export'            => ['name' => 'exchange_interface_export',  'type' => 'bool',   'internal' => 'hasExport'],
+        'exchange_interface_import'            => ['name' => 'exchange_interface_import',  'type' => 'bool',   'internal' => 'hasImport'],
+        'exchange_interface_website'           => ['name' => 'exchange_interface_website', 'type' => 'string', 'internal' => 'website'],
         'exchange_interface_media'             => ['name' => 'exchange_interface_media',       'type' => 'int',   'internal' => 'source'],
         'exchange_interface_created_at'        => ['name' => 'exchange_interface_created_at', 'type' => 'DateTimeImmutable', 'internal' => 'createdAt', 'readonly' => true],
         'exchange_interface_created_by'        => ['name' => 'exchange_interface_created_by', 'type' => 'int', 'internal' => 'createdBy', 'readonly' => true],

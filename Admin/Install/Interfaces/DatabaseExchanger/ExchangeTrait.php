@@ -33,7 +33,7 @@ trait ExchangeTrait
      */
     public function exchangeFromRequest(RequestAbstract $request) : array
     {
-        $setting = ExchangeSettingMapper::get()->where('id', (int) $request->getData('setting'))->execute();
+        $setting     = ExchangeSettingMapper::get()->where('id', (int) $request->getData('setting'))->execute();
         $settingData = $setting->getData();
 
         $lang             = [];
@@ -44,21 +44,21 @@ trait ExchangeTrait
         $importConnection = ($settingData['import']['db']['self'] ?? true)
         ? $this->local ?? new NullConnection()
         : ConnectionFactory::create([
-            'db' => $settingData['import']['db']['db'],
-            'host' => $settingData['import']['db']['host'],
-            'port' => $settingData['import']['db']['port'],
+            'db'       => $settingData['import']['db']['db'],
+            'host'     => $settingData['import']['db']['host'],
+            'port'     => $settingData['import']['db']['port'],
             'database' => $settingData['import']['db']['database'],
-            'login' => $settingData['import']['db']['login'],
+            'login'    => $settingData['import']['db']['login'],
             'password' => $settingData['import']['db']['password'],
         ]);
         $exportConnection = ($settingData['export']['db']['self'] ?? true)
             ? $this->remote ?? new NullConnection()
             : ConnectionFactory::create([
-                'db' => $settingData['export']['db']['db'],
-                'host' => $settingData['export']['db']['host'],
-                'port' => $settingData['export']['db']['port'],
+                'db'       => $settingData['export']['db']['db'],
+                'host'     => $settingData['export']['db']['host'],
+                'port'     => $settingData['export']['db']['port'],
                 'database' => $settingData['export']['db']['database'],
-                'login' => $settingData['export']['db']['login'],
+                'login'    => $settingData['export']['db']['login'],
                 'password' => $settingData['export']['db']['password'],
         ]);
 
