@@ -2,7 +2,7 @@
 /**
  * Karaka
  *
- * PHP Version 8.0
+ * PHP Version 8.1
  *
  * @package   phpOMS\Module
  * @copyright Dennis Eichhorn
@@ -113,8 +113,6 @@ class InterfaceManager
 
     /**
      * Object constructor.
-     *
-     * @param string $path Info file path
      *
      * @since 1.0.0
      */

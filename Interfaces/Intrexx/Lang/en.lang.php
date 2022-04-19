@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * Karaka
  *
- * PHP Version 8.0
+ * PHP Version 8.1
  *
  * @package   Modules\Exchange
  * @copyright Dennis Eichhorn

@@ -2,7 +2,7 @@
 /**
  * Karaka
  *
- * PHP Version 8.0
+ * PHP Version 8.1
  *
  * @package   Modules\Exchange\Interfaces\GSD\Model
  * @copyright Dennis Eichhorn
