@@ -280,6 +280,7 @@ $isNew = $currentSetting instanceof NullExchangeSetting;
                 <table id="appList" class="default sticky">
                     <thead>
                     <tr>
+                        <td>
                         <td><?= $lang['Table']; ?>
                         <td><?= $lang['Table']; ?>
                         <td><?= $lang['IsPrimary']; ?>
@@ -294,6 +295,7 @@ $isNew = $currentSetting instanceof NullExchangeSetting;
                             foreach ($table['match'] as $match) :
                     ?>
                     <tr>
+                        <td><i class="fa fa-times btn remove-form"></i>
                         <td><?= $table['src']; ?>
                         <td><?= $table['dest']; ?>
                         <td><?= $match['src_field']['primary'] ? 'yes' : 'no'; ?>
