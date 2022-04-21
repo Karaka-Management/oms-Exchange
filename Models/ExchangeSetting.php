@@ -81,7 +81,7 @@ class ExchangeSetting implements \JsonSerializable
     /**
      * Set data.
      *
-     * @param int $data Data
+     * @param array $data Data
      *
      * @return void
      *

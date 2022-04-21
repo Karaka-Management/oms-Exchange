@@ -44,7 +44,7 @@ final class BackendController extends Controller
      * @since 1.0.0
      * @codeCoverageIgnore
      */
-    public function viewExchangeLogList(RequestAbstract $request, ResponseAbstract $response, $data = null) : RenderableInterface
+    public function viewExchangeLogList(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : RenderableInterface
     {
         $view = new View($this->app->l11nManager, $request, $response);
         $view->setTemplate('/Modules/Exchange/Theme/Backend/exchange-log-list');
@@ -79,7 +79,7 @@ final class BackendController extends Controller
      * @since 1.0.0
      * @codeCoverageIgnore
      */
-    public function viewExchangeLog(RequestAbstract $request, ResponseAbstract $response, $data = null) : RenderableInterface
+    public function viewExchangeLog(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : RenderableInterface
     {
         $view = new View($this->app->l11nManager, $request, $response);
         $view->setTemplate('/Modules/Exchange/Theme/Backend/exchange-log');
@@ -103,7 +103,7 @@ final class BackendController extends Controller
      * @since 1.0.0
      * @codeCoverageIgnore
      */
-    public function viewExchangeExportList(RequestAbstract $request, ResponseAbstract $response, $data = null) : RenderableInterface
+    public function viewExchangeExportList(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : RenderableInterface
     {
         $view = new View($this->app->l11nManager, $request, $response);
         $view->setTemplate('/Modules/Exchange/Theme/Backend/exchange-export-list');
@@ -136,7 +136,7 @@ final class BackendController extends Controller
      * @since 1.0.0
      * @codeCoverageIgnore
      */
-    public function viewExchangeImportList(RequestAbstract $request, ResponseAbstract $response, $data = null) : RenderableInterface
+    public function viewExchangeImportList(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : RenderableInterface
     {
         $view = new View($this->app->l11nManager, $request, $response);
         $view->setTemplate('/Modules/Exchange/Theme/Backend/exchange-import-list');
@@ -169,7 +169,7 @@ final class BackendController extends Controller
      * @since 1.0.0
      * @codeCoverageIgnore
      */
-    public function viewExchangeExport(RequestAbstract $request, ResponseAbstract $response, $data = null) : RenderableInterface
+    public function viewExchangeExport(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : RenderableInterface
     {
         $view = new View($this->app->l11nManager, $request, $response);
         $view->setTemplate('/Modules/Exchange/Theme/Backend/exchange-export');
@@ -206,7 +206,7 @@ final class BackendController extends Controller
      * @since 1.0.0
      * @codeCoverageIgnore
      */
-    public function viewExchangeImport(RequestAbstract $request, ResponseAbstract $response, $data = null) : RenderableInterface
+    public function viewExchangeImport(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : RenderableInterface
     {
         $view = new View($this->app->l11nManager, $request, $response);
         $view->setTemplate('/Modules/Exchange/Theme/Backend/exchange-import');

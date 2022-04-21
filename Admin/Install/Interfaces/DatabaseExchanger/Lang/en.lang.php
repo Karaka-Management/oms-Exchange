@@ -24,7 +24,6 @@ return [
     'Type'              => 'Type',
     'Field'             => 'Field',
     'Protocol'          => 'Protocol',
-    'Settings'          => 'Settings',
     'Import'            => 'Import',
     'Export'            => 'Export',
     'Connection'        => 'Connection',

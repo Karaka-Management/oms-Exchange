@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Modules\Exchange\Admin;
 
 use Modules\Exchange\Models\InterfaceManager;
+use Modules\Exchange\Models\NullInterfaceManager;
 use phpOMS\Application\ApplicationAbstract;
 use phpOMS\Config\SettingsInterface;
 use phpOMS\Message\Http\HttpRequest;
@@ -49,6 +50,10 @@ final class Installer extends InstallerAbstract
         parent::install($app, $info, $cfgHandler);
 
         $interfaces = \scandir(__DIR__ . '/Install/Interfaces');
+        if ($interfaces === false) {
+            return;
+        }
+
         foreach ($interfaces as $interface) {
             if (!\is_dir(__DIR__ . '/Install/Interfaces/' . $interface)
                 || $interface === '.'
@@ -79,7 +84,15 @@ final class Installer extends InstallerAbstract
         $response = new HttpResponse();
         $request  = new HttpRequest(new HttpUri(''));
 
-        $data = \json_decode(\file_get_contents($path . '/interface.json'), true);
+        $contents = \file_get_contents($path . '/interface.json');
+        if ($contents === false) {
+            return new NullInterfaceManager();
+        }
+
+        $data = \json_decode($contents, true);
+        if (!\is_array($data)) {
+            return new NullInterfaceManager();
+        }
 
         $request->header->account = 1;
         $request->setData('title', $data['name']);
@@ -92,6 +105,10 @@ final class Installer extends InstallerAbstract
         }
 
         $exchangeFiles = \scandir($path);
+        if ($exchangeFiles === false) {
+            return new NullInterfaceManager();
+        }
+
         foreach ($exchangeFiles as $filePath) {
             if ($filePath === '..' || $filePath === '.') {
                 continue;
@@ -99,6 +116,10 @@ final class Installer extends InstallerAbstract
 
             if (\is_dir($path . '/' . $filePath)) {
                 $subdir = \scandir($path . '/' . $filePath);
+                if ($subdir === false) {
+                    continue;
+                }
+
                 foreach ($subdir as $subPath) {
                     if (!\is_file($path . '/' . $filePath . '/' . $subPath)) {
                         continue;

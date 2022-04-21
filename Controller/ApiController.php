@@ -60,7 +60,7 @@ final class ApiController extends Controller
      *
      * @since 1.0.0
      */
-    public function apiExchangeImport(RequestAbstract $request, ResponseAbstract $response, $data = null) : void
+    public function apiExchangeImport(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
     {
         $import  = $this->importDataFromRequest($request);
         $status  = NotificationLevel::ERROR;
@@ -93,6 +93,8 @@ final class ApiController extends Controller
      */
     private function importDataFromRequest(RequestAbstract $request) : array
     {
+        $importer = null;
+
         /** @var \Modules\Exchange\Models\InterfaceManager $interface */
         $interface = InterfaceManagerMapper::get()
             ->with('source')
@@ -131,7 +133,7 @@ final class ApiController extends Controller
         }
 
         /** @var \Modules\Exchange\Models\ImporterAbstract $importer */
-        return $importer->importFromRequest($request);
+        return $importer === null ? [] : $importer->importFromRequest($request);
     }
 
     /**
@@ -168,7 +170,7 @@ final class ApiController extends Controller
      *
      * @since 1.0.0
      */
-    public function apiInterfaceInstall(RequestAbstract $request, ResponseAbstract $response, $data = null) : void
+    public function apiInterfaceInstall(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
     {
         $uploadedFiles = $request->getFiles();
         $files         = [];
@@ -276,7 +278,7 @@ final class ApiController extends Controller
      *
      * @since 1.0.0
      */
-    public function apiExchangeExport(RequestAbstract $request, HttpResponse $response, $data = null) : void
+    public function apiExchangeExport(RequestAbstract $request, HttpResponse $response, mixed $data = null) : void
     {
         $export = $this->exportDataFromRequest($request);
 
@@ -329,6 +331,8 @@ final class ApiController extends Controller
      */
     private function exportDataFromRequest(RequestAbstract $request) : array
     {
+        $exporter = null;
+
         /** @var \Modules\Exchange\Models\InterfaceManager $interface */
         $interface = InterfaceManagerMapper::get()
             ->with('source')
@@ -354,7 +358,7 @@ final class ApiController extends Controller
             }
         }
 
-        return $exporter->exportFromRequest($request);
+        return $exporter === null ? [] : $exporter->exportFromRequest($request);
     }
 
     /**
@@ -370,7 +374,7 @@ final class ApiController extends Controller
      *
      * @since 1.0.0
      */
-    public function apiExchangeSettingCreate(RequestAbstract $request, HttpResponse $response, $data = null) : void
+    public function apiExchangeSettingCreate(RequestAbstract $request, HttpResponse $response, mixed $data = null) : void
     {
         if (!empty($val = $this->validateSettingCreate($request))) {
             $response->set('setting_create', new FormValidation($val));

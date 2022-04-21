@@ -30,14 +30,6 @@ final class Importer extends ImporterAbstract
     use ExchangeTrait;
 
     /**
-     * Account
-     *
-     * @var int
-     * @since 1.0.0
-     */
-    private int $account = 1;
-
-    /**
      * Import all data in time span
      *
      * @param \DateTime $start Start time (inclusive)

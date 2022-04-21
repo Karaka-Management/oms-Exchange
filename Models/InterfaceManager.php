@@ -106,7 +106,7 @@ class InterfaceManager
     /**
      * Settings.
      *
-     * @var ExchangeSettings[]
+     * @var ExchangeSetting[]
      * @since 1.0.0
      */
     protected array $settings = [];
