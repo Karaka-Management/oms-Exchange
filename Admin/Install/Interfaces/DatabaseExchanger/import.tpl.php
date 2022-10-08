@@ -81,7 +81,7 @@ $isNew = $currentSetting instanceof NullExchangeSetting;
                     <div class="ipt-wrap">
                         <div class="ipt-first"><input name="title" type="text" class="wf-100" value="<?= $currentSetting->title; ?>"></div>
                         <div class="ipt-second">
-                            <input type="submit" value="<?= $this->getHtml('Save', '0', '0'); ?>">
+                            <input type="submit" value="<?= $this->getHtml('Save', '0', '0'); ?>" name="save-editor">
                         </div>
                     </div>
                 </form>
@@ -317,7 +317,7 @@ $isNew = $currentSetting instanceof NullExchangeSetting;
         <div class="portlet-body">
             <div class="form-group">
                 <label for="iTitle"><?= $this->getHtml('Column1'); ?></label>
-                <input type="text" id="iTitle" name="title" placeholder="&#xf040; <?= $this->getHtml('Title'); ?>">
+                <input type="text" id="iTitle" name="column1title" placeholder="&#xf040; <?= $this->getHtml('Title'); ?>">
             </div>
 
             <div class="form-group">
@@ -327,7 +327,7 @@ $isNew = $currentSetting instanceof NullExchangeSetting;
                         <input type="text" id="iTitle" name="title" placeholder="&#xf040; <?= $this->getHtml('Title'); ?>">
                     </div>
                     <div class="ipt-second">
-                        <select>
+                        <select nma="column1comparison">
                             <option>=
                             <option>>
                             <option>>=
@@ -340,7 +340,7 @@ $isNew = $currentSetting instanceof NullExchangeSetting;
 
             <div class="form-group">
                 <label for="iTitle"><?= $this->getHtml('Column2'); ?></label>
-                <input type="text" id="iTitle" name="title" placeholder="&#xf040; <?= $this->getHtml('Title'); ?>">
+                <input type="text" id="iTitle" name="column2title" placeholder="&#xf040; <?= $this->getHtml('Title'); ?>">
             </div>
 
             <div class="form-group">
@@ -350,7 +350,7 @@ $isNew = $currentSetting instanceof NullExchangeSetting;
                         <input type="text" id="iTitle" name="title" placeholder="&#xf040; <?= $this->getHtml('Title'); ?>">
                     </div>
                     <div class="ipt-second">
-                        <select>
+                        <select name="column2comparison">
                             <option>=
                             <option>>
                             <option>>=
@@ -362,7 +362,7 @@ $isNew = $currentSetting instanceof NullExchangeSetting;
             </div>
         </div>
         <div class="portlet-foot">
-            <input type="submit" value="<?= $this->getHtml('Run', '0', '0'); ?>">
+            <input type="submit" value="<?= $this->getHtml('Run', '0', '0'); ?>" name="run">
         </div>
     </section>
     </div>

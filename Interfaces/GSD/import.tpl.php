@@ -86,7 +86,7 @@
                     </table>
                 </div>
                 <div class="portlet-foot">
-                    <input type="submit" value="<?= $this->getHtml('Import'); ?>">
+                    <input type="submit" value="<?= $this->getHtml('Import'); ?>" name="import">
                 </div>
             </form>
         </section>
