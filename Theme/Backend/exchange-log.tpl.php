@@ -30,7 +30,7 @@ echo $this->getData('nav')->render();
                         <tr><td><?= $this->getHtml('Type'); ?><td class="wf-100"><?= $log->getType(); ?>
                         <tr><td><?= $this->getHtml('Subtype'); ?><td class="wf-100"><?= $log->subtype; ?>
                         <tr><td><?= $this->getHtml('Created'); ?><td><?= $log->createdAt->format('Y-m-d'); ?>
-                        <tr><td><?= $this->getHtml('Creator'); ?><td><a href="<?= UriFactory::build('{/prefix}profile/single?for=' . $log->createdBy->getId()); ?>"><?= $log->createdBy->name1; ?></a>
+                        <tr><td><?= $this->getHtml('Creator'); ?><td><a href="<?= UriFactory::build('profile/single?for=' . $log->createdBy->getId()); ?>"><?= $log->createdBy->name1; ?></a>
                         <tr><td colspan="2"><?= $log->message; ?>
                 </table>
             </div>
