@@ -35,4 +35,12 @@ final class NullExchangeSetting extends ExchangeSetting
     {
         $this->id = $id;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function jsonSerialize() : mixed
+    {
+        return ['id' => $this->id];
+    }
 }
