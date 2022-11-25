@@ -39,82 +39,9 @@ final class InterfaceManagerTest extends \PHPUnit\Framework\TestCase
     {
         self::assertEquals(0, $this->interface->getId());
         self::assertEquals('', $this->interface->getPath());
-        self::assertEquals('', $this->interface->getName());
-        self::assertEquals('', $this->interface->getInterfacePath());
-        self::assertFalse($this->interface->hasImport());
-        self::assertFalse($this->interface->hasExport());
-        self::assertEquals([], $this->interface->get());
-    }
-
-    /**
-     * @covers Modules\Exchange\Models\InterfaceManager
-     * @group module
-     */
-    public function testLoadInputOutput() : void
-    {
-        $this->interface = new InterfaceManager(__DIR__ . '/testInterface.json');
-        $this->interface->load();
-
-        self::assertEquals(
-            \json_decode(\file_get_contents(__DIR__ . '/testInterface.json'), true),
-            $this->interface->get()
-        );
-    }
-
-    /**
-     * @covers Modules\Exchange\Models\InterfaceManager
-     * @group module
-     */
-    public function testSetInputOutput() : void
-    {
-        $this->interface = new InterfaceManager(__DIR__ . '/testInterface.json');
-        $this->interface->load();
-
-        $this->interface->set('website', 'https://karaka.app');
-        self::assertEquals('https://karaka.app', $this->interface->get()['website']);
-
-        self::assertNotEquals(
-            \json_decode(\file_get_contents(__DIR__ . '/testInterface.json'), true),
-            $this->interface->get()
-        );
-
-        $this->interface->update();
-        self::assertEquals(
-            \json_decode(\file_get_contents(__DIR__ . '/testInterface.json'), true),
-            $this->interface->get()
-        );
-
-        $this->interface->set('website', '');
-        $this->interface->update();
-    }
-
-    /**
-     * @covers Modules\Exchange\Models\InterfaceManager
-     * @group module
-     */
-    public function testInvalidPathLoad() : void
-    {
-        $this->expectException(\phpOMS\System\File\PathException::class);
-        $this->interface->load();
-    }
-
-    /**
-     * @covers Modules\Exchange\Models\InterfaceManager
-     * @group module
-     */
-    public function testInvalidPathUpdate() : void
-    {
-        $this->expectException(\phpOMS\System\File\PathException::class);
-        $this->interface->update();
-    }
-
-    /**
-     * @covers Modules\Exchange\Models\InterfaceManager
-     * @group module
-     */
-    public function testInvalidDataSet() : void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->interface->set('test/path', new InterfaceManager());
+        self::assertEquals('', $this->interface->title);
+        self::assertFalse($this->interface->hasImport);
+        self::assertFalse($this->interface->hasExport);
+        self::assertEquals([], $this->interface->getSettings());
     }
 }

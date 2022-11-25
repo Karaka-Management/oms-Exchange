@@ -66,8 +66,10 @@ final class ApiController extends Controller
         $status  = NotificationLevel::ERROR;
         $message = 'Import failed.';
 
-        foreach ($import['logs'] as $log) {
-            $this->createModel($request->header->account, $log, ExchangeLogMapper::class, 'import', $request->getOrigin());
+        if (isset($import['logs'])) {
+            foreach ($import['logs'] as $log) {
+                $this->createModel($request->header->account, $log, ExchangeLogMapper::class, 'import', $request->getOrigin());
+            }
         }
 
         if ($import['status']) {

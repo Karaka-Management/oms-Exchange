@@ -96,14 +96,82 @@ final class ApiControllerTest extends \PHPUnit\Framework\TestCase
      */
     public function testInterfaceInstall() : void
     {
-        $response = new HttpResponse();
-        $request  = new HttpRequest(new HttpUri(''));
+        $exchanges = \scandir(__DIR__ . '/../Interfaces');
 
-        $request->header->account = 1;
-        $request->setData('interface', 'OMS');
+        if (!\is_dir(__DIR__ . '/temp')) {
+            \mkdir(__DIR__ . '/temp');
+        }
 
-        $this->module->apiInterfaceInstall($request, $response);
-        self::assertEquals(1, $response->get('')['response']->getId());
+        foreach ($exchanges as $exchange) {
+            if (!\is_dir(__DIR__ . '/../Interfaces/' . $exchange) || $exchange === '..' || $exchange === '.') {
+                continue;
+            }
+
+            $data = \json_decode(\file_get_contents(__DIR__ . '/../Interfaces/' . $exchange . '/interface.json'), true);
+
+            $response = new HttpResponse();
+            $request  = new HttpRequest(new HttpUri(''));
+
+            $request->header->account = 1;
+            $request->setData('title', $data['name']);
+            $request->setData('export', (bool) $data['export']);
+            $request->setData('import', (bool) $data['import']);
+            $request->setData('website', $data['website']);
+
+            $files = [];
+
+            $exchangeFiles = \scandir(__DIR__ . '/../Interfaces/' . $exchange);
+            foreach ($exchangeFiles as $filePath) {
+                if ($filePath === '..' || $filePath === '.') {
+                    continue;
+                }
+
+                if (\is_dir(__DIR__ . '/../Interfaces/' . $exchange . '/' . $filePath)) {
+                    $subdir = \scandir(__DIR__ . '/../Interfaces/' . $exchange . '/' . $filePath);
+                    foreach ($subdir as $subPath) {
+                        if (!\is_file(__DIR__ . '/../Interfaces/' . $exchange . '/' . $filePath . '/' . $subPath)) {
+                            continue;
+                        }
+
+                        \copy(
+                            __DIR__ . '/../Interfaces/' . $exchange . '/' . $filePath . '/' . $subPath,
+                            __DIR__ . '/temp/' . $subPath
+                        );
+
+                        $files[] = [
+                            'error'    => \UPLOAD_ERR_OK,
+                            'type'     => \substr($subPath, \strrpos($subPath, '.') + 1),
+                            'name'     => $filePath . '/' . $subPath,
+                            'tmp_name' => __DIR__ . '/temp/' . $subPath,
+                            'size'     => \filesize(__DIR__ . '/temp/' . $subPath),
+                        ];
+                    }
+                } else {
+                    if (!\is_file(__DIR__ . '/../Interfaces/' . $exchange . '/' . $filePath)) {
+                        continue;
+                    }
+
+                    \copy(__DIR__ . '/../Interfaces/' . $exchange . '/' . $filePath, __DIR__ . '/temp/' . $filePath);
+
+                    $files[] = [
+                        'error'    => \UPLOAD_ERR_OK,
+                        'type'     => \substr($filePath, \strrpos($filePath, '.') + 1),
+                        'name'     => $filePath,
+                        'tmp_name' => __DIR__ . '/temp/' . $filePath,
+                        'size'     => \filesize(__DIR__ . '/temp/' . $filePath),
+                    ];
+                }
+            }
+
+            TestUtils::setMember($request, 'files', $files);
+
+            $this->module->apiInterfaceInstall($request, $response);
+            self::assertGreaterThan(0, $response->get('')['response']->getId());
+        }
+
+        if (\is_dir(__DIR__ . '/temp')) {
+            \rmdir(__DIR__ . '/temp');
+        }
     }
 
     /**

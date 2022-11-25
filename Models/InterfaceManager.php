@@ -18,6 +18,7 @@ use Modules\Admin\Models\Account;
 use Modules\Admin\Models\NullAccount;
 use Modules\Media\Models\Collection;
 use Modules\Media\Models\NullCollection;
+use phpOMS\System\File\PathException;
 
 /**
  * ModuleInfo class.
@@ -38,6 +39,14 @@ class InterfaceManager
      * @since 1.0.0
      */
     protected int $id = 0;
+
+    /**
+     * File path.
+     *
+     * @var string
+     * @since 1.0.0
+     */
+    private string $path = '';
 
     /**
      * Title.
@@ -114,13 +123,54 @@ class InterfaceManager
     /**
      * Object constructor.
      *
+     * @param string $path Info file path
+     *
      * @since 1.0.0
      */
-    public function __construct()
+    public function __construct(string $path = '')
     {
-        $this->createdBy = new NullAccount();
-        $this->createdAt = new \DateTimeImmutable('now');
+        $this->path      = $path;
+        $this->account   = new NullAccount();
+        $this->createdAt = new \DateTimeImmutable();
         $this->source    = new NullCollection();
+    }
+
+    /**
+     * Load info data from path.
+     *
+     * @return void
+     *
+     * @throws PathException this exception is thrown in case the info file path doesn't exist
+     *
+     * @since 1.0.0
+     */
+    public function load() : void
+    {
+        if (!\is_file($this->path)) {
+            throw new PathException($this->path);
+        }
+
+        $contents = \file_get_contents($this->path);
+
+        $info = \json_decode($contents === false ? '[]' : $contents, true);
+
+        $this->title = $info['name'];
+        $this->version = $info['version'];
+        $this->website = $info['website'];
+        $this->hasExport = $info['export'];
+        $this->hasImport = $info['import'];
+    }
+
+    /**
+     * Get info path
+     *
+     * @return string
+     *
+     * @since 1.0.0
+     */
+    public function getPath() : string
+    {
+        return $this->path;
     }
 
     /**

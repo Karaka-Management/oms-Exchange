@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Modules\Exchange\tests\Models;
 
 use Modules\Exchange\Models\ExporterAbstract;
+use phpOMS\DataStorage\Database\Connection\NullConnection;
 use phpOMS\DataStorage\Database\Connection\SQLiteConnection;
 use phpOMS\Localization\L11nManager;
 use phpOMS\Message\Http\HttpRequest;
@@ -35,6 +36,7 @@ final class ExporterAbstractTest extends \PHPUnit\Framework\TestCase
     {
         $this->class = new class(
             new SQLiteConnection($GLOBALS['CONFIG']['db']['core']['sqlite']['admin']),
+            new NullConnection(),
             new L11nManager('placeholder')
         ) extends ExporterAbstract {
             public function exportFromRequest(RequestAbstract $request) : array
