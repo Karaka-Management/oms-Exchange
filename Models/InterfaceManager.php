@@ -154,9 +154,9 @@ class InterfaceManager
 
         $info = \json_decode($contents === false ? '[]' : $contents, true);
 
-        $this->title = $info['name'];
-        $this->version = $info['version'];
-        $this->website = $info['website'];
+        $this->title     = $info['name'];
+        $this->version   = $info['version'];
+        $this->website   = $info['website'];
         $this->hasExport = $info['export'];
         $this->hasImport = $info['import'];
     }
