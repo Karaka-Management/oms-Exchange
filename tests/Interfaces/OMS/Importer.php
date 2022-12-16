@@ -8,7 +8,7 @@
  * @copyright Dennis Eichhorn
  * @license   OMS License 1.0
  * @version   1.0.0
- * @link      https://karaka.app
+ * @link      https://jingga.app
  */
 declare(strict_types=1);
 
@@ -28,7 +28,7 @@ use phpOMS\Message\RequestAbstract;
  *
  * @package Modules\Exchange\Models\Interfaces\OMS
  * @license OMS License 1.0
- * @link    https://karaka.app
+ * @link    https://jingga.app
  * @since   1.0.0
  */
 final class Importer extends ImporterAbstract
@@ -193,7 +193,7 @@ final class Importer extends ImporterAbstract
                             . " * @copyright Dennis Eichhorn\n"
                             . " * @license   OMS License 1.0\n"
                             . " * @version   1.0.0\n"
-                            . " * @link      https://karaka.app\n"
+                            . " * @link      https://jingga.app\n"
                             . " */\n"
                             . "declare(strict_types=1);\n\n"
                             . "return ['" . ($file === '' ? $module : $file) . "' => [\n"
