@@ -130,7 +130,7 @@ class InterfaceManager
     public function __construct(string $path = '')
     {
         $this->path      = $path;
-        $this->account   = new NullAccount();
+        $this->createdBy = new NullAccount();
         $this->createdAt = new \DateTimeImmutable();
         $this->source    = new NullCollection();
     }

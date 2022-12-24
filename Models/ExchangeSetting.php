@@ -43,6 +43,14 @@ class ExchangeSetting implements \JsonSerializable
     public string $title = '';
 
     /**
+     * Relation definitions between tables/columns.
+     *
+     * @var array
+     * @since 1.0.0
+     */
+    private array $relations = [];
+
+    /**
      * Data.
      *
      * @var array
@@ -102,6 +110,32 @@ class ExchangeSetting implements \JsonSerializable
     public function getId() : int
     {
         return $this->id;
+    }
+
+    /**
+     * Set relations
+     *
+     * @param array $relations Relations between tables/columsn
+     *
+     * @return void
+     *
+     * @since 1.0.0
+     */
+    public function setRelations(array $relations) : void
+    {
+        $this->relations = $relations;
+    }
+
+    /**
+     * Get table/column relations
+     *
+     * @return array
+     *
+     * @since 1.0.0
+     */
+    public function getRelations() : array
+    {
+        return $this->relations;
     }
 
     /**

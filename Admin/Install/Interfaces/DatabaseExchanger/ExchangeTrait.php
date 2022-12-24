@@ -41,8 +41,11 @@ trait ExchangeTrait
      */
     public function exchangeFromRequest(RequestAbstract $request) : array
     {
-        /** @var \Modules\Exchange\Models\ExhcangeSetting $setting */
-        $setting     = ExchangeSettingMapper::get()->where('id', (int) $request->getData('setting'))->execute();
+        /** @var \Modules\Exchange\Models\ExchangeSetting $setting */
+        $setting = ExchangeSettingMapper::get()
+            ->where('id', (int) $request->getData('setting'))
+            ->execute();
+
         $settingData = $setting->getData();
 
         $lang             = [];
@@ -73,7 +76,8 @@ trait ExchangeTrait
             ]
         );
 
-        foreach (($setting['relation'] ?? []) as $table) {
+        $relations = $setting->getRelations();
+        foreach ($relations as $table) {
             $importQuery = new Builder($importConnection);
             $importQuery->from($table['src']);
 

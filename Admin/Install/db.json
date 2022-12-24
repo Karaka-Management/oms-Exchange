@@ -75,6 +75,11 @@
                 "type": "TEXT",
                 "null": false
             },
+            "exchange_settings_relations": {
+                "name": "exchange_settings_relations",
+                "type": "TEXT",
+                "null": false
+            },
             "exchange_settings_job": {
                 "name": "exchange_settings_job",
                 "type": "INT",
