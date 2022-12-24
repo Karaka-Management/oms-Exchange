@@ -238,16 +238,16 @@ final class ApiControllerTest extends \PHPUnit\Framework\TestCase
         $request->setData('type', 'language');
 
         if (!\is_file(__DIR__ . '/test_tmp.csv')) {
-            \copy(__DIR__ . '/../Interfaces/OMS/test.csv', __DIR__ . '/../Interfaces/OMS/test_tmp.csv');
+            \copy(__DIR__ . '/../Interfaces/OMS/test.csv', __DIR__ . '/test_tmp.csv');
         }
 
         TestUtils::setMember($request, 'files', [
             'file0' => [
-                'name'     => 'test.csv',
+                'name'     => 'test_tmp.csv',
                 'type'     => 'csv',
-                'tmp_name' => __DIR__ . '/../Interfaces/OMS/test_tmp.csv',
+                'tmp_name' => __DIR__ . '/test_tmp.csv',
                 'error'    => \UPLOAD_ERR_OK,
-                'size'     => \filesize(__DIR__ . '/../Interfaces/OMS/test_tmp.csv'),
+                'size'     => \filesize(__DIR__ . '/test_tmp.csv'),
             ],
         ]);
 

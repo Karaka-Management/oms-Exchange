@@ -151,11 +151,11 @@ final class Importer extends ImporterAbstract
             }
 
             foreach ($supportedLanguages as $index => $language) {
-                if (empty(\trim($language))) {
+                if (empty($language = \trim($language))) {
                     continue; // @codeCoverageIgnore
                 }
 
-                $languageArray[$line[0]][$line[1]][$line[2]][$line[3]][\trim($language)] = $translations[$index];
+                $languageArray[$line[0]][$line[1]][$line[2]][$line[3]][$language] = $translations[$index];
             }
         }
 
