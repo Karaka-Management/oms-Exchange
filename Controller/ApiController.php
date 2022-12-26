@@ -115,12 +115,12 @@ final class ApiController extends Controller
                     $remoteConnection = new NullConnection();
                     if (!empty($request->getData('dbtype'))) {
                         $remoteConnection = ConnectionFactory::create([
-                            'db'       => $request->getData('dbtype'),
-                            'host'     => $request->getData('dbhost') ?? null,
-                            'port'     => $request->getData('dbport') ?? null,
-                            'database' => $request->getData('dbdatabase') ?? null,
-                            'login'    => $request->getData('dblogin') ?? null,
-                            'password' => $request->getData('dbpassword') ?? null,
+                            'db'       => (string) $request->getData('dbtype'),
+                            'host'     => $request->hasData('dbhost') ? (string) $request->getData('dbhost') : null,
+                            'port'     => $request->hasData('dbport') ? (int) $request->getData('dbport') : null,
+                            'database' => $request->hasData('dbdatabase') ? (string) $request->getData('dbdatabase') : null,
+                            'login'    => $request->hasData('dblogin') ? (string) $request->getData('dblogin') : null,
+                            'password' => $request->hasData('dbpassword') ? (string) $request->getData('dbpassword') : null,
                         ]);
                     }
 
@@ -251,11 +251,11 @@ final class ApiController extends Controller
     private function createInterfaceFromRequest(RequestAbstract $request, int $collectionId) : InterfaceManager
     {
         $interface            = new InterfaceManager();
-        $interface->title     = $request->getData('title') ?? '';
+        $interface->title     = (string) ($request->getData('title') ?? '');
         $interface->hasExport = (bool) ($request->getData('export') ?? false);
         $interface->hasImport = (bool) ($request->getData('import') ?? false);
-        $interface->website   = $request->getData('website') ?? '';
-        $interface->version   = $request->getData('version') ?? '';
+        $interface->website   = (string) ($request->getData('website') ?? '');
+        $interface->version   = (string) ($request->getData('version') ?? '');
         $interface->createdBy = new NullAccount($request->header->account);
 
         if ($collectionId > 0) {
@@ -426,7 +426,7 @@ final class ApiController extends Controller
     private function createSettingFromRequest(RequestAbstract $request) : ExchangeSetting
     {
         $setting           = new ExchangeSetting();
-        $setting->title    = $request->getData('title') ?? '';
+        $setting->title    = (string) ($request->getData('title') ?? '');
         $setting->exchange = (int) ($request->getData('id') ?? 0);
         $setting->setData(\json_decode((string) ($request->getData('data') ?? '{}'), true));
 

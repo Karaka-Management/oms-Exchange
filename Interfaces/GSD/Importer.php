@@ -511,6 +511,7 @@ final class Importer extends ImporterAbstract
      */
     private function createItemL11nTypes() : array
     {
+        /** @var array{name1:ItemL11nType, name2:ItemL11nType, info:ItemL11nType} $itemL11nType */
         $itemL11nType = [];
 
         if (($itemL11nType['name1'] = ItemL11nTypeMapper::get()->where('title', 'name1')->execute()) instanceof NullItemL11nType) {
@@ -528,13 +529,14 @@ final class Importer extends ImporterAbstract
             ItemL11nTypeMapper::create()->execute($itemL11nType['info']);
         }
 
+        /** @var array{name1:ItemL11nType, name2:ItemL11nType, info:ItemL11nType} $itemL11nType */
         return $itemL11nType;
     }
 
     /**
      * Create and get item attribute types
      *
-     * @return ItemAttributeType[]
+     * @return array
      *
      * @since 1.0.0
      */

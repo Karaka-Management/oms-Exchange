@@ -72,11 +72,11 @@ final class Installer extends InstallerAbstract
      * @param ApplicationAbstract $app  Application
      * @param string              $path File path
      *
-     * @return InterfaceManager
+     * @return array
      *
      * @since 1.0.0
      */
-    private static function createInterface(ApplicationAbstract $app, string $path) : InterfaceManager
+    private static function createInterface(ApplicationAbstract $app, string $path) : array
     {
         /** @var \Modules\Exchange\Controller\ApiController $module */
         $module = $app->moduleManager->get('Exchange');
@@ -86,12 +86,12 @@ final class Installer extends InstallerAbstract
 
         $contents = \file_get_contents($path . '/interface.json');
         if ($contents === false) {
-            return new NullInterfaceManager();
+            return (new NullInterfaceManager())->toArray();
         }
 
         $data = \json_decode($contents, true);
         if (!\is_array($data)) {
-            return new NullInterfaceManager();
+            return (new NullInterfaceManager())->toArray();
         }
 
         $request->header->account = 1;
@@ -106,7 +106,7 @@ final class Installer extends InstallerAbstract
 
         $exchangeFiles = \scandir($path);
         if ($exchangeFiles === false) {
-            return new NullInterfaceManager();
+            return (new NullInterfaceManager())->toArray();
         }
 
         foreach ($exchangeFiles as $filePath) {
@@ -158,8 +158,13 @@ final class Installer extends InstallerAbstract
         $module->apiInterfaceInstall($request, $response);
         \rmdir($tmpPath);
 
-        $interface = $response->get('')['response'];
+        $responseData = $response->get('');
+        if (!\is_array($responseData)) {
+            return [];
+        }
 
-        return $interface;
+        return !\is_array($responseData['response'])
+            ? $responseData['response']->toArray()
+            : $responseData['response'];
     }
 }

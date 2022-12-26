@@ -152,7 +152,11 @@ class InterfaceManager
 
         $contents = \file_get_contents($this->path);
 
+        /** @var array $info */
         $info = \json_decode($contents === false ? '[]' : $contents, true);
+        if ($info === false) {
+            return;
+        }
 
         $this->title     = $info['name'];
         $this->version   = $info['version'];
@@ -215,5 +219,25 @@ class InterfaceManager
         \reset($this->settings);
 
         return $key;
+    }
+
+    /**
+     * Get array
+     *
+     * @return array
+     *
+     * @since 1.0.0
+     */
+    public function toArray() : array
+    {
+        return [
+            'id' => $this->id,
+            'path' => $this->path,
+            'title' => $this->title,
+            'version' => $this->version,
+            'website' => $this->website,
+            'hasExport' => $this->hasExport,
+            'hasImport' => $this->hasImport,
+        ];
     }
 }
