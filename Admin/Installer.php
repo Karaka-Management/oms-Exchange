@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Modules\Exchange\Admin;
 
-use Modules\Exchange\Models\InterfaceManager;
 use Modules\Exchange\Models\NullInterfaceManager;
 use phpOMS\Application\ApplicationAbstract;
 use phpOMS\Config\SettingsInterface;

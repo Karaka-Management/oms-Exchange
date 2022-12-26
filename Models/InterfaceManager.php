@@ -231,11 +231,11 @@ class InterfaceManager
     public function toArray() : array
     {
         return [
-            'id' => $this->id,
-            'path' => $this->path,
-            'title' => $this->title,
-            'version' => $this->version,
-            'website' => $this->website,
+            'id'        => $this->id,
+            'path'      => $this->path,
+            'title'     => $this->title,
+            'version'   => $this->version,
+            'website'   => $this->website,
             'hasExport' => $this->hasExport,
             'hasImport' => $this->hasImport,
         ];
