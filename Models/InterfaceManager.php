@@ -86,7 +86,7 @@ class InterfaceManager
      * @var bool
      * @since 1.0.0
      */
-    public bool $hasImport = true;
+    public bool $hasImport = false;
 
     /**
      * Creator.
