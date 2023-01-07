@@ -36,7 +36,7 @@ use Modules\Exchange\Interfaces\GSD\Model\GSDSupplierMapper;
 use Modules\Exchange\Models\ImporterAbstract;
 use Modules\ItemManagement\Models\Item;
 use Modules\ItemManagement\Models\ItemAttributeType;
-use Modules\ItemManagement\Models\ItemAttributeTypeL11n;
+use phpOMS\Localization\BaseStringL11n;
 use Modules\ItemManagement\Models\ItemAttributeTypeL11nMapper;
 use Modules\ItemManagement\Models\ItemAttributeTypeMapper;
 use Modules\ItemManagement\Models\ItemAttributeValue;
@@ -548,40 +548,40 @@ final class Importer extends ImporterAbstract
             $itemAttrType['tradegroup'] = new ItemAttributeType('tradegroup');
             ItemAttributeTypeMapper::create()->execute($itemAttrType['tradegroup']);
 
-            ItemAttributeTypeL11nMapper::create()->execute(new ItemAttributeTypeL11n($itemAttrType['tradegroup']->getId(), 'Trade Group', ISO639x1Enum::_EN));
-            ItemAttributeTypeL11nMapper::create()->execute(new ItemAttributeTypeL11n($itemAttrType['tradegroup']->getId(), 'Handelsgruppe', ISO639x1Enum::_DE));
+            ItemAttributeTypeL11nMapper::create()->execute(new BaseStringL11n($itemAttrType['tradegroup']->getId(), 'Trade Group', ISO639x1Enum::_EN));
+            ItemAttributeTypeL11nMapper::create()->execute(new BaseStringL11n($itemAttrType['tradegroup']->getId(), 'Handelsgruppe', ISO639x1Enum::_DE));
         }
 
         if (($itemAttrType['exportcontrolgroup'] = ItemAttributeTypeMapper::get()->where('name', 'exportcontrolgroup')->execute()) instanceof NullItemAttributeType) {
             $itemAttrType['exportcontrolgroup'] = new ItemAttributeType('exportcontrolgroup');
             ItemAttributeTypeMapper::create()->execute($itemAttrType['exportcontrolgroup']);
 
-            ItemAttributeTypeL11nMapper::create()->execute(new ItemAttributeTypeL11n($itemAttrType['exportcontrolgroup']->getId(), 'Export Control Group', ISO639x1Enum::_EN));
-            ItemAttributeTypeL11nMapper::create()->execute(new ItemAttributeTypeL11n($itemAttrType['exportcontrolgroup']->getId(), 'Exportkontrollgruppe', ISO639x1Enum::_DE));
+            ItemAttributeTypeL11nMapper::create()->execute(new BaseStringL11n($itemAttrType['exportcontrolgroup']->getId(), 'Export Control Group', ISO639x1Enum::_EN));
+            ItemAttributeTypeL11nMapper::create()->execute(new BaseStringL11n($itemAttrType['exportcontrolgroup']->getId(), 'Exportkontrollgruppe', ISO639x1Enum::_DE));
         }
 
         if (($itemAttrType['medicalgroup'] = ItemAttributeTypeMapper::get()->where('name', 'medicalgroup')->execute()) instanceof NullItemAttributeType) {
             $itemAttrType['medicalgroup'] = new ItemAttributeType('medicalgroup');
             ItemAttributeTypeMapper::create()->execute($itemAttrType['medicalgroup']);
 
-            ItemAttributeTypeL11nMapper::create()->execute(new ItemAttributeTypeL11n($itemAttrType['medicalgroup']->getId(), 'Medical Device Group', ISO639x1Enum::_EN));
-            ItemAttributeTypeL11nMapper::create()->execute(new ItemAttributeTypeL11n($itemAttrType['medicalgroup']->getId(), 'Medezinproduktklasse', ISO639x1Enum::_DE));
+            ItemAttributeTypeL11nMapper::create()->execute(new BaseStringL11n($itemAttrType['medicalgroup']->getId(), 'Medical Device Group', ISO639x1Enum::_EN));
+            ItemAttributeTypeL11nMapper::create()->execute(new BaseStringL11n($itemAttrType['medicalgroup']->getId(), 'Medezinproduktklasse', ISO639x1Enum::_DE));
         }
 
         if (($itemAttrType['customsnumber'] = ItemAttributeTypeMapper::get()->where('name', 'customsnumber')->execute()) instanceof NullItemAttributeType) {
             $itemAttrType['customsnumber'] = new ItemAttributeType('customsnumber');
             ItemAttributeTypeMapper::create()->execute($itemAttrType['customsnumber']);
 
-            ItemAttributeTypeL11nMapper::create()->execute(new ItemAttributeTypeL11n($itemAttrType['customsnumber']->getId(), 'Customs Number', ISO639x1Enum::_EN));
-            ItemAttributeTypeL11nMapper::create()->execute(new ItemAttributeTypeL11n($itemAttrType['customsnumber']->getId(), 'Zolltarifnummer', ISO639x1Enum::_DE));
+            ItemAttributeTypeL11nMapper::create()->execute(new BaseStringL11n($itemAttrType['customsnumber']->getId(), 'Customs Number', ISO639x1Enum::_EN));
+            ItemAttributeTypeL11nMapper::create()->execute(new BaseStringL11n($itemAttrType['customsnumber']->getId(), 'Zolltarifnummer', ISO639x1Enum::_DE));
         }
 
         if (($itemAttrType['unnumber'] = ItemAttributeTypeMapper::get()->where('name', 'unnumber')->execute()) instanceof NullItemAttributeType) {
             $itemAttrType['unnumber'] = new ItemAttributeType('unnumber');
             ItemAttributeTypeMapper::create()->execute($itemAttrType['unnumber']);
 
-            ItemAttributeTypeL11nMapper::create()->execute(new ItemAttributeTypeL11n($itemAttrType['unnumber']->getId(), 'UN-Number', ISO639x1Enum::_EN));
-            ItemAttributeTypeL11nMapper::create()->execute(new ItemAttributeTypeL11n($itemAttrType['unnumber']->getId(), 'UN-Nummer', ISO639x1Enum::_DE));
+            ItemAttributeTypeL11nMapper::create()->execute(new BaseStringL11n($itemAttrType['unnumber']->getId(), 'UN-Number', ISO639x1Enum::_EN));
+            ItemAttributeTypeL11nMapper::create()->execute(new BaseStringL11n($itemAttrType['unnumber']->getId(), 'UN-Nummer', ISO639x1Enum::_DE));
         }
 
         return $itemAttrType;

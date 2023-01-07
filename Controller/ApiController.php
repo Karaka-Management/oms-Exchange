@@ -116,11 +116,11 @@ final class ApiController extends Controller
                     if (!empty($request->getData('dbtype'))) {
                         $remoteConnection = ConnectionFactory::create([
                             'db'       => (string) $request->getData('dbtype'),
-                            'host'     => $request->hasData('dbhost') ? (string) $request->getData('dbhost') : null,
-                            'port'     => $request->hasData('dbport') ? (int) $request->getData('dbport') : null,
-                            'database' => $request->hasData('dbdatabase') ? (string) $request->getData('dbdatabase') : null,
-                            'login'    => $request->hasData('dblogin') ? (string) $request->getData('dblogin') : null,
-                            'password' => $request->hasData('dbpassword') ? (string) $request->getData('dbpassword') : null,
+                            'host'     => $request->getData('dbhost', 'string'),
+                            'port'     => $request->getData('dbport', 'int'),
+                            'database' => $request->getData('dbdatabase', 'string'),
+                            'login'    => $request->getData('dblogin', 'string'),
+                            'password' => $request->getData('dbpassword', 'string'),
                         ]);
                     }
 
