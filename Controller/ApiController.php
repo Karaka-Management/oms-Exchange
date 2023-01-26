@@ -185,7 +185,7 @@ final class ApiController extends Controller
         }
 
         // is allowed to create
-        if (!$this->app->accountManager->get($request->header->account)->hasPermission(PermissionType::CREATE, $this->app->orgId, null, self::NAME, PermissionCategory::TEMPLATE)) {
+        if (!$this->app->accountManager->get($request->header->account)->hasPermission(PermissionType::CREATE, $this->app->unitId, null, self::NAME, PermissionCategory::TEMPLATE)) {
             $response->header->status = RequestStatusCode::R_403;
 
             return;
