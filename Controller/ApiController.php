@@ -230,7 +230,7 @@ final class ApiController extends Controller
         $collection->setPath('/Modules/Media/Files/Modules/Exchange/Interface/' . ((string) ($request->getData('title') ?? '')));
         $collection->setVirtualPath('/Modules/Exchange/Interface');
 
-        CollectionMapper::create()->execute($collection);
+        $this->createModel($request->header->account, $collection, CollectionMapper::class, 'collection', $request->getOrigin());
 
         $interface = $this->createInterfaceFromRequest($request, $collection->getId());
 

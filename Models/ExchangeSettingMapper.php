@@ -37,7 +37,6 @@ final class ExchangeSettingMapper extends DataMapperFactory
         'exchange_settings_title'           => ['name' => 'exchange_settings_title',     'type' => 'string',              'internal' => 'title'],
         'exchange_settings_data'            => ['name' => 'exchange_settings_data',    'type' => 'Json',            'internal' => 'data'],
         'exchange_settings_relations'       => ['name' => 'exchange_settings_relations',    'type' => 'Json',            'internal' => 'relations'],
-        'exchange_settings_job'             => ['name' => 'exchange_settings_job',   'type' => 'int',               'internal' => 'job'],
         'exchange_settings_exchange'        => ['name' => 'exchange_settings_exchange',   'type' => 'int',               'internal' => 'exchange'],
     ];
 

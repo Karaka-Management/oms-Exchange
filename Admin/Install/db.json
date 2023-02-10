@@ -80,13 +80,13 @@
                 "type": "TEXT",
                 "null": false
             },
-            "exchange_settings_job": {
-                "name": "exchange_settings_job",
+            "exchange_settings_workflow": {
+                "name": "exchange_settings_workflow",
                 "type": "INT",
                 "default": null,
                 "null": true,
-                "foreignTable": "job",
-                "foreignKey": "job_id"
+                "foreignTable": "workflow_template",
+                "foreignKey": "workflow_template_id"
             },
             "exchange_settings_exchange": {
                 "name": "exchange_settings_exchange",
