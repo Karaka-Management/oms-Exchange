@@ -62,5 +62,5 @@ final class GSDCostCenterMapper extends DataMapperFactory
      * @var string
      * @since 1.0.0
      */
-    public const PRIMARYFIELD ='ROW_ID';
+    public const PRIMARYFIELD = 'ROW_ID';
 }

@@ -100,5 +100,5 @@ final class GSDCustomerMapper extends DataMapperFactory
      * @var string
      * @since 1.0.0
      */
-    public const PRIMARYFIELD ='row_id';
+    public const PRIMARYFIELD = 'row_id';
 }

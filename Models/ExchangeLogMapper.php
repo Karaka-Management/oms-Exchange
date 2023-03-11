@@ -66,7 +66,7 @@ final class ExchangeLogMapper extends DataMapperFactory
      * @var string
      * @since 1.0.0
      */
-    public const PRIMARYFIELD ='exchange_log_id';
+    public const PRIMARYFIELD = 'exchange_log_id';
 
     /**
      * Belongs to.

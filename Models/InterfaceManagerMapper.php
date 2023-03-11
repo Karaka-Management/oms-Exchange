@@ -60,7 +60,7 @@ final class InterfaceManagerMapper extends DataMapperFactory
      * @var string
      * @since 1.0.0
      */
-    public const PRIMARYFIELD ='exchange_interface_id';
+    public const PRIMARYFIELD = 'exchange_interface_id';
 
     /**
      * Belongs to.
