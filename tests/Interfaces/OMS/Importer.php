@@ -6,7 +6,7 @@
  *
  * @package   Interfaces
  * @copyright Dennis Eichhorn
- * @license   OMS License 1.0
+ * @license   OMS License 2.0
  * @version   1.0.0
  * @link      https://jingga.app
  */
@@ -27,7 +27,7 @@ use phpOMS\Message\RequestAbstract;
  * OMS import class
  *
  * @package Modules\Exchange\Models\Interfaces\OMS
- * @license OMS License 1.0
+ * @license OMS License 2.0
  * @link    https://jingga.app
  * @since   1.0.0
  */
@@ -75,14 +75,14 @@ final class Importer extends ImporterAbstract
 
         $this->l11n->loadLanguage($request->header->l11n->getLanguage(), 'Exchange', $lang);
 
-        if ($request->getData('db') !== null) {
+        if ($request->hasData('db')) {
             $this->remote = ConnectionFactory::create([
                 'db'             => (string) ($request->getData('db')),
-                'host'           => (string) ($request->getData('host') ?? ''),
-                'port'           => (int) ($request->getData('port') ?? 0),
-                'database'       => (string) ($request->getData('database') ?? ''),
-                'login'          => (string) ($request->getData('login') ?? ''),
-                'password'       => (string) ($request->getData('password') ?? ''),
+                'host'           => $request->getDataString('host') ?? '',
+                'port'           => $request->getDataInt('port') ?? 0,
+                'database'       => $request->getDataString('database') ?? '',
+                'login'          => $request->getDataString('login') ?? '',
+                'password'       => $request->getDataString('password') ?? '',
                 'datetimeformat' => (string) ($request->getData('datetimeformat') ?? 'Y-m-d H:i:s'),
             ]);
 
@@ -191,7 +191,7 @@ final class Importer extends ImporterAbstract
                             . " *\n"
                             . " * @package   Modules\Localization\n"
                             . " * @copyright Dennis Eichhorn\n"
-                            . " * @license   OMS License 1.0\n"
+                            . " * @license   OMS License 2.0\n"
                             . " * @version   1.0.0\n"
                             . " * @link      https://jingga.app\n"
                             . " */\n"

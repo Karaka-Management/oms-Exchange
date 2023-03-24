@@ -6,7 +6,7 @@
  *
  * @package   Template
  * @copyright Dennis Eichhorn
- * @license   OMS License 1.0
+ * @license   OMS License 2.0
  * @version   1.0.0
  * @link      https://jingga.app
  */
@@ -181,7 +181,7 @@ $isNew = $currentSetting instanceof NullExchangeSetting;
                     <tbody>
                     <?php
                         foreach ($settings as $setting) :
-                            $url = UriFactory::build('{/lang}/{/app}/admin/exchange/import/profile?id=' . $interface->getId() . '&setting=' . $setting->getId());
+                            $url = UriFactory::build('{/base}/admin/exchange/import/profile?id=' . $interface->getId() . '&setting=' . $setting->getId());
                     ?>
                     <tr data-href="<?= $url; ?>">
                         <td><a href="<?= $url; ?>"><?= $setting->getId(); ?></a>

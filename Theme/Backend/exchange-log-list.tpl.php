@@ -6,7 +6,7 @@
  *
  * @package   Modules\Exchange
  * @copyright Dennis Eichhorn
- * @license   OMS License 1.0
+ * @license   OMS License 2.0
  * @version   1.0.0
  * @link      https://jingga.app
  */
@@ -102,7 +102,7 @@ echo $this->getData('nav')->render(); ?>
                 <tbody>
                 <?php $count = 0; foreach ($logs as $key => $value) :
                     ++$count;
-                    $url = UriFactory::build('{/lang}/{/app}/admin/exchange/log?{?}&id=' . $value->getId());
+                    $url = UriFactory::build('{/base}/admin/exchange/log?{?}&id=' . $value->getId());
                 ?>
                     <tr data-href="<?= $url; ?>">
                         <td><a href="<?= $url; ?>"><?= $value->getId(); ?></a>

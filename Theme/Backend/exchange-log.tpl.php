@@ -6,7 +6,7 @@
  *
  * @package   Modules\Exchange
  * @copyright Dennis Eichhorn
- * @license   OMS License 1.0
+ * @license   OMS License 2.0
  * @version   1.0.0
  * @link      https://jingga.app
  */
@@ -30,7 +30,7 @@ echo $this->getData('nav')->render();
                         <tr><td><?= $this->getHtml('Type'); ?><td class="wf-100"><?= $log->getType(); ?>
                         <tr><td><?= $this->getHtml('Subtype'); ?><td class="wf-100"><?= $log->subtype; ?>
                         <tr><td><?= $this->getHtml('Created'); ?><td><?= $log->createdAt->format('Y-m-d'); ?>
-                        <tr><td><?= $this->getHtml('Creator'); ?><td><a href="<?= UriFactory::build('{/lang}/{/app}/profile/single?for=' . $log->createdBy->getId()); ?>"><?= $log->createdBy->name1; ?></a>
+                        <tr><td><?= $this->getHtml('Creator'); ?><td><a href="<?= UriFactory::build('{/base}/profile/single?for=' . $log->createdBy->getId()); ?>"><?= $log->createdBy->name1; ?></a>
                         <tr><td colspan="2"><?= $log->message; ?>
                 </table>
             </div>

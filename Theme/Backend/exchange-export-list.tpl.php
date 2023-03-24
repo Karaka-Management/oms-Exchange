@@ -6,7 +6,7 @@
  *
  * @package   Modules\Exchange
  * @copyright Dennis Eichhorn
- * @license   OMS License 1.0
+ * @license   OMS License 2.0
  * @version   1.0.0
  * @link      https://jingga.app
  */
@@ -39,7 +39,7 @@ echo $this->getData('nav')->render();
                         </label>
                 <tbody>
                 <?php $count = 0; foreach ($interfaces as $key => $value) : ++$count;
-                $url         = \phpOMS\Uri\UriFactory::build('{/lang}/{/app}/admin/exchange/export/profile?{?}&id=' . $value->getId()); ?>
+                $url         = \phpOMS\Uri\UriFactory::build('{/base}/admin/exchange/export/profile?{?}&id=' . $value->getId()); ?>
                     <tr tabindex="0" data-href="<?= $url; ?>">
                         <td data-label="<?= $this->getHtml('Title'); ?>"><a href="<?= $url; ?>"><?= $this->printHtml($value->title); ?></a>
                 <?php endforeach; ?>

@@ -6,7 +6,7 @@
  *
  * @package   Modules\Exchange
  * @copyright Dennis Eichhorn
- * @license   OMS License 1.0
+ * @license   OMS License 2.0
  * @version   1.0.0
  * @link      https://jingga.app
  */
@@ -41,7 +41,7 @@ use phpOMS\Utils\StringUtils;
  * Exchange controller class.
  *
  * @package Modules\Exchange
- * @license OMS License 1.0
+ * @license OMS License 2.0
  * @link    https://jingga.app
  * @since   1.0.0
  */
@@ -116,18 +116,18 @@ final class ApiController extends Controller
                     if (!empty($request->getData('dbtype'))) {
                         $remoteConnection = ConnectionFactory::create([
                             'db'       => (string) $request->getData('dbtype'),
-                            'host'     => $request->getData('dbhost', 'string'),
-                            'port'     => $request->getData('dbport', 'int'),
-                            'database' => $request->getData('dbdatabase', 'string'),
-                            'login'    => $request->getData('dblogin', 'string'),
-                            'password' => $request->getData('dbpassword', 'string'),
+                            'host'     => $request->getDataString('dbhost'),
+                            'port'     => $request->getDataInt('dbport'),
+                            'database' => $request->getDataString('dbdatabase'),
+                            'login'    => $request->getDataString('dblogin'),
+                            'password' => $request->getDataString('dbpassword'),
                         ]);
                     }
 
                     $importer = new \Modules\Exchange\Interface\Importer(
                         $this->app->dbPool->get(),
                         $remoteConnection,
-                        new L11nManager($this->app->appName)
+                        new L11nManager()
                     );
 
                     break;
@@ -214,8 +214,8 @@ final class ApiController extends Controller
 
         /** @var \Modules\Media\Models\Collection $collection */
         $collection = $this->app->moduleManager->get('Media')->createMediaCollectionFromMedia(
-            (string) ($request->getData('name') ?? ''),
-            (string) ($request->getData('description') ?? ''),
+            $request->getDataString('name') ?? '',
+            $request->getDataString('description') ?? '',
             $files,
             $request->header->account
         );
@@ -227,7 +227,7 @@ final class ApiController extends Controller
             return;
         }
 
-        $collection->setPath('/Modules/Media/Files/Modules/Exchange/Interface/' . ((string) ($request->getData('title') ?? '')));
+        $collection->setPath('/Modules/Media/Files/Modules/Exchange/Interface/' . ($request->getDataString('title') ?? ''));
         $collection->setVirtualPath('/Modules/Exchange/Interface');
 
         $this->createModel($request->header->account, $collection, CollectionMapper::class, 'collection', $request->getOrigin());
@@ -251,11 +251,11 @@ final class ApiController extends Controller
     private function createInterfaceFromRequest(RequestAbstract $request, int $collectionId) : InterfaceManager
     {
         $interface            = new InterfaceManager();
-        $interface->title     = (string) ($request->getData('title') ?? '');
-        $interface->hasExport = (bool) ($request->getData('export') ?? false);
-        $interface->hasImport = (bool) ($request->getData('import') ?? false);
-        $interface->website   = (string) ($request->getData('website') ?? '');
-        $interface->version   = (string) ($request->getData('version') ?? '');
+        $interface->title     = $request->getDataString('title') ?? '';
+        $interface->hasExport = $request->getDataBool('export') ?? false;
+        $interface->hasImport = $request->getDataBool('import') ?? false;
+        $interface->website   = $request->getDataString('website') ?? '';
+        $interface->version   = $request->getDataString('version') ?? '';
         $interface->createdBy = new NullAccount($request->header->account);
 
         if ($collectionId > 0) {
@@ -353,7 +353,7 @@ final class ApiController extends Controller
                     $exporter = new \Modules\Exchange\Interface\Exporter(
                         $this->app->dbPool->get(),
                         new NullConnection(),
-                        new L11nManager($this->app->appName)
+                        new L11nManager()
                     );
 
                     break;
@@ -426,9 +426,9 @@ final class ApiController extends Controller
     private function createSettingFromRequest(RequestAbstract $request) : ExchangeSetting
     {
         $setting           = new ExchangeSetting();
-        $setting->title    = (string) ($request->getData('title') ?? '');
-        $setting->exchange = (int) ($request->getData('id') ?? 0);
-        $setting->setData(\json_decode((string) ($request->getData('data') ?? '{}'), true));
+        $setting->title    = $request->getDataString('title') ?? '';
+        $setting->exchange = $request->getDataInt('id') ?? 0;
+        $setting->setData($request->getDataJson('data'));
 
         return $setting;
     }
