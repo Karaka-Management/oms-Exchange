@@ -113,7 +113,7 @@ final class ApiController extends Controller
                     require_once $path;
 
                     $remoteConnection = new NullConnection();
-                    if (!empty($request->getData('dbtype'))) {
+                    if ($request->hasData('dbtype')) {
                         $remoteConnection = ConnectionFactory::create([
                             'db'       => (string) $request->getData('dbtype'),
                             'host'     => $request->getDataString('dbhost'),
@@ -150,7 +150,7 @@ final class ApiController extends Controller
     private function validateInterfaceInstall(RequestAbstract $request) : array
     {
         $val = [];
-        if (($val['title'] = empty($request->getData('title')))
+        if (($val['title'] = !$request->hasData('title'))
             || ($val['files'] = empty($request->getFiles()))
         ) {
             return $val;
@@ -404,9 +404,9 @@ final class ApiController extends Controller
     private function validateSettingCreate(RequestAbstract $request) : array
     {
         $val = [];
-        if (($val['title'] = empty($request->getData('title')))
-            || ($val['id'] = empty($request->getData('id')))
-            || ($val['data'] = empty($request->getData('data')))
+        if (($val['title'] = !$request->hasData('title'))
+            || ($val['id'] = !$request->hasData('id'))
+            || ($val['data'] = !$request->hasData('data'))
         ) {
             return $val;
         }
