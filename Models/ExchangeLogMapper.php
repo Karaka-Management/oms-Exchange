@@ -24,6 +24,9 @@ use phpOMS\DataStorage\Database\Mapper\DataMapperFactory;
  * @license OMS License 2.0
  * @link    https://jingga.app
  * @since   1.0.0
+ *
+ * @template T of ExchangeLog
+ * @extends DataMapperFactory<T>
  */
 final class ExchangeLogMapper extends DataMapperFactory
 {
@@ -47,7 +50,7 @@ final class ExchangeLogMapper extends DataMapperFactory
     /**
      * Model to use by the mapper.
      *
-     * @var class-string
+     * @var class-string<T>
      * @since 1.0.0
      */
     public const MODEL = ExchangeLog::class;
