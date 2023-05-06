@@ -37,7 +37,7 @@ final class InterfaceManagerTest extends \PHPUnit\Framework\TestCase
      */
     public function testDefault() : void
     {
-        self::assertEquals(0, $this->interface->getId());
+        self::assertEquals(0, $this->interface->id);
         self::assertEquals('', $this->interface->getPath());
         self::assertEquals('', $this->interface->title);
         self::assertFalse($this->interface->hasImport);

@@ -36,7 +36,7 @@ final class Exporter extends ExporterAbstract
      * @var int
      * @since 1.0.0
      */
-    private int $account = 1;
+    public int $account = 1;
 
     /**
      * Export all data in time span

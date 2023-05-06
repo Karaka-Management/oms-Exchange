@@ -39,7 +39,7 @@ final class Importer extends ImporterAbstract
      * @var int
      * @since 1.0.0
      */
-    private int $account = 1;
+    public int $account = 1;
 
     /**
      * Import all data in time span

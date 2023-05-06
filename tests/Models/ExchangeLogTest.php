@@ -38,7 +38,7 @@ final class ExchangeLogTest extends \PHPUnit\Framework\TestCase
      */
     public function testDefault() : void
     {
-        self::assertEquals(0, $this->log->getId());
+        self::assertEquals(0, $this->log->id);
         self::assertEquals('', $this->log->message);
         self::assertEquals('', $this->log->subtype);
         self::assertEquals(0, $this->log->exchange);

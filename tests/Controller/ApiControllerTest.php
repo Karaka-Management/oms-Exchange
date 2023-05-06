@@ -168,7 +168,7 @@ final class ApiControllerTest extends \PHPUnit\Framework\TestCase
             TestUtils::setMember($request, 'files', $files);
 
             $this->module->apiInterfaceInstall($request, $response);
-            self::assertGreaterThan(0, $response->get('')['response']->getId());
+            self::assertGreaterThan(0, $response->get('')['response']->id);
         }
 
         if (\is_dir(__DIR__ . '/temp')) {

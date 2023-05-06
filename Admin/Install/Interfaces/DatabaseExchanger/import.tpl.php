@@ -71,7 +71,7 @@ if (!empty($settingData)) {
     $currentExportTableFields = !empty($exportTables) ? $exportSchemaMapper->getFields($exportTables[0]) : [];
 }
 
-$isNew = $currentSetting instanceof NullExchangeSetting;
+$isNew = $currentSetting->id === 0;
 ?>
 <div class="row">
     <div class="col-xs-12">
@@ -181,10 +181,10 @@ $isNew = $currentSetting instanceof NullExchangeSetting;
                     <tbody>
                     <?php
                         foreach ($settings as $setting) :
-                            $url = UriFactory::build('{/base}/admin/exchange/import/profile?id=' . $interface->getId() . '&setting=' . $setting->getId());
+                            $url = UriFactory::build('{/base}/admin/exchange/import/profile?id=' . $interface->id . '&setting=' . $setting->id);
                     ?>
                     <tr data-href="<?= $url; ?>">
-                        <td><a href="<?= $url; ?>"><?= $setting->getId(); ?></a>
+                        <td><a href="<?= $url; ?>"><?= $setting->id; ?></a>
                         <td class="wf-100"><a href="<?= $url; ?>"><?= $setting->title; ?></a>
                     <?php endforeach; ?>
                 </table>

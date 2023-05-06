@@ -205,7 +205,7 @@ final class ApiController extends Controller
         );
 
         foreach ($uploaded as $upload) {
-            if ($upload instanceof NullMedia) {
+            if ($upload->id === 0) {
                 continue;
             }
 
@@ -220,7 +220,7 @@ final class ApiController extends Controller
             $request->header->account
         );
 
-        if ($collection instanceof NullCollection) {
+        if ($collection->id === 0) {
             $response->header->status = RequestStatusCode::R_403;
             $this->fillJsonResponse($request, $response, NotificationLevel::ERROR, 'Interface', 'Couldn\'t create collection for interface', null);
 
@@ -232,7 +232,7 @@ final class ApiController extends Controller
 
         $this->createModel($request->header->account, $collection, CollectionMapper::class, 'collection', $request->getOrigin());
 
-        $interface = $this->createInterfaceFromRequest($request, $collection->getId());
+        $interface = $this->createInterfaceFromRequest($request, $collection->id);
 
         $this->createModel($request->header->account, $interface, InterfaceManagerMapper::class, 'interface', $request->getOrigin());
 

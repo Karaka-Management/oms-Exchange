@@ -32,7 +32,7 @@ class ExchangeLog implements \JsonSerializable
      * @var int
      * @since 1.0.0
      */
-    protected int $id = 0;
+    public int $id = 0;
 
     /**
      * Message.
@@ -58,7 +58,7 @@ class ExchangeLog implements \JsonSerializable
      * @var int
      * @since 1.0.0
      */
-    private int $type = ExchangeType::IMPORT;
+    public int $type = ExchangeType::IMPORT;
 
     /**
      * Exchange specific subtype.
