@@ -61,14 +61,6 @@ class ExchangeSetting implements \JsonSerializable
     /**
      * Job.
      *
-     * @var Job
-     * @since 1.0.0
-     */
-    private ?Job $job = null;
-
-    /**
-     * Job.
-     *
      * @var int
      * @since 1.0.0
      */
@@ -146,7 +138,6 @@ class ExchangeSetting implements \JsonSerializable
         return [
             'id'        => $this->id,
             'title'     => $this->title,
-            'job'       => $this->job,
             'exchange'  => $this->exchange,
         ];
     }

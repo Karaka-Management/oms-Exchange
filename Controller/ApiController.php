@@ -23,7 +23,6 @@ use Modules\Exchange\Models\InterfaceManagerMapper;
 use Modules\Exchange\Models\PermissionCategory;
 use Modules\Media\Models\CollectionMapper;
 use Modules\Media\Models\NullCollection;
-use Modules\Media\Models\NullMedia;
 use Modules\Media\Models\PathSettings;
 use phpOMS\Account\PermissionType;
 use phpOMS\DataStorage\Database\Connection\ConnectionFactory;
@@ -151,7 +150,6 @@ final class ApiController extends Controller
     {
         $val = [];
         if (($val['title'] = !$request->hasData('title'))
-            || ($val['files'] = empty($request->getFiles()))
         ) {
             return $val;
         }
@@ -191,46 +189,51 @@ final class ApiController extends Controller
             return;
         }
 
-        $path = '/Modules/Exchange/Interface/' . $request->getData('title');
+        $collection = new NullCollection();
+        if ($uploadedFiles !== []) {
+            $path = '/Modules/Exchange/Interface/' . $request->getData('title');
 
-        /** @var \Modules\Media\Models\Media[] $uploaded */
-        $uploaded = $this->app->moduleManager->get('Media')->uploadFiles(
-            $request->getDataList('names'),
-            $request->getDataList('filenames'),
-            $uploadedFiles,
-            $request->header->account,
-            __DIR__ . '/../../../Modules/Media/Files' . $path,
-            $path,
-            pathSettings: PathSettings::FILE_PATH
-        );
+            /** @var \Modules\Media\Models\Media[] $uploaded */
+            $uploaded = $this->app->moduleManager->get('Media')->uploadFiles(
+                names: $request->getDataList('names'),
+                fileNames: $request->getDataList('filenames'),
+                files: $uploadedFiles,
+                account: $request->header->account,
+                basePath: __DIR__ . '/../../../Modules/Media/Files' . $path,
+                virtualPath: $path,
+                pathSettings: PathSettings::FILE_PATH
+            );
 
-        foreach ($uploaded as $upload) {
-            if ($upload->id === 0) {
-                continue;
+            foreach ($uploaded as $upload) {
+                if ($upload->id === 0) {
+                    continue;
+                }
+
+                $files[] = $upload;
             }
 
-            $files[] = $upload;
+            /** @var \Modules\Media\Models\Collection $collection */
+            $collection = $this->app->moduleManager->get('Media')->createMediaCollectionFromMedia(
+                $request->getDataString('name') ?? '',
+                $request->getDataString('description') ?? '',
+                $files,
+                $request->header->account
+            );
+
+            $this->createModel($request->header->account, $collection, CollectionMapper::class, 'collection', $request->getOrigin());
+
+            if ($collection->id === 0) {
+                $response->header->status = RequestStatusCode::R_403;
+                $this->fillJsonResponse($request, $response, NotificationLevel::ERROR, 'Interface', 'Couldn\'t create collection for interface', null);
+
+                return;
+            }
+
+            $collection->setPath('/Modules/Media/Files/Modules/Exchange/Interface/' . ($request->getDataString('title') ?? ''));
+            $collection->setVirtualPath('/Modules/Exchange/Interface');
+
+            $this->createModel($request->header->account, $collection, CollectionMapper::class, 'collection', $request->getOrigin());
         }
-
-        /** @var \Modules\Media\Models\Collection $collection */
-        $collection = $this->app->moduleManager->get('Media')->createMediaCollectionFromMedia(
-            $request->getDataString('name') ?? '',
-            $request->getDataString('description') ?? '',
-            $files,
-            $request->header->account
-        );
-
-        if ($collection->id === 0) {
-            $response->header->status = RequestStatusCode::R_403;
-            $this->fillJsonResponse($request, $response, NotificationLevel::ERROR, 'Interface', 'Couldn\'t create collection for interface', null);
-
-            return;
-        }
-
-        $collection->setPath('/Modules/Media/Files/Modules/Exchange/Interface/' . ($request->getDataString('title') ?? ''));
-        $collection->setVirtualPath('/Modules/Exchange/Interface');
-
-        $this->createModel($request->header->account, $collection, CollectionMapper::class, 'collection', $request->getOrigin());
 
         $interface = $this->createInterfaceFromRequest($request, $collection->id);
 
