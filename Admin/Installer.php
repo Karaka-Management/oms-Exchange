@@ -162,8 +162,8 @@ final class Installer extends InstallerAbstract
             return [];
         }
 
-        return !\is_array($responseData['response'])
-            ? $responseData['response']->toArray()
-            : $responseData['response'];
+        return \is_array($responseData['response'])
+            ? $responseData['response']
+            : $responseData['response']->toArray();
     }
 }
