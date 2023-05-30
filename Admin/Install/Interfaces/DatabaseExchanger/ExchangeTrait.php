@@ -49,9 +49,9 @@ trait ExchangeTrait
         $settingData = $setting->getData();
 
         $lang             = [];
-        $lang['Exchange'] = include __DIR__ . '/Lang/' . $request->getLanguage() . '.lang.php';
+        $lang['Exchange'] = include __DIR__ . '/Lang/' . $request->header->l11n->language . '.lang.php';
 
-        $this->l11n->loadLanguage($request->header->l11n->getLanguage(), 'Exchange', $lang);
+        $this->l11n->loadLanguage($request->header->l11n->language, 'Exchange', $lang);
 
         $importConnection = ($settingData['import']['db']['self'] ?? true)
             ? $this->local ?? new NullConnection()

@@ -71,9 +71,9 @@ final class Importer extends ImporterAbstract
         $end   = new \DateTime($request->getData('end') ?? 'now');
 
         $lang             = [];
-        $lang['Exchange'] = include __DIR__ . '/Lang/' . $request->getLanguage() . '.lang.php';
+        $lang['Exchange'] = include __DIR__ . '/Lang/' . $request->header->l11n->language . '.lang.php';
 
-        $this->l11n->loadLanguage($request->header->l11n->getLanguage(), 'Exchange', $lang);
+        $this->l11n->loadLanguage($request->header->l11n->language, 'Exchange', $lang);
 
         if ($request->hasData('db')) {
             $this->remote = ConnectionFactory::create([
@@ -102,7 +102,7 @@ final class Importer extends ImporterAbstract
             $log            = new ExchangeLog();
             $log->createdBy = $this->account;
             $log->setType(ExchangeType::IMPORT);
-            $log->message  = $this->l11n->getText($request->header->l11n->getLanguage(), 'Exchange', '', 'LangFileImported');
+            $log->message  = $this->l11n->getText($request->header->l11n->language, 'Exchange', '', 'LangFileImported');
             $log->subtype  = 'language';
             $log->exchange = (int) $request->getData('id');
 

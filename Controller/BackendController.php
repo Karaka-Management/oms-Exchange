@@ -187,7 +187,7 @@ final class BackendController extends Controller
 
         $lang = include $interface->source->getAbsolutePath()
             . $interface->source->name
-            . '/Lang/' . $response->getLanguage() . '.lang.php';
+            . '/Lang/' . $response->header->l11n->language . '.lang.php';
 
         $view->addData('lang', $lang);
 
@@ -224,7 +224,7 @@ final class BackendController extends Controller
 
         $lang = include $interface->source->getAbsolutePath()
             . $interface->source->name
-            . '/Lang/' . $response->getLanguage() . '.lang.php';
+            . '/Lang/' . $response->header->l11n->language . '.lang.php';
 
         $view->addData('lang', $lang);
 

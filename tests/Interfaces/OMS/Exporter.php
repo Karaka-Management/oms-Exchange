@@ -70,9 +70,9 @@ final class Exporter extends ExporterAbstract
         $this->account = $request->header->account;
 
         $lang             = [];
-        $lang['Exchange'] = include __DIR__ . '/Lang/' . $request->getLanguage() . '.lang.php';
+        $lang['Exchange'] = include __DIR__ . '/Lang/' . $request->header->l11n->language . '.lang.php';
 
-        $this->l11n->loadLanguage($request->header->l11n->getLanguage(), 'Exchange', $lang);
+        $this->l11n->loadLanguage($request->header->l11n->language, 'Exchange', $lang);
 
         $result = [];
 
@@ -82,7 +82,7 @@ final class Exporter extends ExporterAbstract
             $log            = new ExchangeLog();
             $log->createdBy = $this->account;
             $log->setType(ExchangeType::EXPORT);
-            $log->message  = $this->l11n->getText($request->header->l11n->getLanguage(), 'Exchange', '', 'LangFileExported');
+            $log->message  = $this->l11n->getText($request->header->l11n->language, 'Exchange', '', 'LangFileExported');
             $log->subtype  = 'language';
             $log->exchange = (int) $request->getData('id');
 
