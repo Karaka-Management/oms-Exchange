@@ -172,11 +172,11 @@ final class ApiController extends Controller
      */
     public function apiInterfaceInstall(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
     {
-        $uploadedFiles = $request->getFiles();
+        $uploadedFiles = $request->files;
         $files         = [];
 
         if (!empty($val = $this->validateInterfaceInstall($request))) {
-            $response->set('interface_install', new FormValidation($val));
+            $response->data['interface_install'] = new FormValidation($val);
             $response->header->status = RequestStatusCode::R_400;
 
             return;
@@ -382,7 +382,7 @@ final class ApiController extends Controller
     public function apiExchangeSettingCreate(RequestAbstract $request, HttpResponse $response, mixed $data = null) : void
     {
         if (!empty($val = $this->validateSettingCreate($request))) {
-            $response->set('setting_create', new FormValidation($val));
+            $response->data['setting_create'] = new FormValidation($val);
             $response->header->status = RequestStatusCode::R_400;
 
             return;

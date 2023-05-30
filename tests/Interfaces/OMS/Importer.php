@@ -121,7 +121,7 @@ final class Importer extends ImporterAbstract
      */
     public function importLanguage(RequestAbstract $request) : void
     {
-        $upload = ApiController::uploadFilesToDestination($request->getFiles());
+        $upload = ApiController::uploadFilesToDestination($request->files);
 
         $fp = \fopen($upload['file0']['path'] . '/' . $upload['file0']['filename'], 'r');
         if ($fp === false) {
