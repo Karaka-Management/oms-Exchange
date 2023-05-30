@@ -12,12 +12,12 @@
  */
 declare(strict_types=1);
 
-$lang = $this->getData('lang');
+$lang = $this->data['lang'];
 
 /** @var \phpOMS\Views\View $this */
-echo $this->getData('nav')->render();
+echo $this->data['nav']->render();
 
-$interface = $this->getData('interface');
+$interface = $this->data['interface'];
 
 include $interface->source->getAbsolutePath()
     . $interface->source->name . '/'

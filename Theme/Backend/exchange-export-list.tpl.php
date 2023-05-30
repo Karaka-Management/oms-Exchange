@@ -13,9 +13,9 @@
 declare(strict_types=1);
 
 /** @var \phpOMS\Views\View $this */
-$interfaces = $this->getData('interfaces');
+$interfaces = $this->data['interfaces'];
 
-echo $this->getData('nav')->render();
+echo $this->data['nav']->render();
 ?>
 <div class="row">
     <div class="col-xs-12">

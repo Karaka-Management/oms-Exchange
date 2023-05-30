@@ -15,9 +15,9 @@ declare(strict_types=1);
 use \phpOMS\Uri\UriFactory;
 
 /** @var \Modules\Exchange\Models\ExchangeLog $log */
-$log = $this->getData('log');
+$log = $this->data['log'];
 
-echo $this->getData('nav')->render();
+echo $this->data['nav']->render();
 ?>
 <div class="row">
     <div class="col-xs-12">

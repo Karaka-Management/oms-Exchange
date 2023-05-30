@@ -48,20 +48,14 @@ final class BackendController extends Controller
     {
         $view = new View($this->app->l11nManager, $request, $response);
         $view->setTemplate('/Modules/Exchange/Theme/Backend/exchange-log-list');
-        $view->addData('nav', $this->app->moduleManager->get('Navigation')->createNavigationMid(1007001001, $request, $response));
+        $view->data['nav'] = $this->app->moduleManager->get('Navigation')->createNavigationMid(1007001001, $request, $response);
 
         if ($request->getData('ptype') === 'p') {
-            $view->setData('logs',
-                ExchangeLogMapper::getAll()->where('id', $request->getDataInt('id') ?? 0, '<')->limit(25)->execute()
-            );
+            $view->data['logs'] = ExchangeLogMapper::getAll()->where('id', $request->getDataInt('id') ?? 0, '<')->limit(25)->execute();
         } elseif ($request->getData('ptype') === 'n') {
-            $view->setData('logs',
-                ExchangeLogMapper::getAll()->where('id', $request->getDataInt('id') ?? 0, '>')->limit(25)->execute()
-            );
+            $view->data['logs'] = ExchangeLogMapper::getAll()->where('id', $request->getDataInt('id') ?? 0, '>')->limit(25)->execute();
         } else {
-            $view->setData('logs',
-                ExchangeLogMapper::getAll()->where('id', 0, '>')->limit(25)->execute()
-            );
+            $view->data['logs'] = ExchangeLogMapper::getAll()->where('id', 0, '>')->limit(25)->execute();
         }
 
         return $view;
@@ -83,10 +77,10 @@ final class BackendController extends Controller
     {
         $view = new View($this->app->l11nManager, $request, $response);
         $view->setTemplate('/Modules/Exchange/Theme/Backend/exchange-log');
-        $view->addData('nav', $this->app->moduleManager->get('Navigation')->createNavigationMid(1007001001, $request, $response));
+        $view->data['nav'] = $this->app->moduleManager->get('Navigation')->createNavigationMid(1007001001, $request, $response);
 
         $log = ExchangeLogMapper::get()->where('id', (int) $request->getData('id'))->execute();
-        $view->setData('log', $log);
+        $view->data['log'] = $log;
 
         return $view;
     }
@@ -107,7 +101,7 @@ final class BackendController extends Controller
     {
         $view = new View($this->app->l11nManager, $request, $response);
         $view->setTemplate('/Modules/Exchange/Theme/Backend/exchange-export-list');
-        $view->addData('nav', $this->app->moduleManager->get('Navigation')->createNavigationMid(1007001001, $request, $response));
+        $view->data['nav'] = $this->app->moduleManager->get('Navigation')->createNavigationMid(1007001001, $request, $response);
 
         /** @var \Modules\Exchange\Models\InterfaceManager[] $interfaces */
         $interfaces = InterfaceManagerMapper::getAll()->execute();
@@ -119,7 +113,7 @@ final class BackendController extends Controller
             }
         }
 
-        $view->addData('interfaces', $export);
+        $view->data['interfaces'] = $export;
 
         return $view;
     }
@@ -140,7 +134,7 @@ final class BackendController extends Controller
     {
         $view = new View($this->app->l11nManager, $request, $response);
         $view->setTemplate('/Modules/Exchange/Theme/Backend/exchange-import-list');
-        $view->addData('nav', $this->app->moduleManager->get('Navigation')->createNavigationMid(1007001001, $request, $response));
+        $view->data['nav'] = $this->app->moduleManager->get('Navigation')->createNavigationMid(1007001001, $request, $response);
 
         /** @var \Modules\Exchange\Models\InterfaceManager[] $interfaces */
         $interfaces = InterfaceManagerMapper::getAll()->execute();
@@ -152,7 +146,7 @@ final class BackendController extends Controller
             }
         }
 
-        $view->addData('interfaces', $import);
+        $view->data['interfaces'] = $import;
 
         return $view;
     }
@@ -173,7 +167,7 @@ final class BackendController extends Controller
     {
         $view = new View($this->app->l11nManager, $request, $response);
         $view->setTemplate('/Modules/Exchange/Theme/Backend/exchange-export');
-        $view->addData('nav', $this->app->moduleManager->get('Navigation')->createNavigationMid(1007001001, $request, $response));
+        $view->data['nav'] = $this->app->moduleManager->get('Navigation')->createNavigationMid(1007001001, $request, $response);
 
         /** @var \Modules\Exchange\Models\InterfaceManager $interface */
         $interface = InterfaceManagerMapper::get()
@@ -182,14 +176,14 @@ final class BackendController extends Controller
             ->where('id', (int) $request->getData('id'))
             ->execute();
 
-        $view->addData('interface', $interface);
-        $view->addData('db', $this->app->dbPool->get());
+        $view->data['interface'] = $interface;
+        $view->data['db'] = $this->app->dbPool->get();
 
         $lang = include $interface->source->getAbsolutePath()
             . $interface->source->name
             . '/Lang/' . $response->header->l11n->language . '.lang.php';
 
-        $view->addData('lang', $lang);
+        $view->data['lang'] = $lang;
 
         return $view;
     }
@@ -210,7 +204,7 @@ final class BackendController extends Controller
     {
         $view = new View($this->app->l11nManager, $request, $response);
         $view->setTemplate('/Modules/Exchange/Theme/Backend/exchange-import');
-        $view->addData('nav', $this->app->moduleManager->get('Navigation')->createNavigationMid(1007001001, $request, $response));
+        $view->data['nav'] = $this->app->moduleManager->get('Navigation')->createNavigationMid(1007001001, $request, $response);
 
         /** @var \Modules\Exchange\Models\InterfaceManager $interface */
         $interface = InterfaceManagerMapper::get()
@@ -219,14 +213,14 @@ final class BackendController extends Controller
             ->where('id', (int) $request->getData('id'))
             ->execute();
 
-        $view->addData('interface', $interface);
-        $view->addData('db', $this->app->dbPool->get());
+        $view->data['interface'] = $interface;
+        $view->data['db'] = $this->app->dbPool->get();
 
         $lang = include $interface->source->getAbsolutePath()
             . $interface->source->name
             . '/Lang/' . $response->header->l11n->language . '.lang.php';
 
-        $view->addData('lang', $lang);
+        $view->data['lang'] = $lang;
 
         return $view;
     }
