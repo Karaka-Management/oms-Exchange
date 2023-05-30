@@ -93,18 +93,6 @@ class ExchangeSetting implements \JsonSerializable
     }
 
     /**
-     * Get id
-     *
-     * @return int
-     *
-     * @since 1.0.0
-     */
-    public function getId() : int
-    {
-        return $this->id;
-    }
-
-    /**
      * Set relations
      *
      * @param array $relations Relations between tables/columsn
