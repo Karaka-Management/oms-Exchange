@@ -79,7 +79,7 @@ final class BackendController extends Controller
         $view->setTemplate('/Modules/Exchange/Theme/Backend/exchange-log');
         $view->data['nav'] = $this->app->moduleManager->get('Navigation')->createNavigationMid(1007001001, $request, $response);
 
-        $log = ExchangeLogMapper::get()->where('id', (int) $request->getData('id'))->execute();
+        $log               = ExchangeLogMapper::get()->where('id', (int) $request->getData('id'))->execute();
         $view->data['log'] = $log;
 
         return $view;
@@ -177,7 +177,7 @@ final class BackendController extends Controller
             ->execute();
 
         $view->data['interface'] = $interface;
-        $view->data['db'] = $this->app->dbPool->get();
+        $view->data['db']        = $this->app->dbPool->get();
 
         $lang = include $interface->source->getAbsolutePath()
             . $interface->source->name
@@ -214,7 +214,7 @@ final class BackendController extends Controller
             ->execute();
 
         $view->data['interface'] = $interface;
-        $view->data['db'] = $this->app->dbPool->get();
+        $view->data['db']        = $this->app->dbPool->get();
 
         $lang = include $interface->source->getAbsolutePath()
             . $interface->source->name

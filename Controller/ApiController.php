@@ -177,7 +177,7 @@ final class ApiController extends Controller
 
         if (!empty($val = $this->validateInterfaceInstall($request))) {
             $response->data['interface_install'] = new FormValidation($val);
-            $response->header->status = RequestStatusCode::R_400;
+            $response->header->status            = RequestStatusCode::R_400;
 
             return;
         }
@@ -383,7 +383,7 @@ final class ApiController extends Controller
     {
         if (!empty($val = $this->validateSettingCreate($request))) {
             $response->data['setting_create'] = new FormValidation($val);
-            $response->header->status = RequestStatusCode::R_400;
+            $response->header->status         = RequestStatusCode::R_400;
 
             return;
         }
