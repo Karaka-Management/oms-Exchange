@@ -1,6 +1,6 @@
 <?php
 /**
- * Karaka
+ * Jingga
  *
  * PHP Version 8.1
  *
@@ -185,7 +185,7 @@ final class Importer extends ImporterAbstract
                         \fwrite($fp,
                             "<?php\n"
                             . "/**\n"
-                            . " * Karaka\n"
+                            . " * Jingga\n"
                             . " *\n"
                             . " * PHP Version 8.1\n"
                             . " *\n"
