@@ -238,8 +238,7 @@ final class ApiController extends Controller
         $interface = $this->createInterfaceFromRequest($request, $collection->id);
 
         $this->createModel($request->header->account, $interface, InterfaceManagerMapper::class, 'interface', $request->getOrigin());
-
-        $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Interface', 'Interface successfully created', $interface);
+        $this->createStandardCreateResponse($request, $response, $interface);
     }
 
     /**
@@ -382,8 +381,8 @@ final class ApiController extends Controller
     public function apiExchangeSettingCreate(RequestAbstract $request, HttpResponse $response, mixed $data = null) : void
     {
         if (!empty($val = $this->validateSettingCreate($request))) {
-            $response->data['setting_create'] = new FormValidation($val);
-            $response->header->status         = RequestStatusCode::R_400;
+            $response->header->status = RequestStatusCode::R_400;
+            $this->createInvalidCreateResponse($request, $response, $val);
 
             return;
         }
@@ -391,8 +390,7 @@ final class ApiController extends Controller
         $setting = $this->createSettingFromRequest($request);
 
         $this->createModel($request->header->account, $setting, ExchangeSettingMapper::class, 'setting', $request->getOrigin());
-
-        $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Setting', 'Setting successfully created', $setting);
+        $this->createStandardCreateResponse($request, $response, $setting);
     }
 
     /**
