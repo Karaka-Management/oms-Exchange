@@ -83,7 +83,7 @@ final class Importer extends ImporterAbstract
                 'database'       => $request->getDataString('database') ?? '',
                 'login'          => $request->getDataString('login') ?? '',
                 'password'       => $request->getDataString('password') ?? '',
-                'datetimeformat' => (string) ($request->getData('datetimeformat') ?? 'Y-m-d H:i:s'),
+                'datetimeformat' => $request->getDataString('datetimeformat') ?? 'Y-m-d H:i:s',
             ]);
 
             $this->remote->connect();
