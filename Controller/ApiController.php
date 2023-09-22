@@ -123,6 +123,8 @@ final class ApiController extends Controller
                         ]);
                     }
 
+                    $remoteConnection->connect();
+
                     $importer = new \Modules\Exchange\Interface\Importer(
                         $this->app->dbPool->get(),
                         $remoteConnection,

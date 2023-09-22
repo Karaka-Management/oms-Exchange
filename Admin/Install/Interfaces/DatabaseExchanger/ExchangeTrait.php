@@ -98,16 +98,16 @@ trait ExchangeTrait
 
             $importQuery->select(...$importFields);
 
-            if (!empty($column = $request->getData('filter1_column'))
-                && !empty($value = $request->getData('filter1_value'))
+            if (!empty($column = $request->getDataString('filter1_column'))
+                && !empty($value = $request->getDataString('filter1_value'))
             ) {
-                $importQuery->where($column, $request->getData('filter1_operator') ?? '=', $value);
+                $importQuery->where($column, $request->getDataString('filter1_operator') ?? '=', $value);
             }
 
-            if (!empty($column = $request->getData('filter2_column'))
-                && !empty($value = $request->getData('filter2_value'))
+            if (!empty($column = $request->getDataString('filter2_column'))
+                && !empty($value = $request->getDataString('filter2_value'))
             ) {
-                $importQuery->where($column, $request->getData('filter2_operator') ?? '=', $value);
+                $importQuery->where($column, $request->getDataString('filter2_operator') ?? '=', $value);
             }
 
             $importData = $importQuery->execute();
