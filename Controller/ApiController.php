@@ -22,6 +22,7 @@ use Modules\Exchange\Models\InterfaceManager;
 use Modules\Exchange\Models\InterfaceManagerMapper;
 use Modules\Exchange\Models\PermissionCategory;
 use Modules\Media\Models\CollectionMapper;
+use Modules\Media\Models\MediaMapper;
 use Modules\Media\Models\NullCollection;
 use Modules\Media\Models\PathSettings;
 use phpOMS\Account\PermissionType;
@@ -174,9 +175,6 @@ final class ApiController extends Controller
      */
     public function apiInterfaceInstall(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
     {
-        $uploadedFiles = $request->files;
-        $files         = [];
-
         if (!empty($val = $this->validateInterfaceInstall($request))) {
             $response->data['interface_install'] = new FormValidation($val);
             $response->header->status            = RequestStatusCode::R_400;
@@ -185,18 +183,19 @@ final class ApiController extends Controller
         }
 
         // is allowed to create
-        if (!$this->app->accountManager->get($request->header->account)->hasPermission(PermissionType::CREATE, $this->app->unitId, null, self::NAME, PermissionCategory::TEMPLATE)) {
+        if (!$this->app->accountManager->get($request->header->account)
+            ->hasPermission(PermissionType::CREATE, $this->app->unitId, null, self::NAME, PermissionCategory::TEMPLATE)
+        ) {
             $response->header->status = RequestStatusCode::R_403;
 
             return;
         }
 
-        $collection = new NullCollection();
-        if ($uploadedFiles !== []) {
+        if (!empty($uploadedFiles = $request->files)) {
             $path = '/Modules/Exchange/Interface/' . $request->getData('title');
 
             /** @var \Modules\Media\Models\Media[] $uploaded */
-            $uploaded = $this->app->moduleManager->get('Media')->uploadFiles(
+            $uploaded = $this->app->moduleManager->get('Media', 'Api')->uploadFiles(
                 names: $request->getDataList('names'),
                 fileNames: $request->getDataList('filenames'),
                 files: $uploadedFiles,
@@ -206,38 +205,48 @@ final class ApiController extends Controller
                 pathSettings: PathSettings::FILE_PATH
             );
 
-            foreach ($uploaded as $upload) {
-                if ($upload->id === 0) {
-                    continue;
+            $collection = null;
+            foreach ($uploaded as $media) {
+                if ($request->hasData('type')) {
+                    $this->createModelRelation(
+                        $request->header->account,
+                        $media->id,
+                        $request->getDataInt('type'),
+                        MediaMapper::class,
+                        'types',
+                        '',
+                        $request->getOrigin()
+                    );
                 }
 
-                $files[] = $upload;
+                if ($collection === null) {
+                    /** @var \Modules\Media\Models\Collection $collection */
+                    $collection = MediaMapper::getParentCollection($path)
+                        ->limit(1)
+                        ->execute();
+
+                    if ($collection->id === 0) {
+                        $collection = $this->app->moduleManager->get('Media')->createRecursiveMediaCollection(
+                            $path,
+                            $request->header->account,
+                            __DIR__ . '/../../../Modules/Media/Files' . $path,
+                        );
+                    }
+                }
+
+                $this->createModelRelation(
+                    $request->header->account,
+                    $collection->id,
+                    $media->id,
+                    CollectionMapper::class,
+                    'sources',
+                    '',
+                    $request->getOrigin()
+                );
             }
-
-            /** @var \Modules\Media\Models\Collection $collection */
-            $collection = $this->app->moduleManager->get('Media')->createMediaCollectionFromMedia(
-                $request->getDataString('name') ?? '',
-                $request->getDataString('description') ?? '',
-                $files,
-                $request->header->account
-            );
-
-            $this->createModel($request->header->account, $collection, CollectionMapper::class, 'collection', $request->getOrigin());
-
-            if ($collection->id === 0) {
-                $response->header->status = RequestStatusCode::R_403;
-                $this->fillJsonResponse($request, $response, NotificationLevel::ERROR, 'Interface', 'Couldn\'t create collection for interface', null);
-
-                return;
-            }
-
-            $collection->setPath('/Modules/Media/Files/Modules/Exchange/Interface/' . ($request->getDataString('title') ?? ''));
-            $collection->setVirtualPath('/Modules/Exchange/Interface');
-
-            $this->createModel($request->header->account, $collection, CollectionMapper::class, 'collection', $request->getOrigin());
         }
 
-        $interface = $this->createInterfaceFromRequest($request, $collection->id);
+        $interface = $this->createInterfaceFromRequest($request, $collection?->id ?? 0);
 
         $this->createModel($request->header->account, $interface, InterfaceManagerMapper::class, 'interface', $request->getOrigin());
         $this->createStandardCreateResponse($request, $response, $interface);
