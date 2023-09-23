@@ -212,6 +212,7 @@ final class BackendController extends Controller
         /** @var \Modules\Exchange\Models\InterfaceManager $interface */
         $interface = InterfaceManagerMapper::get()
             ->with('source')
+            ->with('source/sources')
             ->with('settings')
             ->where('id', (int) $request->getData('id'))
             ->execute();
@@ -219,9 +220,11 @@ final class BackendController extends Controller
         $view->data['interface'] = $interface;
         $view->data['db']        = $this->app->dbPool->get();
 
-        $lang = include $interface->source->getAbsolutePath()
-            . $interface->source->name
-            . '/Lang/' . $response->header->l11n->language . '.lang.php';
+        $lang = \is_file(
+            $langFile = $interface->source->getAbsolutePath() . '/'
+                . $interface->source->name
+                . '/Lang/' . $response->header->l11n->language . '.lang.php'
+            ) ? include $langFile : [];
 
         $view->data['lang'] = $lang;
 
