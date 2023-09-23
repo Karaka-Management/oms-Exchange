@@ -50,7 +50,7 @@ class ExchangeLog implements \JsonSerializable
      * @var array
      * @since 1.0.0
      */
-    private array $fields = [];
+    public array $fields = [];
 
     /**
      * Log type.
