@@ -62,9 +62,7 @@ final class ApiController extends Controller
      */
     public function apiExchangeImport(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
     {
-        $import  = $this->importDataFromRequest($request);
-        $status  = NotificationLevel::ERROR;
-        $message = 'Import failed.';
+        $import = $this->importDataFromRequest($request);
 
         if (isset($import['logs'])) {
             foreach ($import['logs'] as $log) {
@@ -73,15 +71,10 @@ final class ApiController extends Controller
         }
 
         if ($import['status']) {
-            $status  = NotificationLevel::OK;
-            $message = 'Import succeeded.';
+            $this->createStandardUpdateResponse($request, $response, []);
+        } else {
+            $this->createInvalidUpdateResponse($request, $response, []);
         }
-
-        $response->set($request->uri->__toString(), [
-            'status'  => $status,
-            'title'   => 'Exchange',
-            'message' => $message,
-        ]);
     }
 
     /**
