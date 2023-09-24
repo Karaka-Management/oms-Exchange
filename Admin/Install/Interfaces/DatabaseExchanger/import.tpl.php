@@ -67,8 +67,8 @@ if (!empty($settingData)) {
     $importTables = $importSchemaMapper->getTables();
     $exportTables = $exportSchemaMapper->getTables();
 
-    $currentImportTableFields = !empty($importTables) ? $importSchemaMapper->getFields($importTables[0]) : [];
-    $currentExportTableFields = !empty($exportTables) ? $exportSchemaMapper->getFields($exportTables[0]) : [];
+    $currentImportTableFields = empty($importTables) ? [] : $importSchemaMapper->getFields($importTables[0]);
+    $currentExportTableFields = empty($exportTables) ? [] : $exportSchemaMapper->getFields($exportTables[0]);
 }
 
 $isNew = $currentSetting->id === 0;

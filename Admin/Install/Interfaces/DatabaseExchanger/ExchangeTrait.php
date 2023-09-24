@@ -124,8 +124,6 @@ trait ExchangeTrait
             $exportQuery->execute();
         }
 
-        $result = [];
-
-        return $result;
+        return [];
     }
 }
