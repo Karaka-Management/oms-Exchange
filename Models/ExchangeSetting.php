@@ -48,7 +48,7 @@ class ExchangeSetting implements \JsonSerializable
      * @var array
      * @since 1.0.0
      */
-    private array $relations = [];
+    public array $relations = [];
 
     /**
      * Data.
@@ -56,7 +56,7 @@ class ExchangeSetting implements \JsonSerializable
      * @var array
      * @since 1.0.0
      */
-    private array $data = [];
+    public array $data = [];
 
     /**
      * Job.
