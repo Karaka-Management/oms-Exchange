@@ -92,187 +92,187 @@ final class ApiControllerTest extends \PHPUnit\Framework\TestCase
         TestUtils::setMember($this->module, 'app', $this->app);
     }
 
-    // /**
-    //  * @covers Modules\Exchange\Controller\ApiController
-    //  * @group module
-    //  */
-    // public function testInterfaceInstall() : void
-    // {
-    //     $exchanges = \scandir(__DIR__ . '/../Interfaces');
+    /**
+     * @covers Modules\Exchange\Controller\ApiController
+     * @group module
+     */
+    public function testInterfaceInstall() : void
+    {
+        $exchanges = \scandir(__DIR__ . '/../Interfaces');
 
-    //     if (!\is_dir(__DIR__ . '/temp')) {
-    //         \mkdir(__DIR__ . '/temp');
-    //     }
+        if (!\is_dir(__DIR__ . '/temp')) {
+            \mkdir(__DIR__ . '/temp');
+        }
 
-    //     foreach ($exchanges as $exchange) {
-    //         if (!\is_dir(__DIR__ . '/../Interfaces/' . $exchange) || $exchange === '..' || $exchange === '.') {
-    //             continue;
-    //         }
+        foreach ($exchanges as $exchange) {
+            if (!\is_dir(__DIR__ . '/../Interfaces/' . $exchange) || $exchange === '..' || $exchange === '.') {
+                continue;
+            }
 
-    //         $data = \json_decode(\file_get_contents(__DIR__ . '/../Interfaces/' . $exchange . '/interface.json'), true);
+            $data = \json_decode(\file_get_contents(__DIR__ . '/../Interfaces/' . $exchange . '/interface.json'), true);
 
-    //         $response = new HttpResponse();
-    //         $request  = new HttpRequest(new HttpUri(''));
+            $response = new HttpResponse();
+            $request  = new HttpRequest(new HttpUri(''));
 
-    //         $request->header->account = 1;
-    //         $request->setData('title', $data['name']);
-    //         $request->setData('export', (bool) $data['export']);
-    //         $request->setData('import', (bool) $data['import']);
-    //         $request->setData('website', $data['website']);
+            $request->header->account = 1;
+            $request->setData('title', $data['name']);
+            $request->setData('export', (bool) $data['export']);
+            $request->setData('import', (bool) $data['import']);
+            $request->setData('website', $data['website']);
 
-    //         $files = [];
+            $files = [];
 
-    //         $exchangeFiles = \scandir(__DIR__ . '/../Interfaces/' . $exchange);
-    //         foreach ($exchangeFiles as $filePath) {
-    //             if ($filePath === '..' || $filePath === '.') {
-    //                 continue;
-    //             }
+            $exchangeFiles = \scandir(__DIR__ . '/../Interfaces/' . $exchange);
+            foreach ($exchangeFiles as $filePath) {
+                if ($filePath === '..' || $filePath === '.') {
+                    continue;
+                }
 
-    //             if (\is_dir(__DIR__ . '/../Interfaces/' . $exchange . '/' . $filePath)) {
-    //                 $subdir = \scandir(__DIR__ . '/../Interfaces/' . $exchange . '/' . $filePath);
-    //                 foreach ($subdir as $subPath) {
-    //                     if (!\is_file(__DIR__ . '/../Interfaces/' . $exchange . '/' . $filePath . '/' . $subPath)) {
-    //                         continue;
-    //                     }
+                if (\is_dir(__DIR__ . '/../Interfaces/' . $exchange . '/' . $filePath)) {
+                    $subdir = \scandir(__DIR__ . '/../Interfaces/' . $exchange . '/' . $filePath);
+                    foreach ($subdir as $subPath) {
+                        if (!\is_file(__DIR__ . '/../Interfaces/' . $exchange . '/' . $filePath . '/' . $subPath)) {
+                            continue;
+                        }
 
-    //                     \copy(
-    //                         __DIR__ . '/../Interfaces/' . $exchange . '/' . $filePath . '/' . $subPath,
-    //                         __DIR__ . '/temp/' . $subPath
-    //                     );
+                        \copy(
+                            __DIR__ . '/../Interfaces/' . $exchange . '/' . $filePath . '/' . $subPath,
+                            __DIR__ . '/temp/' . $subPath
+                        );
 
-    //                     $files[] = [
-    //                         'error'    => \UPLOAD_ERR_OK,
-    //                         'type'     => \substr($subPath, \strrpos($subPath, '.') + 1),
-    //                         'name'     => $filePath . '/' . $subPath,
-    //                         'tmp_name' => __DIR__ . '/temp/' . $subPath,
-    //                         'size'     => \filesize(__DIR__ . '/temp/' . $subPath),
-    //                     ];
-    //                 }
-    //             } else {
-    //                 if (!\is_file(__DIR__ . '/../Interfaces/' . $exchange . '/' . $filePath)) {
-    //                     continue;
-    //                 }
+                        $files[] = [
+                            'error'    => \UPLOAD_ERR_OK,
+                            'type'     => \substr($subPath, \strrpos($subPath, '.') + 1),
+                            'name'     => $filePath . '/' . $subPath,
+                            'tmp_name' => __DIR__ . '/temp/' . $subPath,
+                            'size'     => \filesize(__DIR__ . '/temp/' . $subPath),
+                        ];
+                    }
+                } else {
+                    if (!\is_file(__DIR__ . '/../Interfaces/' . $exchange . '/' . $filePath)) {
+                        continue;
+                    }
 
-    //                 \copy(__DIR__ . '/../Interfaces/' . $exchange . '/' . $filePath, __DIR__ . '/temp/' . $filePath);
+                    \copy(__DIR__ . '/../Interfaces/' . $exchange . '/' . $filePath, __DIR__ . '/temp/' . $filePath);
 
-    //                 $files[] = [
-    //                     'error'    => \UPLOAD_ERR_OK,
-    //                     'type'     => \substr($filePath, \strrpos($filePath, '.') + 1),
-    //                     'name'     => $filePath,
-    //                     'tmp_name' => __DIR__ . '/temp/' . $filePath,
-    //                     'size'     => \filesize(__DIR__ . '/temp/' . $filePath),
-    //                 ];
-    //             }
-    //         }
+                    $files[] = [
+                        'error'    => \UPLOAD_ERR_OK,
+                        'type'     => \substr($filePath, \strrpos($filePath, '.') + 1),
+                        'name'     => $filePath,
+                        'tmp_name' => __DIR__ . '/temp/' . $filePath,
+                        'size'     => \filesize(__DIR__ . '/temp/' . $filePath),
+                    ];
+                }
+            }
 
-    //         TestUtils::setMember($request, 'files', $files);
+            TestUtils::setMember($request, 'files', $files);
 
-    //         $this->module->apiInterfaceInstall($request, $response);
-    //         self::assertGreaterThan(0, $response->get('')['response']->id);
-    //     }
+            $this->module->apiInterfaceInstall($request, $response);
+            self::assertGreaterThan(0, $response->get('')['response']->id);
+        }
 
-    //     if (\is_dir(__DIR__ . '/temp')) {
-    //         \rmdir(__DIR__ . '/temp');
-    //     }
-    // }
+        if (\is_dir(__DIR__ . '/temp')) {
+            \rmdir(__DIR__ . '/temp');
+        }
+    }
 
-    // /**
-    //  * @covers Modules\Exchange\Controller\ApiController
-    //  * @group module
-    //  */
-    // public function testInterfaceInstallInvalidData() : void
-    // {
-    //     $response = new HttpResponse();
-    //     $request  = new HttpRequest(new HttpUri(''));
+    /**
+     * @covers Modules\Exchange\Controller\ApiController
+     * @group module
+     */
+    public function testInterfaceInstallInvalidData() : void
+    {
+        $response = new HttpResponse();
+        $request  = new HttpRequest(new HttpUri(''));
 
-    //     $request->header->account = 1;
-    //     $request->setData('invalid', '1');
+        $request->header->account = 1;
+        $request->setData('invalid', '1');
 
-    //     $this->module->apiInterfaceInstall($request, $response);
-    //     self::assertEquals(RequestStatusCode::R_400, $response->header->status);
-    // }
+        $this->module->apiInterfaceInstall($request, $response);
+        self::assertEquals(RequestStatusCode::R_400, $response->header->status);
+    }
 
-    // /**
-    //  * @covers Modules\Exchange\Controller\ApiController
-    //  * @group module
-    //  */
-    // public function testExport() : void
-    // {
-    //     $response = new HttpResponse();
-    //     $request  = new HttpRequest(new HttpUri(''));
+    /**
+     * @covers Modules\Exchange\Controller\ApiController
+     * @group module
+     */
+    public function testExport() : void
+    {
+        $response = new HttpResponse();
+        $request  = new HttpRequest(new HttpUri(''));
 
-    //     $request->header->account = 1;
-    //     $request->setData('id', '1');
-    //     $request->setData('type', 'language');
+        $request->header->account = 1;
+        $request->setData('id', '1');
+        $request->setData('type', 'language');
 
-    //     $this->module->apiExchangeExport($request, $response);
-    //     self::assertTrue(\strlen($response->get('')) > 500);
-    // }
+        $this->module->apiExchangeExport($request, $response);
+        self::assertTrue(\strlen($response->get('')) > 500);
+    }
 
-    // /**
-    //  * @covers Modules\Exchange\Controller\ApiController
-    //  * @group module
-    //  */
-    // public function testExportInvalidInterface() : void
-    // {
-    //     $response = new HttpResponse();
-    //     $request  = new HttpRequest(new HttpUri(''));
+    /**
+     * @covers Modules\Exchange\Controller\ApiController
+     * @group module
+     */
+    public function testExportInvalidInterface() : void
+    {
+        $response = new HttpResponse();
+        $request  = new HttpRequest(new HttpUri(''));
 
-    //     $request->header->account = 1;
-    //     $request->setData('id', '9999');
-    //     $request->setData('type', 'language');
+        $request->header->account = 1;
+        $request->setData('id', '9999');
+        $request->setData('type', 'language');
 
-    //     $this->module->apiExchangeExport($request, $response);
-    //     self::assertEquals(RequestStatusCode::R_400, $response->header->status);
-    // }
+        $this->module->apiExchangeExport($request, $response);
+        self::assertEquals(RequestStatusCode::R_400, $response->header->status);
+    }
 
-    // /**
-    //  * @covers Modules\Exchange\Controller\ApiController
-    //  * @group module
-    //  */
-    // public function testLanguageImport() : void
-    // {
-    //     $response = new HttpResponse();
-    //     $request  = new HttpRequest(new HttpUri(''));
+    /**
+     * @covers Modules\Exchange\Controller\ApiController
+     * @group module
+     */
+    public function testLanguageImport() : void
+    {
+        $response = new HttpResponse();
+        $request  = new HttpRequest(new HttpUri(''));
 
-    //     $request->header->account = 1;
-    //     $request->setData('id', '1');
-    //     $request->setData('type', 'language');
+        $request->header->account = 1;
+        $request->setData('id', '1');
+        $request->setData('type', 'language');
 
-    //     if (!\is_file(__DIR__ . '/test_tmp.csv')) {
-    //         \copy(__DIR__ . '/../Interfaces/OMS/test.csv', __DIR__ . '/test_tmp.csv');
-    //     }
+        if (!\is_file(__DIR__ . '/test_tmp.csv')) {
+            \copy(__DIR__ . '/../Interfaces/OMS/test.csv', __DIR__ . '/test_tmp.csv');
+        }
 
-    //     TestUtils::setMember($request, 'files', [
-    //         'file0' => [
-    //             'name'     => 'test_tmp.csv',
-    //             'type'     => 'csv',
-    //             'tmp_name' => __DIR__ . '/test_tmp.csv',
-    //             'error'    => \UPLOAD_ERR_OK,
-    //             'size'     => \filesize(__DIR__ . '/test_tmp.csv'),
-    //         ],
-    //     ]);
+        TestUtils::setMember($request, 'files', [
+            'file0' => [
+                'name'     => 'test_tmp.csv',
+                'type'     => 'csv',
+                'tmp_name' => __DIR__ . '/test_tmp.csv',
+                'error'    => \UPLOAD_ERR_OK,
+                'size'     => \filesize(__DIR__ . '/test_tmp.csv'),
+            ],
+        ]);
 
-    //     $this->module->apiExchangeImport($request, $response);
-    //     self::assertEquals(
-    //         \date('Y-m-d'),
-    //         \date('Y-m-d', \filemtime(__DIR__ . '/../../../TestModule/Theme/Backend/Lang/en.lang.php'))
-    //     );
-    // }
+        $this->module->apiExchangeImport($request, $response);
+        self::assertEquals(
+            \date('Y-m-d'),
+            \date('Y-m-d', \filemtime(__DIR__ . '/../../../TestModule/Theme/Backend/Lang/en.lang.php'))
+        );
+    }
 
-    // /**
-    //  * @covers Modules\Exchange\Controller\ApiController
-    //  * @group module
-    //  */
-    // public function testImportInvalidInterface() : void
-    // {
-    //     $response = new HttpResponse();
-    //     $request  = new HttpRequest(new HttpUri(''));
+    /**
+     * @covers Modules\Exchange\Controller\ApiController
+     * @group module
+     */
+    public function testImportInvalidInterface() : void
+    {
+        $response = new HttpResponse();
+        $request  = new HttpRequest(new HttpUri(''));
 
-    //     $request->header->account = 1;
-    //     $request->setData('id', '9999');
+        $request->header->account = 1;
+        $request->setData('id', '9999');
 
-    //     $this->module->apiExchangeExport($request, $response);
-    //     self::assertEquals(RequestStatusCode::R_400, $response->header->status);
-    // }
+        $this->module->apiExchangeExport($request, $response);
+        self::assertEquals(RequestStatusCode::R_400, $response->header->status);
+    }
 }
