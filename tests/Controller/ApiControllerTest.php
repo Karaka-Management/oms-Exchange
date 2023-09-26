@@ -30,6 +30,7 @@ use phpOMS\Message\Http\RequestStatusCode;
 use phpOMS\Module\ModuleAbstract;
 use phpOMS\Module\ModuleManager;
 use phpOMS\Router\WebRouter;
+use phpOMS\System\File\Local\Directory;
 use phpOMS\Uri\HttpUri;
 use phpOMS\Utils\TestUtils;
 
@@ -172,7 +173,7 @@ final class ApiControllerTest extends \PHPUnit\Framework\TestCase
         }
 
         if (\is_dir(__DIR__ . '/temp')) {
-            \rmdir(__DIR__ . '/temp');
+            Directory::delete(__DIR__ . '/temp');
         }
     }
 
