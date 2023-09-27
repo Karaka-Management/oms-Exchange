@@ -52,7 +52,7 @@ final class ApiController extends Controller
      *
      * @param RequestAbstract  $request  Request
      * @param ResponseAbstract $response Response
-     * @param mixed            $data     Generic data
+     * @param array            $data     Generic data
      *
      * @return void
      *
@@ -60,7 +60,7 @@ final class ApiController extends Controller
      *
      * @since 1.0.0
      */
-    public function apiExchangeImport(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
+    public function apiExchangeImport(RequestAbstract $request, ResponseAbstract $response, array $data = []) : void
     {
         $import = $this->importDataFromRequest($request);
 
@@ -158,7 +158,7 @@ final class ApiController extends Controller
      *
      * @param RequestAbstract  $request  Request
      * @param ResponseAbstract $response Response
-     * @param mixed            $data     Generic data
+     * @param array            $data     Generic data
      *
      * @return void
      *
@@ -166,7 +166,7 @@ final class ApiController extends Controller
      *
      * @since 1.0.0
      */
-    public function apiInterfaceInstall(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
+    public function apiInterfaceInstall(RequestAbstract $request, ResponseAbstract $response, array $data = []) : void
     {
         if (!empty($val = $this->validateInterfaceInstall($request))) {
             $response->data['interface_install'] = new FormValidation($val);
