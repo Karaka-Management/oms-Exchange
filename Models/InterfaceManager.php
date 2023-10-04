@@ -46,7 +46,7 @@ class InterfaceManager
      * @var string
      * @since 1.0.0
      */
-    private string $path = '';
+    public string $path = '';
 
     /**
      * Title.
@@ -118,7 +118,7 @@ class InterfaceManager
      * @var ExchangeSetting[]
      * @since 1.0.0
      */
-    protected array $settings = [];
+    public array $settings = [];
 
     /**
      * Object constructor.
