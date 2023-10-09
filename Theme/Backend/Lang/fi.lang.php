@@ -13,10 +13,10 @@
 declare(strict_types=1);
 
 return ['Exchange' => [
-    'Created'   => '#VALUE!',
-    'CreatedAt' => '#VALUE!',
-    'CreatedBy' => '#VALUE!',
-    'Creator'   => '#VALUE!',
+    'Created'   => '',
+    'CreatedAt' => '',
+    'CreatedBy' => '',
+    'Creator'   => '',
     'Database'  => 'Tietokanta',
     'End'       => 'Loppu',
     'Exchange'  => 'Vaihto',
@@ -32,8 +32,8 @@ return ['Exchange' => [
     'Password'  => 'Salasana',
     'Port'      => 'Portti',
     'Start'     => 'alkaa',
-    'Subtype'   => '#VALUE!',
-    'Title'     => '#VALUE!',
-    'Type'      => '#VALUE!',
+    'Subtype'   => '',
+    'Title'     => '',
+    'Type'      => '',
     'Website'   => 'Verkkosivusto',
 ]];

@@ -13,10 +13,10 @@
 declare(strict_types=1);
 
 return ['Exchange' => [
-    'Created'   => '#VALUE!',
-    'CreatedAt' => '#VALUE!',
-    'CreatedBy' => '#VALUE!',
-    'Creator'   => '#VALUE!',
+    'Created'   => '',
+    'CreatedAt' => '',
+    'CreatedBy' => '',
+    'Creator'   => '',
     'Database'  => 'Βάση δεδομένων',
     'End'       => 'Τέλος',
     'Exchange'  => 'Ανταλλαγή',
@@ -32,8 +32,8 @@ return ['Exchange' => [
     'Password'  => 'Κωδικός πρόσβασης',
     'Port'      => 'Λιμάνι',
     'Start'     => 'Αρχή',
-    'Subtype'   => '#VALUE!',
-    'Title'     => '#VALUE!',
-    'Type'      => '#VALUE!',
+    'Subtype'   => '',
+    'Title'     => '',
+    'Type'      => '',
     'Website'   => 'Δικτυακός τόπος',
 ]];

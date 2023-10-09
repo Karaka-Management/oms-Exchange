@@ -157,7 +157,7 @@ final class Installer extends InstallerAbstract
         $module->apiInterfaceInstall($request, $response);
         \rmdir($tmpPath);
 
-        $responseData = $response->get('');
+        $responseData = $response->getData('');
         if (!\is_array($responseData)) {
             return [];
         }

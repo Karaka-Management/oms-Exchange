@@ -169,7 +169,7 @@ final class ApiControllerTest extends \PHPUnit\Framework\TestCase
             TestUtils::setMember($request, 'files', $files);
 
             $this->module->apiInterfaceInstall($request, $response);
-            self::assertGreaterThan(0, $response->get('')['response']->id);
+            self::assertGreaterThan(0, $response->getDataArray('')['response']->id);
         }
 
         if (\is_dir(__DIR__ . '/temp')) {
@@ -207,7 +207,7 @@ final class ApiControllerTest extends \PHPUnit\Framework\TestCase
         $request->setData('type', 'language');
 
         $this->module->apiExchangeExport($request, $response);
-        self::assertTrue(\strlen($response->get('')) > 500);
+        self::assertTrue(\strlen($response->getData('')) > 500);
     }
 
     /**
