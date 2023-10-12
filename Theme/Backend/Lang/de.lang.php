@@ -13,10 +13,10 @@
 declare(strict_types=1);
 
 return ['Exchange' => [
-    'Created'   => '',
-    'CreatedAt' => '',
-    'CreatedBy' => '',
-    'Creator'   => '',
+    'Created'   => 'Erstellt',
+    'CreatedAt' => 'Erstellt',
+    'CreatedBy' => 'Erstellt von',
+    'Creator'   => 'Ersteller',
     'Database'  => 'Datenbank',
     'End'       => 'Ende',
     'Exchange'  => 'Austausch',
@@ -31,9 +31,9 @@ return ['Exchange' => [
     'Options'   => 'Optionen',
     'Password'  => 'Passwort',
     'Port'      => 'Hafen',
-    'Start'     => 'Anfang',
-    'Subtype'   => '',
-    'Title'     => '',
-    'Type'      => '',
+    'Start'     => 'Start',
+    'Subtype'   => 'Untertyp',
+    'Title'     => 'Titel',
+    'Type'      => 'Typ',
     'Website'   => 'Webseite',
 ]];
