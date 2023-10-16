@@ -37,7 +37,7 @@ final class NullExchangeSettingTest extends \PHPUnit\Framework\TestCase
     public function testId() : void
     {
         $null = new NullExchangeSetting(2);
-        self::assertEquals(2, $null->getId());
+        self::assertEquals(2, $null->id);
     }
 
     /**
