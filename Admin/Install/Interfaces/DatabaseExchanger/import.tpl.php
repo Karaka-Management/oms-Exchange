@@ -295,7 +295,7 @@ $isNew = $currentSetting->id === 0;
                             foreach ($table['match'] as $match) :
                     ?>
                     <tr>
-                        <td><i class="fa fa-times btn remove-form"></i>
+                        <td><i class="g-icon btn remove-form">close</i>
                         <td><?= $table['src']; ?>
                         <td><?= $table['dest']; ?>
                         <td><?= $match['src_field']['primary'] ? 'yes' : 'no'; ?>
