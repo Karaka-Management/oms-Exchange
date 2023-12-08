@@ -21,9 +21,9 @@ use phpOMS\Uri\UriFactory;
 
 $lang = $this->getData('lang') ?? [];
 
-// @todo: define offset fields
-// @todo: define create job button
-// @todo: show job reference
+// @todo define offset fields
+// @todo define create job button
+// @todo show job reference
 
 $interface = $this->getData('interface');
 $settings  = $interface->getSettings();
