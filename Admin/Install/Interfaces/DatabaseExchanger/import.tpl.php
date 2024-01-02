@@ -317,14 +317,14 @@ $isNew = $currentSetting->id === 0;
         <div class="portlet-body">
             <div class="form-group">
                 <label for="iTitle"><?= $this->getHtml('Column1'); ?></label>
-                <input type="text" id="iTitle" name="column1title" placeholder="&#xf040; <?= $this->getHtml('Title'); ?>">
+                <input type="text" id="iTitle" name="column1title" placeholder="<?= $this->getHtml('Title'); ?>">
             </div>
 
             <div class="form-group">
                 <label for="iTitle"><?= $this->getHtml('Filter1'); ?></label>
                 <div class="ipt-wrap">
                     <div class="ipt-first">
-                        <input type="text" id="iTitle" name="title" placeholder="&#xf040; <?= $this->getHtml('Title'); ?>">
+                        <input type="text" id="iTitle" name="title" placeholder="<?= $this->getHtml('Title'); ?>">
                     </div>
                     <div class="ipt-second">
                         <select nma="column1comparison">
@@ -340,14 +340,14 @@ $isNew = $currentSetting->id === 0;
 
             <div class="form-group">
                 <label for="iTitle"><?= $this->getHtml('Column2'); ?></label>
-                <input type="text" id="iTitle" name="column2title" placeholder="&#xf040; <?= $this->getHtml('Title'); ?>">
+                <input type="text" id="iTitle" name="column2title" placeholder="<?= $this->getHtml('Title'); ?>">
             </div>
 
             <div class="form-group">
                 <label for="iTitle"><?= $this->getHtml('Filter2'); ?></label>
                 <div class="ipt-wrap">
                     <div class="ipt-first">
-                        <input type="text" id="iTitle" name="title" placeholder="&#xf040; <?= $this->getHtml('Title'); ?>">
+                        <input type="text" id="iTitle" name="title" placeholder="<?= $this->getHtml('Title'); ?>">
                     </div>
                     <div class="ipt-second">
                         <select name="column2comparison">

@@ -17,7 +17,7 @@ namespace Modules\Exchange\Models;
 use phpOMS\Stdlib\Base\Enum;
 
 /**
- * Permision state enum.
+ * Permission category enum.
  *
  * @package Modules\Exchange\Models
  * @license OMS License 2.0
