@@ -124,9 +124,9 @@ class ExchangeSetting implements \JsonSerializable
     public function toArray() : array
     {
         return [
-            'id'        => $this->id,
-            'title'     => $this->title,
-            'exchange'  => $this->exchange,
+            'id'       => $this->id,
+            'title'    => $this->title,
+            'exchange' => $this->exchange,
         ];
     }
 

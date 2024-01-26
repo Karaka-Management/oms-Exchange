@@ -93,7 +93,7 @@ $isNew = $currentSetting->id === 0;
 <div class="row">
     <div class="col-xs-12 col-md-4">
         <section class="portlet">
-            <form id="fImport" method="POST" action="<?= UriFactory::build('{/api}admin/exchange/import/profile?{?}&id={?id}&type=language&csrf={$CSRF}'); ?>">
+            <form id="fImport" method="POST" action="<?= UriFactory::build('{/api}admin/exchange/import/view?{?}&id={?id}&type=language&csrf={$CSRF}'); ?>">
                 <div class="portlet-head"><?= $this->printHtml($lang['DatabaseExchanger']); ?> - <?= $this->printHtml($lang['Import']); ?></div>
                 <div class="portlet-body">
                     <table class="layout wf-100">
@@ -132,7 +132,7 @@ $isNew = $currentSetting->id === 0;
 
     <div class="col-xs-12 col-md-4">
         <section class="portlet">
-            <form id="fImport" method="POST" action="<?= UriFactory::build('{/api}admin/exchange/import/profile?{?}&id={?id}&type=language&csrf={$CSRF}'); ?>">
+            <form id="fImport" method="POST" action="<?= UriFactory::build('{/api}admin/exchange/import/view?{?}&id={?id}&type=language&csrf={$CSRF}'); ?>">
                 <div class="portlet-head"><?= $this->printHtml($lang['DatabaseExchanger']); ?> - <?= $this->printHtml($lang['Export']); ?></div>
                 <div class="portlet-body">
                     <table class="layout wf-100">
@@ -181,7 +181,7 @@ $isNew = $currentSetting->id === 0;
                     <tbody>
                     <?php
                         foreach ($settings as $setting) :
-                            $url = UriFactory::build('{/base}/admin/exchange/import/profile?id=' . $interface->id . '&setting=' . $setting->id);
+                            $url = UriFactory::build('{/base}/admin/exchange/import/view?id=' . $interface->id . '&setting=' . $setting->id);
                     ?>
                     <tr data-href="<?= $url; ?>">
                         <td><a href="<?= $url; ?>"><?= $setting->id; ?></a>

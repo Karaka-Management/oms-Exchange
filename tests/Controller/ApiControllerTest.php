@@ -31,7 +31,6 @@ use phpOMS\Module\ModuleAbstract;
 use phpOMS\Module\ModuleManager;
 use phpOMS\Router\WebRouter;
 use phpOMS\System\File\Local\Directory;
-use phpOMS\Uri\HttpUri;
 use phpOMS\Utils\TestUtils;
 
 /**
@@ -58,13 +57,13 @@ final class ApiControllerTest extends \PHPUnit\Framework\TestCase
             protected string $appName = 'Api';
         };
 
-        $this->app->dbPool          = $GLOBALS['dbpool'];
-        $this->app->unitId          = 1;
-        $this->app->accountManager  = new AccountManager($GLOBALS['session']);
-        $this->app->appSettings     = new CoreSettings();
-        $this->app->moduleManager   = new ModuleManager($this->app, __DIR__ . '/../../../../Modules/');
-        $this->app->dispatcher      = new Dispatcher($this->app);
-        $this->app->eventManager    = new EventManager($this->app->dispatcher);
+        $this->app->dbPool         = $GLOBALS['dbpool'];
+        $this->app->unitId         = 1;
+        $this->app->accountManager = new AccountManager($GLOBALS['session']);
+        $this->app->appSettings    = new CoreSettings();
+        $this->app->moduleManager  = new ModuleManager($this->app, __DIR__ . '/../../../../Modules/');
+        $this->app->dispatcher     = new Dispatcher($this->app);
+        $this->app->eventManager   = new EventManager($this->app->dispatcher);
         $this->app->eventManager->importFromFile(__DIR__ . '/../../../../Web/Api/Hooks.php');
         $this->app->sessionManager = new HttpSession(36000);
         $this->app->l11nManager    = new L11nManager();
@@ -113,7 +112,7 @@ final class ApiControllerTest extends \PHPUnit\Framework\TestCase
             $data = \json_decode(\file_get_contents(__DIR__ . '/../Interfaces/' . $exchange . '/interface.json'), true);
 
             $response = new HttpResponse();
-            $request  = new HttpRequest(new HttpUri(''));
+            $request  = new HttpRequest();
 
             $request->header->account = 1;
             $request->setData('title', $data['name']);
@@ -184,7 +183,7 @@ final class ApiControllerTest extends \PHPUnit\Framework\TestCase
     public function testInterfaceInstallInvalidData() : void
     {
         $response = new HttpResponse();
-        $request  = new HttpRequest(new HttpUri(''));
+        $request  = new HttpRequest();
 
         $request->header->account = 1;
         $request->setData('invalid', '1');
@@ -200,7 +199,7 @@ final class ApiControllerTest extends \PHPUnit\Framework\TestCase
     public function testExport() : void
     {
         $response = new HttpResponse();
-        $request  = new HttpRequest(new HttpUri(''));
+        $request  = new HttpRequest();
 
         $request->header->account = 1;
         $request->setData('id', '1');
@@ -217,7 +216,7 @@ final class ApiControllerTest extends \PHPUnit\Framework\TestCase
     public function testExportInvalidInterface() : void
     {
         $response = new HttpResponse();
-        $request  = new HttpRequest(new HttpUri(''));
+        $request  = new HttpRequest();
 
         $request->header->account = 1;
         $request->setData('id', '9999');
@@ -234,7 +233,7 @@ final class ApiControllerTest extends \PHPUnit\Framework\TestCase
     public function testLanguageImport() : void
     {
         $response = new HttpResponse();
-        $request  = new HttpRequest(new HttpUri(''));
+        $request  = new HttpRequest();
 
         $request->header->account = 1;
         $request->setData('id', '1');
@@ -268,7 +267,7 @@ final class ApiControllerTest extends \PHPUnit\Framework\TestCase
     public function testImportInvalidInterface() : void
     {
         $response = new HttpResponse();
-        $request  = new HttpRequest(new HttpUri(''));
+        $request  = new HttpRequest();
 
         $request->header->account = 1;
         $request->setData('id', '9999');
@@ -280,7 +279,7 @@ final class ApiControllerTest extends \PHPUnit\Framework\TestCase
     public function testInvalidapiExchangeSettingCreate() : void
     {
         $response = new HttpResponse();
-        $request  = new HttpRequest(new HttpUri(''));
+        $request  = new HttpRequest();
 
         $request->header->account = 1;
         $this->module->apiExchangeSettingCreate($request, $response);

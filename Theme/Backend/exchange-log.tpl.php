@@ -27,10 +27,10 @@ echo $this->data['nav']->render();
                 <table class="list w-100">
                     <tbody>
                         <tr><td><?= $this->getHtml('ID', '0', '0'); ?><td class="wf-100"><?= $log->id; ?>
-                        <tr><td><?= $this->getHtml('Type'); ?><td class="wf-100"><?= $log->getType(); ?>
+                        <tr><td><?= $this->getHtml('Type'); ?><td class="wf-100"><?= $log->type; ?>
                         <tr><td><?= $this->getHtml('Subtype'); ?><td class="wf-100"><?= $log->subtype; ?>
                         <tr><td><?= $this->getHtml('Created'); ?><td><?= $log->createdAt->format('Y-m-d'); ?>
-                        <tr><td><?= $this->getHtml('Creator'); ?><td><a href="<?= UriFactory::build('{/base}/profile/single?for=' . $log->createdBy->id); ?>"><?= $log->createdBy->name1; ?></a>
+                        <tr><td><?= $this->getHtml('Creator'); ?><td><a href="<?= UriFactory::build('{/base}/profile/view?for=' . $log->createdBy->id); ?>"><?= $log->createdBy->name1; ?></a>
                         <tr><td colspan="2"><?= $log->message; ?>
                 </table>
             </div>

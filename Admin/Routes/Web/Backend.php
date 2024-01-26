@@ -18,7 +18,7 @@ use phpOMS\Account\PermissionType;
 use phpOMS\Router\RouteVerb;
 
 return [
-    '^.*/admin/exchange/import/list.*$' => [
+    '^.*/admin/exchange/import/list(\?.*$|$)' => [
         [
             'dest'       => '\Modules\Exchange\Controller\BackendController:viewExchangeImportList',
             'verb'       => RouteVerb::GET,
@@ -29,7 +29,7 @@ return [
             ],
         ],
     ],
-    '^.*/admin/exchange/export/list.*$' => [
+    '^.*/admin/exchange/export/list(\?.*$|$)' => [
         [
             'dest'       => '\Modules\Exchange\Controller\BackendController:viewExchangeExportList',
             'verb'       => RouteVerb::GET,
@@ -40,7 +40,7 @@ return [
             ],
         ],
     ],
-    '^.*/admin/exchange/import/profile.*$' => [
+    '^.*/admin/exchange/import/view(\?.*$|$)' => [
         [
             'dest'       => '\Modules\Exchange\Controller\BackendController:viewExchangeImport',
             'verb'       => RouteVerb::GET,
@@ -51,7 +51,7 @@ return [
             ],
         ],
     ],
-    '^.*/admin/exchange/export/profile.*$' => [
+    '^.*/admin/exchange/export/view(\?.*$|$)' => [
         [
             'dest'       => '\Modules\Exchange\Controller\BackendController:viewExchangeExport',
             'verb'       => RouteVerb::GET,
@@ -62,7 +62,7 @@ return [
             ],
         ],
     ],
-    '^.*/admin/exchange/log/list.*$' => [
+    '^.*/admin/exchange/log/list(\?.*$|$)' => [
         [
             'dest'       => '\Modules\Exchange\Controller\BackendController:viewExchangeLogList',
             'verb'       => RouteVerb::GET,
@@ -73,7 +73,7 @@ return [
             ],
         ],
     ],
-    '^.*/admin/exchange/log\?.*$' => [
+    '^.*/admin/exchange/log(\?.*$|$)' => [
         [
             'dest'       => '\Modules\Exchange\Controller\BackendController:viewExchangeLog',
             'verb'       => RouteVerb::GET,

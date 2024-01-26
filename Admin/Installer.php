@@ -21,7 +21,6 @@ use phpOMS\Message\Http\HttpRequest;
 use phpOMS\Message\Http\HttpResponse;
 use phpOMS\Module\InstallerAbstract;
 use phpOMS\Module\ModuleInfo;
-use phpOMS\Uri\HttpUri;
 
 /**
  * Installer class.
@@ -81,7 +80,7 @@ final class Installer extends InstallerAbstract
         $module = $app->moduleManager->get('Exchange');
 
         $response = new HttpResponse();
-        $request  = new HttpRequest(new HttpUri(''));
+        $request  = new HttpRequest();
 
         $contents = \file_get_contents($path . '/interface.json');
         if ($contents === false) {

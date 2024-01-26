@@ -103,32 +103,6 @@ class ExchangeLog implements \JsonSerializable
     }
 
     /**
-     * Get type.
-     *
-     * @return int
-     *
-     * @since 1.0.0
-     */
-    public function getType() : int
-    {
-        return $this->type;
-    }
-
-    /**
-     * Set type.
-     *
-     * @param int $type Exchange type
-     *
-     * @return void
-     *
-     * @since 1.0.0
-     */
-    public function setType(int $type) : void
-    {
-        $this->type = $type;
-    }
-
-    /**
      * Get fields.
      *
      * @return array

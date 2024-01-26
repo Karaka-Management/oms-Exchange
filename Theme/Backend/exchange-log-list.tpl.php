@@ -106,7 +106,7 @@ echo $this->data['nav']->render(); ?>
                 ?>
                     <tr data-href="<?= $url; ?>">
                         <td><a href="<?= $url; ?>"><?= $value->id; ?></a>
-                        <td><a href="<?= $url; ?>"><?= $value->getType(); ?></a>
+                        <td><a href="<?= $url; ?>"><?= $value->type; ?></a>
                         <td><a href="<?= $url; ?>"><?= $value->subtype; ?></a>
                         <td><a href="<?= $url; ?>"><?= $value->exchange->title; ?></a>
                         <td><a href="<?= $url; ?>"><?= $value->createdBy->name1; ?></a>

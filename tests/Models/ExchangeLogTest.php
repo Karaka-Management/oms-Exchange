@@ -43,18 +43,8 @@ final class ExchangeLogTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('', $this->log->subtype);
         self::assertEquals(0, $this->log->exchange);
         self::assertEquals(0, $this->log->createdBy);
-        self::assertEquals(ExchangeType::IMPORT, $this->log->getType());
+        self::assertEquals(ExchangeType::IMPORT, $this->log->type);
         self::assertInstanceOf('\DateTimeImmutable', $this->log->createdAt);
-    }
-
-    /**
-     * @covers Modules\Exchange\Models\ExchangeLog
-     * @group module
-     */
-    public function testTypeInputOutput() : void
-    {
-        $this->log->setType(ExchangeType::EXPORT);
-        self::assertEquals(ExchangeType::EXPORT, $this->log->getType());
     }
 
     /**
@@ -77,7 +67,7 @@ final class ExchangeLogTest extends \PHPUnit\Framework\TestCase
     public function testSerialize() : void
     {
         $this->log->message = '123456';
-        $this->log->setType(ExchangeType::EXPORT);
+        $this->log->type    = ExchangeType::EXPORT;
 
         $serialized = $this->log->jsonSerialize();
         unset($serialized['createdAt']);

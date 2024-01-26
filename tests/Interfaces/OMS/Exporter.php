@@ -81,10 +81,10 @@ final class Exporter extends ExporterAbstract
 
             $log            = new ExchangeLog();
             $log->createdBy = $this->account;
-            $log->setType(ExchangeType::EXPORT);
-            $log->message  = $this->l11n->getText($request->header->l11n->language, 'Exchange', '', 'LangFileExported');
-            $log->subtype  = 'language';
-            $log->exchange = (int) $request->getData('id');
+            $log->type      = ExchangeType::EXPORT;
+            $log->message   = $this->l11n->getText($request->header->l11n->language, 'Exchange', '', 'LangFileExported');
+            $log->subtype   = 'language';
+            $log->exchange  = (int) $request->getData('id');
 
             $result['logs'][] = $log;
         }

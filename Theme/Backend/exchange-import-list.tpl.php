@@ -39,7 +39,7 @@ echo $this->data['nav']->render();
                         </label>
                 <tbody>
                 <?php $count = 0; foreach ($interfaces as $key => $value) : ++$count;
-                $url         = \phpOMS\Uri\UriFactory::build('{/base}/admin/exchange/import/profile?{?}&id=' . $value->id); ?>
+                $url         = \phpOMS\Uri\UriFactory::build('{/base}/admin/exchange/import/view?{?}&id=' . $value->id); ?>
                     <tr tabindex="0" data-href="<?= $url; ?>">
                         <td data-label="<?= $this->getHtml('Title'); ?>"><a href="<?= $url; ?>"><?= $this->printHtml($value->title); ?></a>
                 <?php endforeach; ?>
