@@ -18,6 +18,7 @@ use Modules\Exchange\Models\ExchangeLog;
 use Modules\Exchange\Models\ExchangeType;
 use Modules\Exchange\Models\ExporterAbstract;
 use phpOMS\Message\RequestAbstract;
+use phpOMS\Message\ResponseAbstract;
 use phpOMS\Utils\StringUtils;
 
 /**
@@ -48,7 +49,7 @@ final class Exporter extends ExporterAbstract
      *
      * @since 1.0.0
      */
-    public function export(\DateTime $start, \DateTime $end) : array
+    public function export(array $data, \DateTime $start, \DateTime $end) : array
     {
         return $this->exportLanguage();
     }
@@ -62,7 +63,7 @@ final class Exporter extends ExporterAbstract
      *
      * @since 1.0.0
      */
-    public function exportFromRequest(RequestAbstract $request) : array
+    public function exportFromRequest(RequestAbstract $request, ResponseAbstract $response) : array
     {
         $start = new \DateTime($request->getData('start') ?? 'now');
         $end   = new \DateTime($request->getData('end') ?? 'now');

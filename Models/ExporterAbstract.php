@@ -17,6 +17,7 @@ namespace Modules\Exchange\Models;
 use phpOMS\DataStorage\Database\Connection\ConnectionAbstract;
 use phpOMS\Localization\L11nManager;
 use phpOMS\Message\RequestAbstract;
+use phpOMS\Message\ResponseAbstract;
 
 /**
  * Export abstract
@@ -77,5 +78,5 @@ abstract class ExporterAbstract
      *
      * @since 1.0.0
      */
-    abstract public function exportFromRequest(RequestAbstract $request) : array;
+    abstract public function exportFromRequest(RequestAbstract $request, ResponseAbstract $response) : array;
 }

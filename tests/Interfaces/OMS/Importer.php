@@ -22,6 +22,7 @@ use phpOMS\DataStorage\Database\Connection\ConnectionFactory;
 use phpOMS\DataStorage\Database\DatabaseStatus;
 use phpOMS\Message\Http\HttpRequest;
 use phpOMS\Message\RequestAbstract;
+use phpOMS\Message\ResponseAbstract;
 
 /**
  * OMS import class
@@ -51,7 +52,7 @@ final class Importer extends ImporterAbstract
      *
      * @since 1.0.0
      */
-    public function import(\DateTime $start, \DateTime $end) : void
+    public function import(array $data, \DateTime $start, \DateTime $end) : void
     {
         $this->importLanguage(new HttpRequest());
     }
@@ -65,7 +66,7 @@ final class Importer extends ImporterAbstract
      *
      * @since 1.0.0
      */
-    public function importFromRequest(RequestAbstract $request) : array
+    public function importFromRequest(RequestAbstract $request, ResponseAbstract $response) : array
     {
         $start = new \DateTime($request->getData('start') ?? 'now');
         $end   = new \DateTime($request->getData('end') ?? 'now');

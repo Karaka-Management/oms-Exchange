@@ -17,6 +17,7 @@ namespace Modules\Exchange\Models;
 use phpOMS\DataStorage\Database\Connection\ConnectionAbstract;
 use phpOMS\Localization\L11nManager;
 use phpOMS\Message\RequestAbstract;
+use phpOMS\Message\ResponseAbstract;
 
 /**
  * Import abstract
@@ -77,5 +78,5 @@ abstract class ImporterAbstract
      *
      * @since 1.0.0
      */
-    abstract public function importFromRequest(RequestAbstract $request) : array;
+    abstract public function importFromRequest(RequestAbstract $request, ResponseAbstract $response) : array;
 }

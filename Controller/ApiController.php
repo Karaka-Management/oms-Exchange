@@ -21,6 +21,8 @@ use Modules\Exchange\Models\ExchangeSettingMapper;
 use Modules\Exchange\Models\InterfaceManager;
 use Modules\Exchange\Models\InterfaceManagerMapper;
 use Modules\Exchange\Models\PermissionCategory;
+use Modules\Exchange\Models\Report;
+use Modules\Exchange\Models\SettingsEnum;
 use Modules\Media\Models\CollectionMapper;
 use Modules\Media\Models\MediaMapper;
 use Modules\Media\Models\NullCollection;
@@ -36,6 +38,8 @@ use phpOMS\Message\RequestAbstract;
 use phpOMS\Message\ResponseAbstract;
 use phpOMS\Model\Message\FormValidation;
 use phpOMS\Utils\StringUtils;
+use Modules\Admin\Models\SettingsEnum as AdminSettingsEnum;
+use Modules\Organization\Models\UnitMapper;
 
 /**
  * Exchange controller class.
@@ -62,7 +66,20 @@ final class ApiController extends Controller
      */
     public function apiExchangeImport(RequestAbstract $request, ResponseAbstract $response, array $data = []) : void
     {
-        $import = $this->importDataFromRequest($request);
+        $dbData = [];
+        if ($request->hasData('dbtype')) {
+            $dbData = [
+                'dbtype' => (string) $request->getData('dbtype'),
+                'dbhost' => $request->getDataString('dbhost') ?? '',
+                'dbport' => $request->getDataInt('dbport') ?? 0,
+                'dbdatabase' => $request->getDataString('dbdatabase') ?? '',
+                'dblogin' => $request->getDataString('dblogin') ?? '',
+                'dbpassword' => $request->getDataString('dbpassword') ?? '',
+            ];
+        }
+
+        $importer = $this->getImporter((int) $request->getData('id'), $dbData);
+        $import = $importer === null ? [] : $importer->importFromRequest($request, $response);
 
         if (isset($import['logs'])) {
             foreach ($import['logs'] as $log) {
@@ -77,16 +94,7 @@ final class ApiController extends Controller
         }
     }
 
-    /**
-     * Method to import data based on a request
-     *
-     * @param RequestAbstract $request Request
-     *
-     * @return array
-     *
-     * @since 1.0.0
-     */
-    private function importDataFromRequest(RequestAbstract $request) : array
+    private function getImporter(int $id, array $dbData) : ?\Modules\Exchange\Interface\Importer
     {
         $importer = null;
 
@@ -94,8 +102,12 @@ final class ApiController extends Controller
         $interface = InterfaceManagerMapper::get()
             ->with('source')
             ->with('source/sources')
-            ->where('id', $request->getData('id'))
+            ->where('id', $id)
             ->execute();
+
+        if ($interface->id === 0) {
+            return null;
+        }
 
         $files = $interface->source->getSources();
         foreach ($files as $tMedia) {
@@ -106,14 +118,14 @@ final class ApiController extends Controller
                     require_once $path;
 
                     $remoteConnection = new NullConnection();
-                    if ($request->hasData('dbtype')) {
+                    if (!empty($dbData)) {
                         $remoteConnection = ConnectionFactory::create([
-                            'db'       => (string) $request->getData('dbtype'),
-                            'host'     => $request->getDataString('dbhost') ?? '',
-                            'port'     => $request->getDataInt('dbport') ?? 0,
-                            'database' => $request->getDataString('dbdatabase') ?? '',
-                            'login'    => $request->getDataString('dblogin') ?? '',
-                            'password' => $request->getDataString('dbpassword') ?? '',
+                            'db'       => (string) $dbData['dbtype'],
+                            'host'     => $dbData['dbhost'] ?? '',
+                            'port'     => $dbData['dbport'] ?? 0,
+                            'database' => $dbData['dbdatabase'] ?? '',
+                            'login'    => $dbData['dblogin'] ?? '',
+                            'password' => $dbData['dbpassword'] ?? '',
                         ]);
                     }
 
@@ -129,8 +141,7 @@ final class ApiController extends Controller
             }
         }
 
-        /** @var \Modules\Exchange\Models\ImporterAbstract $importer */
-        return $importer === null ? [] : $importer->importFromRequest($request);
+        return $importer;
     }
 
     /**
@@ -288,7 +299,8 @@ final class ApiController extends Controller
      */
     public function apiExchangeExport(RequestAbstract $request, HttpResponse $response, mixed $data = null) : void
     {
-        $export = $this->exportDataFromRequest($request);
+        $exporter = $this->getExporter((int) $request->getData('id'));
+        $export   = $exporter === null ? [] : $exporter->exportFromRequest($request, $response);
 
         if (!isset($export['type'], $export['logs'])) {
             $response->header->status = RequestStatusCode::R_400;
@@ -313,31 +325,12 @@ final class ApiController extends Controller
             $file = \explode('.', $export['name']);
 
             $response->header->setDownloadable($file[0], $file[1]);
-            switch ($file[1]) {
-                case 'csv':
-                    $response->header->set(
-                        'Content-disposition', 'attachment; filename="'
-                        . $export['name']
-                        . '"'
-                    , true);
-                    //$response->header->set('Content-Type', MimeType::M_CONF, true);
-                    break;
-            }
 
             $response->set($request->uri->__toString(), $export['content']);
         }
     }
 
-    /**
-     * Method to export data based on a request
-     *
-     * @param RequestAbstract $request Request
-     *
-     * @return array
-     *
-     * @since 1.0.0
-     */
-    private function exportDataFromRequest(RequestAbstract $request) : array
+    private function getExporter(int $id) : ?\Modules\Exchange\Interface\Exporter
     {
         $exporter = null;
 
@@ -345,8 +338,12 @@ final class ApiController extends Controller
         $interface = InterfaceManagerMapper::get()
             ->with('source')
             ->with('source/sources')
-            ->where('id', $request->getData('id'))
+            ->where('id', $id)
             ->execute();
+
+        if ($interface->id === 0) {
+            return null;
+        }
 
         $files = $interface->source->getSources();
         foreach ($files as $tMedia) {
@@ -366,7 +363,14 @@ final class ApiController extends Controller
             }
         }
 
-        return $exporter === null ? [] : $exporter->exportFromRequest($request);
+        return $exporter;
+    }
+
+    public function exportData(int $id, array $data) : array
+    {
+        $exporter = $this->getExporter($id);
+
+        return $exporter === null ? [] : $exporter->export($data, new \DateTime(), new \DateTime());
     }
 
     /**
@@ -436,5 +440,82 @@ final class ApiController extends Controller
         $setting->setData($request->getDataJson('data'));
 
         return $setting;
+    }
+
+    public function apiExportReport(
+        RequestAbstract $request,
+        ResponseAbstract $response,
+        Report $report,
+        string $type
+    ) : void
+    {
+        /** @var \Model\Setting $settings */
+        $settings = $this->app->appSettings->get(null,
+            [
+                AdminSettingsEnum::DEFAULT_TEMPLATES,
+                AdminSettingsEnum::DEFAULT_ASSETS,
+                SettingsEnum::DEFAULT_LIST_EXPORT,
+            ],
+            unit: $this->app->unitId,
+            module: self::NAME
+        );
+
+        $exporter = $this->getExporter((int) $settings[SettingsEnum::DEFAULT_LIST_EXPORT]->content);
+        if ($exporter === null) {
+            $response->header->status = RequestStatusCode::R_404;
+            $this->createInvalidReturnResponse($request, $response, null);
+
+            return;
+        }
+
+        $defaultTemplates = new NullCollection();
+        $defaultAssets    = new NullCollection();
+
+        /** @var \Modules\Media\Models\Collection[] $collections */
+        $collections = CollectionMapper::get()
+            ->with('sources')
+            ->where('id', [
+                (int) $settings[AdminSettingsEnum::DEFAULT_TEMPLATES]->content,
+                (int) $settings[AdminSettingsEnum::DEFAULT_ASSETS]->content,
+            ], 'IN')
+            ->execute();
+
+        foreach ($collections as $collection) {
+            if ($collection->id === (int) $settings[AdminSettingsEnum::DEFAULT_TEMPLATES]->content) {
+                $defaultTemplates = $collection;
+            } elseif ($collection->id === (int) $settings[AdminSettingsEnum::DEFAULT_ASSETS]->content) {
+                $defaultAssets = $collection;
+            }
+        }
+
+        $organization = UnitMapper::get()
+            ->with('contacts')
+            ->with('mainAddress')
+            ->with('attributes')
+            ->where('id', $this->app->unitId)
+            ->execute();
+
+        $export = $exporter === null ? [] : $exporter->export(
+            [
+                'assets' => $defaultAssets,
+                'templates' => $defaultTemplates,
+                'report' => $report,
+                'type' => $type,
+                'organization' => $organization,
+                'language' => $response->header->l11n->language,
+            ],
+            new \DateTime(), new \DateTime()
+        );
+
+        foreach ($export['logs'] as $log) {
+            $log->exchange = (int) $settings[SettingsEnum::DEFAULT_LIST_EXPORT]->content;
+            $this->createModel($request->header->account, $log, ExchangeLogMapper::class, 'export', $request->getOrigin());
+        }
+
+        $file = \explode('.', $export['name']);
+
+        $response->header->setDownloadable($file[0], $file[1]);
+
+        $response->set($request->uri->__toString(), $export['content']);
     }
 }

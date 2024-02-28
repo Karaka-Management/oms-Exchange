@@ -16,6 +16,7 @@ namespace Modules\Exchange\Interface;
 
 use Modules\Exchange\Models\ImporterAbstract;
 use phpOMS\Message\RequestAbstract;
+use phpOMS\Message\ResponseAbstract;
 
 /**
  * DB import class
@@ -39,7 +40,7 @@ final class Importer extends ImporterAbstract
      *
      * @since 1.0.0
      */
-    public function import(\DateTime $start, \DateTime $end) : void
+    public function import(array $data, \DateTime $start, \DateTime $end) : void
     {
     }
 
@@ -52,7 +53,7 @@ final class Importer extends ImporterAbstract
      *
      * @since 1.0.0
      */
-    public function importFromRequest(RequestAbstract $request) : array
+    public function importFromRequest(RequestAbstract $request, ResponseAbstract $response) : array
     {
         return $this->exchangeFromRequest($request);
     }

@@ -19,7 +19,9 @@ use phpOMS\DataStorage\Database\Connection\NullConnection;
 use phpOMS\DataStorage\Database\Connection\SQLiteConnection;
 use phpOMS\Localization\L11nManager;
 use phpOMS\Message\Http\HttpRequest;
+use phpOMS\Message\Http\HttpResponse;
 use phpOMS\Message\RequestAbstract;
+use phpOMS\Message\ResponseAbstract;
 use phpOMS\Uri\HttpUri;
 
 /**
@@ -39,7 +41,7 @@ final class ImporterAbstractTest extends \PHPUnit\Framework\TestCase
             new NullConnection(),
             new L11nManager('placeholder')
         ) extends ImporterAbstract {
-            public function importFromRequest(RequestAbstract $request) : array
+            public function importFromRequest(RequestAbstract $request, ResponseAbstract $response) : array
             {
                 return [$this->local, $this->remote, $this->l11n];
             }
@@ -48,7 +50,7 @@ final class ImporterAbstractTest extends \PHPUnit\Framework\TestCase
 
     public function testMembers() : void
     {
-        $result = $this->class->importFromRequest(new HttpRequest(new HttpUri('')));
+        $result = $this->class->importFromRequest(new HttpRequest(), new HttpResponse());
         self::assertInstanceOf('\phpOMS\DataStorage\Database\Connection\ConnectionAbstract', $result[0]);
         self::assertInstanceOf('\phpOMS\DataStorage\Database\Connection\ConnectionAbstract', $result[1]);
         self::assertInstanceOf(L11nManager::class, $result[2]);

@@ -14,39 +14,36 @@ declare(strict_types=1);
 
 namespace Modules\Exchange\Interface;
 
-use Modules\Exchange\Models\ExporterAbstract;
+use Modules\Exchange\Models\ImporterAbstract;
 use phpOMS\Message\RequestAbstract;
 use phpOMS\Message\ResponseAbstract;
 
 /**
- * DB export class
+ * DB import class
  *
- * @package Modules\Exchange\Models\Interfaces\OMS
+ * @package Modules\Exchange\Models\Interfaces\List
  * @license OMS License 2.0
  * @link    https://jingga.app
  * @since   1.0.0
  */
-final class Exporter extends ExporterAbstract
+final class Importer extends ImporterAbstract
 {
-    use ExchangeTrait;
-
     /**
-     * Export all data in time span
+     * Import all data in time span
      *
      * @param \DateTime $start Start time (inclusive)
      * @param \DateTime $end   End time (inclusive)
      *
-     * @return array
+     * @return void
      *
      * @since 1.0.0
      */
-    public function export(array $data, \DateTime $start, \DateTime $end) : array
+    public function import(array $data, \DateTime $start, \DateTime $end) : void
     {
-        return [];
     }
 
     /**
-     * Export data from request
+     * Import data from request
      *
      * @param RequestAbstract $request Request
      *
@@ -54,8 +51,8 @@ final class Exporter extends ExporterAbstract
      *
      * @since 1.0.0
      */
-    public function exportFromRequest(RequestAbstract $request, ResponseAbstract $response) : array
+    public function importFromRequest(RequestAbstract $request, ResponseAbstract $response) : array
     {
-        return $this->exchangeFromRequest($request);
+        return [];
     }
 }
