@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 /** @var \phpOMS\Views\View $this */
 /** @var array $data */
-$report = $this->data['report'] ?? [];
+$report    = $this->data['report'] ?? [];
 $headlines = \array_keys(\reset($report->data));
 
 $out = \fopen('php://output', 'w');

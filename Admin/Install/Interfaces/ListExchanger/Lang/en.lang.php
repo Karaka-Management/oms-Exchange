@@ -13,6 +13,6 @@ declare(strict_types=1);
  * @link      https://jingga.app
  */
 return [
-    'Language'            => 'Language',
-    'ReportExported'    => 'Data got exported',
+    'Language'       => 'Language',
+    'ReportExported' => 'Data got exported',
 ];

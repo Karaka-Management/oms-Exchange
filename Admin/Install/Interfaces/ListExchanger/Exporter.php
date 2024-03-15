@@ -35,6 +35,7 @@ final class Exporter extends ExporterAbstract
     /**
      * Export all data in time span
      *
+     * @param array     $data  Export data
      * @param \DateTime $start Start time (inclusive)
      * @param \DateTime $end   End time (inclusive)
      *
@@ -52,16 +53,23 @@ final class Exporter extends ExporterAbstract
         $result = $this->exportReport($data);
 
         $log            = new ExchangeLog();
-        $log->createdBy = $this->account;
-        $log->type = ExchangeType::EXPORT;
-        $log->message  = $this->l11n->getText($data['language'], 'Exchange', '', 'ReportExported');
-        $log->subtype  = 'language';
+        $log->createdBy = $data['account'] ?? 0;
+        $log->type      = ExchangeType::EXPORT;
+        $log->message   = $this->l11n->getText($data['language'], 'Exchange', '', 'ReportExported');
+        $log->subtype   = 'language';
 
         $result['logs'] = [$log];
 
         return $result;
     }
 
+    /**
+     * Create export.
+     *
+     * @return array{type:string, name:string, content:string}
+     *
+     * @since 1.0.0
+     */
     private function exportReport(array $data) : array
     {
         $content = '';
@@ -100,6 +108,15 @@ final class Exporter extends ExporterAbstract
         ];
     }
 
+    /**
+     * Create pdf export
+     *
+     * @param array $data Data to export
+     *
+     * @return string
+     *
+     * @since 1.0.0
+     */
     private function pdfExport(array $data) : string
     {
         $view = new View();
@@ -110,11 +127,20 @@ final class Exporter extends ExporterAbstract
 
         $view->data['defaultTemplates'] = $data['templates'];
         $view->data['defaultAssets']    = $data['assets'];
-        $view->data['report']    = $data['report'];
+        $view->data['report']           = $data['report'];
 
         return $view->render();
     }
 
+    /**
+     * Create csv export
+     *
+     * @param array $data Data to export
+     *
+     * @return string
+     *
+     * @since 1.0.0
+     */
     private function csvExport(array $data) : string
     {
         $view = new View();
@@ -125,11 +151,20 @@ final class Exporter extends ExporterAbstract
 
         $view->data['defaultTemplates'] = $data['templates'];
         $view->data['defaultAssets']    = $data['assets'];
-        $view->data['report']    = $data['report'];
+        $view->data['report']           = $data['report'];
 
         return $view->render();
     }
 
+    /**
+     * Create excel export
+     *
+     * @param array $data Data to export
+     *
+     * @return string
+     *
+     * @since 1.0.0
+     */
     private function excelExport(array $data) : string
     {
         $view = new View();
@@ -140,43 +175,79 @@ final class Exporter extends ExporterAbstract
 
         $view->data['defaultTemplates'] = $data['templates'];
         $view->data['defaultAssets']    = $data['assets'];
-        $view->data['report']    = $data['report'];
+        $view->data['report']           = $data['report'];
 
         return $view->render();
     }
 
+    /**
+     * Create xml export
+     *
+     * @param array $data Data to export
+     *
+     * @return string
+     *
+     * @since 1.0.0
+     */
     private function xmlExport(array $data) : string
     {
         $defaultTemplates = $data['templates'] ?? [];
-        $report = $data['report'] ?? null;
-        $type = $data['type'] ?? 'csv';
+        $report           = $data['report'] ?? null;
+        $type             = $data['type'] ?? 'csv';
 
         return '';
     }
 
+    /**
+     * Create html export
+     *
+     * @param array $data Data to export
+     *
+     * @return string
+     *
+     * @since 1.0.0
+     */
     private function htmlExport(array $data) : string
     {
         $defaultTemplates = $data['templates'] ?? [];
-        $report = $data['report'] ?? null;
-        $type = $data['type'] ?? 'csv';
+        $report           = $data['report'] ?? null;
+        $type             = $data['type'] ?? 'csv';
 
         return '';
     }
 
+    /**
+     * Create word export
+     *
+     * @param array $data Data to export
+     *
+     * @return string
+     *
+     * @since 1.0.0
+     */
     private function wordExport(array $data) : string
     {
         $defaultTemplates = $data['templates'] ?? [];
-        $report = $data['report'] ?? null;
-        $type = $data['type'] ?? 'csv';
+        $report           = $data['report'] ?? null;
+        $type             = $data['type'] ?? 'csv';
 
         return '';
     }
 
+    /**
+     * Create json export
+     *
+     * @param array $data Data to export
+     *
+     * @return string
+     *
+     * @since 1.0.0
+     */
     private function jsonExport(array $data) : string
     {
         $defaultTemplates = $data['templates'] ?? [];
-        $report = $data['report'] ?? null;
-        $type = $data['type'] ?? 'csv';
+        $report           = $data['report'] ?? null;
+        $type             = $data['type'] ?? 'csv';
 
         return '';
     }

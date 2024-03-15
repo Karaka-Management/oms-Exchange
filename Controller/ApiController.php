@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Modules\Exchange\Controller;
 
 use Modules\Admin\Models\NullAccount;
+use Modules\Admin\Models\SettingsEnum as AdminSettingsEnum;
 use Modules\Exchange\Models\ExchangeLogMapper;
 use Modules\Exchange\Models\ExchangeSetting;
 use Modules\Exchange\Models\ExchangeSettingMapper;
@@ -27,6 +28,7 @@ use Modules\Media\Models\CollectionMapper;
 use Modules\Media\Models\MediaMapper;
 use Modules\Media\Models\NullCollection;
 use Modules\Media\Models\PathSettings;
+use Modules\Organization\Models\UnitMapper;
 use phpOMS\Account\PermissionType;
 use phpOMS\DataStorage\Database\Connection\ConnectionFactory;
 use phpOMS\DataStorage\Database\Connection\NullConnection;
@@ -38,8 +40,6 @@ use phpOMS\Message\RequestAbstract;
 use phpOMS\Message\ResponseAbstract;
 use phpOMS\Model\Message\FormValidation;
 use phpOMS\Utils\StringUtils;
-use Modules\Admin\Models\SettingsEnum as AdminSettingsEnum;
-use Modules\Organization\Models\UnitMapper;
 
 /**
  * Exchange controller class.
@@ -69,17 +69,17 @@ final class ApiController extends Controller
         $dbData = [];
         if ($request->hasData('dbtype')) {
             $dbData = [
-                'dbtype' => (string) $request->getData('dbtype'),
-                'dbhost' => $request->getDataString('dbhost') ?? '',
-                'dbport' => $request->getDataInt('dbport') ?? 0,
+                'dbtype'     => (string) $request->getData('dbtype'),
+                'dbhost'     => $request->getDataString('dbhost') ?? '',
+                'dbport'     => $request->getDataInt('dbport') ?? 0,
                 'dbdatabase' => $request->getDataString('dbdatabase') ?? '',
-                'dblogin' => $request->getDataString('dblogin') ?? '',
+                'dblogin'    => $request->getDataString('dblogin') ?? '',
                 'dbpassword' => $request->getDataString('dbpassword') ?? '',
             ];
         }
 
         $importer = $this->getImporter((int) $request->getData('id'), $dbData);
-        $import = $importer === null ? [] : $importer->importFromRequest($request, $response);
+        $import   = $importer === null ? [] : $importer->importFromRequest($request, $response);
 
         if (isset($import['logs'])) {
             foreach ($import['logs'] as $log) {
@@ -94,6 +94,16 @@ final class ApiController extends Controller
         }
     }
 
+    /**
+     * Get importer by id
+     *
+     * @param int   $id     Id of the importer
+     * @param array $dbData Database connection data
+     *
+     * @return null|\Modules\Exchange\Interface\Importer
+     *
+     * @since 1.0.0
+     */
     private function getImporter(int $id, array $dbData) : ?\Modules\Exchange\Interface\Importer
     {
         $importer = null;
@@ -330,6 +340,15 @@ final class ApiController extends Controller
         }
     }
 
+    /**
+     * Get exporter by id
+     *
+     * @param int $id Id of the exporter
+     *
+     * @return null|\Modules\Exchange\Interface\Exporter
+     *
+     * @since 1.0.0
+     */
     private function getExporter(int $id) : ?\Modules\Exchange\Interface\Exporter
     {
         $exporter = null;
@@ -366,6 +385,16 @@ final class ApiController extends Controller
         return $exporter;
     }
 
+    /**
+     * Get the data of the export
+     *
+     * @param int   $id   Exporter id
+     * @param array $data Export data
+     *
+     * @return array
+     *
+     * @since 1.0.0
+     */
     public function exportData(int $id, array $data) : array
     {
         $exporter = $this->getExporter($id);
@@ -442,6 +471,18 @@ final class ApiController extends Controller
         return $setting;
     }
 
+    /**
+     * Api method to export a report
+     *
+     * @param RequestAbstract $request  Request
+     * @param HttpResponse    $response Response
+     * @param Report          $report   Report to export
+     * @param string          $type     Export type (e.g. pdf,csv,html,xml,json,xls)
+     *
+     * @return void
+     *
+     * @since 1.0.0
+     */
     public function apiExportReport(
         RequestAbstract $request,
         ResponseAbstract $response,
@@ -449,7 +490,7 @@ final class ApiController extends Controller
         string $type
     ) : void
     {
-        /** @var \Model\Setting $settings */
+        /** @var \Model\Setting[] $settings */
         $settings = $this->app->appSettings->get(null,
             [
                 AdminSettingsEnum::DEFAULT_TEMPLATES,
@@ -497,12 +538,12 @@ final class ApiController extends Controller
 
         $export = $exporter === null ? [] : $exporter->export(
             [
-                'assets' => $defaultAssets,
-                'templates' => $defaultTemplates,
-                'report' => $report,
-                'type' => $type,
+                'assets'       => $defaultAssets,
+                'templates'    => $defaultTemplates,
+                'report'       => $report,
+                'type'         => $type,
                 'organization' => $organization,
-                'language' => $response->header->l11n->language,
+                'language'     => $response->header->l11n->language,
             ],
             new \DateTime(), new \DateTime()
         );

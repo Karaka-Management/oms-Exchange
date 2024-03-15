@@ -33,6 +33,7 @@ final class Exporter extends ExporterAbstract
     /**
      * Export all data in time span
      *
+     * @param array     $data  Export data
      * @param \DateTime $start Start time (inclusive)
      * @param \DateTime $end   End time (inclusive)
      *

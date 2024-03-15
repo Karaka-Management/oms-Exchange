@@ -34,6 +34,11 @@ class Report
 
     public array $data = [];
 
+    /**
+     * Constructor.
+     *
+     * @since 1.0.0
+     */
     public function __construct()
     {
         $this->dt = new \DateTime('now');

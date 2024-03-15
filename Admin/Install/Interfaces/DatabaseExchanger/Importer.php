@@ -33,6 +33,7 @@ final class Importer extends ImporterAbstract
     /**
      * Import all data in time span
      *
+     * @param array     $data  Import data
      * @param \DateTime $start Start time (inclusive)
      * @param \DateTime $end   End time (inclusive)
      *
