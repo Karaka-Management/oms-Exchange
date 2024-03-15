@@ -12,24 +12,34 @@
  */
 declare(strict_types=1);
 
+use Modules\Exchange\Models\NullReport;
+use Modules\Media\Models\NullCollection;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use phpOMS\Utils\StringUtils;
 
 /** @var \phpOMS\Views\View $this */
 
-/** @var array<array> $data */
-$report = $this->data['report'] ?? [];
+/** @var \Modules\Exchange\Models\Report $report */
+$report = $this->data['report'] ?? new NullReport();
 
-include $this->data['defaultTemplates']->findFile('.xls.php')->getAbsolutePath();
+/** @var \Modules\Media\Models\Collection $collection */
+$collection = $this->data['defaultTemplates'] ?? new NullCollection();
+
+include $collection->findFile('.xls.php')->getAbsolutePath();
 
 $spreadsheet = new DefaultExcel();
 
-$headlines = \array_keys(\reset($report->data));
+$first = \reset($report->data);
+if ($first === false) {
+    $first = [];
+}
+
+$headlines = \array_keys($first);
 foreach ($headlines as $j => $headline) {
     $spreadsheet->getActiveSheet()->setCellValue(StringUtils::intToAlphabet($j + 1) . 1, $headline);
 }
 
-foreach ($data as $i => $row) {
+foreach ($report->data as $i => $row) {
     foreach ($row as $j => $cell) {
         $spreadsheet->getActiveSheet()->setCellValue(StringUtils::intToAlphabet($j + 1) . ($i + 2), $cell);
     }

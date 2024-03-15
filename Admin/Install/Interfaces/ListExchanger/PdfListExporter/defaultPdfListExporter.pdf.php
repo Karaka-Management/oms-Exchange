@@ -12,12 +12,18 @@
  */
 declare(strict_types=1);
 
+use Modules\Exchange\Models\NullReport;
+use Modules\Media\Models\NullCollection;
+
 /** @var \phpOMS\Views\View $this */
 
-/** @var array<array> $data */
-$report = $this->data['report'] ?? [];
+/** @var \Modules\Exchange\Models\Report $report */
+$report = $this->data['report'] ?? new NullReport();
 
-require_once $this->data['defaultTemplates']->findFile('.pdf.php')->getAbsolutePath();
+/** @var \Modules\Media\Models\Collection $collection */
+$collection = $this->data['defaultTemplates'] ?? new NullCollection();
+
+require_once $collection->findFile('.pdf.php')->getAbsolutePath();
 
 /** @phpstan-import-type DefaultPdf from ../../../../Admin/Install/Media/PdfDefaultTemplate/pdfTemplate.pdf.php */
 $pdf = new DefaultPdf();
@@ -27,7 +33,12 @@ $topPos = $pdf->getY();
 $tbl = '<table border="1" cellpadding="0" cellspacing="0">';
 
 // headline
-$headlines = \array_keys(\reset($report->data));
+$first = \reset($report->data);
+if ($first === false) {
+    $first = [];
+}
+
+$headlines = \array_keys($first);
 $tbl .= '<thead><tr>';
 foreach ($headlines as $headline) {
     $tbl .= '<th>' . $headline . '</th>';

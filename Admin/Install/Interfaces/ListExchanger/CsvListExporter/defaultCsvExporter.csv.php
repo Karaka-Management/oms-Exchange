@@ -12,10 +12,19 @@
  */
 declare(strict_types=1);
 
+use Modules\Exchange\Models\NullReport;
+
 /** @var \phpOMS\Views\View $this */
-/** @var array $data */
-$report    = $this->data['report'] ?? [];
-$headlines = \array_keys(\reset($report->data));
+
+/** @var \Modules\Exchange\Models\Report $report */
+$report = $this->data['report'] ?? new NullReport();
+
+$first = \reset($report->data);
+if ($first === false) {
+    $first = [];
+}
+
+$headlines = \array_keys($first);
 
 $out = \fopen('php://output', 'w');
 if ($out !== false) {
