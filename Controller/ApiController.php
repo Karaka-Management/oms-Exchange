@@ -504,7 +504,7 @@ final class ApiController extends Controller
         $exporter = $this->getExporter((int) $settings[SettingsEnum::DEFAULT_LIST_EXPORT]->content);
         if ($exporter === null) {
             $response->header->status = RequestStatusCode::R_404;
-            $this->createInvalidReturnResponse($request, $response, null);
+            $this->createInvalidReturnResponse($request, $response, []);
 
             return;
         }
