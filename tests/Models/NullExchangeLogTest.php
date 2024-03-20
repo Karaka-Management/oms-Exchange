@@ -19,31 +19,23 @@ use Modules\Exchange\Models\NullExchangeLog;
 /**
  * @internal
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Modules\Exchange\Models\NullExchangeLog::class)]
 final class NullExchangeLogTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @covers \Modules\Exchange\Models\NullExchangeLog
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testNull() : void
     {
         self::assertInstanceOf('\Modules\Exchange\Models\ExchangeLog', new NullExchangeLog());
     }
 
-    /**
-     * @covers \Modules\Exchange\Models\NullExchangeLog
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testId() : void
     {
         $null = new NullExchangeLog(2);
         self::assertEquals(2, $null->id);
     }
 
-    /**
-     * @covers \Modules\Exchange\Models\NullExchangeLog
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testJsonSerialize() : void
     {
         $null = new NullExchangeLog(2);

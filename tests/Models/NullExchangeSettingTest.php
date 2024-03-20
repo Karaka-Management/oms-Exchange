@@ -19,31 +19,23 @@ use Modules\Exchange\Models\NullExchangeSetting;
 /**
  * @internal
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Modules\Exchange\Models\NullExchangeSetting::class)]
 final class NullExchangeSettingTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @covers \Modules\Exchange\Models\NullExchangeSetting
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testNull() : void
     {
         self::assertInstanceOf('\Modules\Exchange\Models\ExchangeSetting', new NullExchangeSetting());
     }
 
-    /**
-     * @covers \Modules\Exchange\Models\NullExchangeSetting
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testId() : void
     {
         $null = new NullExchangeSetting(2);
         self::assertEquals(2, $null->id);
     }
 
-    /**
-     * @covers \Modules\Exchange\Models\NullExchangeSetting
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testJsonSerialize() : void
     {
         $null = new NullExchangeSetting(2);

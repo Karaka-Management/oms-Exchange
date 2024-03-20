@@ -19,6 +19,7 @@ use Modules\Exchange\Models\InterfaceManager;
 /**
  * @internal
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Modules\Exchange\Models\InterfaceManager::class)]
 final class InterfaceManagerTest extends \PHPUnit\Framework\TestCase
 {
     private InterfaceManager $interface;
@@ -31,10 +32,7 @@ final class InterfaceManagerTest extends \PHPUnit\Framework\TestCase
         $this->interface = new InterfaceManager();
     }
 
-    /**
-     * @covers \Modules\Exchange\Models\InterfaceManager
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testDefault() : void
     {
         self::assertEquals(0, $this->interface->id);

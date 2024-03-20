@@ -34,10 +34,10 @@ use phpOMS\System\File\Local\Directory;
 use phpOMS\Utils\TestUtils;
 
 /**
- * @testdox Modules\Exchange\tests\Controller\ApiControllerTest: Exchange api controller
- *
  * @internal
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Modules\Exchange\Controller\ApiController::class)]
+#[\PHPUnit\Framework\Attributes\TestDox('Modules\Exchange\tests\Controller\ApiControllerTest: Exchange api controller')]
 final class ApiControllerTest extends \PHPUnit\Framework\TestCase
 {
     protected ApplicationAbstract $app;
@@ -92,10 +92,7 @@ final class ApiControllerTest extends \PHPUnit\Framework\TestCase
         TestUtils::setMember($this->module, 'app', $this->app);
     }
 
-    /**
-     * @covers \Modules\Exchange\Controller\ApiController
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testInterfaceInstall() : void
     {
         $exchanges = \scandir(__DIR__ . '/../Interfaces');
@@ -176,10 +173,7 @@ final class ApiControllerTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    /**
-     * @covers \Modules\Exchange\Controller\ApiController
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testInterfaceInstallInvalidData() : void
     {
         $response = new HttpResponse();
@@ -192,10 +186,7 @@ final class ApiControllerTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(RequestStatusCode::R_400, $response->header->status);
     }
 
-    /**
-     * @covers \Modules\Exchange\Controller\ApiController
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testExport() : void
     {
         $response = new HttpResponse();
@@ -209,10 +200,7 @@ final class ApiControllerTest extends \PHPUnit\Framework\TestCase
         self::assertTrue(\strlen($response->getData('')) > 500);
     }
 
-    /**
-     * @covers \Modules\Exchange\Controller\ApiController
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testExportInvalidInterface() : void
     {
         $response = new HttpResponse();
@@ -226,10 +214,7 @@ final class ApiControllerTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(RequestStatusCode::R_400, $response->header->status);
     }
 
-    /**
-     * @covers \Modules\Exchange\Controller\ApiController
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testLanguageImport() : void
     {
         $response = new HttpResponse();
@@ -260,10 +245,7 @@ final class ApiControllerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @covers \Modules\Exchange\Controller\ApiController
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testImportInvalidInterface() : void
     {
         $response = new HttpResponse();

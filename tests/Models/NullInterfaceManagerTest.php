@@ -19,31 +19,23 @@ use Modules\Exchange\Models\NullInterfaceManager;
 /**
  * @internal
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Modules\Exchange\Models\NullInterfaceManager::class)]
 final class NullInterfaceManagerTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @covers \Modules\Exchange\Models\NullInterfaceManager
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testNull() : void
     {
         self::assertInstanceOf('\Modules\Exchange\Models\InterfaceManager', new NullInterfaceManager());
     }
 
-    /**
-     * @covers \Modules\Exchange\Models\NullInterfaceManager
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testId() : void
     {
         $null = new NullInterfaceManager(2);
         self::assertEquals(2, $null->id);
     }
 
-    /**
-     * @covers \Modules\Exchange\Models\NullInterfaceManager
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testJsonSerialize() : void
     {
         $null = new NullInterfaceManager(2);

@@ -20,6 +20,7 @@ use Modules\Exchange\Models\ExchangeType;
 /**
  * @internal
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Modules\Exchange\Models\ExchangeLog::class)]
 final class ExchangeLogTest extends \PHPUnit\Framework\TestCase
 {
     private ExchangeLog $log;
@@ -32,10 +33,7 @@ final class ExchangeLogTest extends \PHPUnit\Framework\TestCase
         $this->log = new ExchangeLog();
     }
 
-    /**
-     * @covers \Modules\Exchange\Models\ExchangeLog
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testDefault() : void
     {
         self::assertEquals(0, $this->log->id);
@@ -47,10 +45,7 @@ final class ExchangeLogTest extends \PHPUnit\Framework\TestCase
         self::assertInstanceOf('\DateTimeImmutable', $this->log->createdAt);
     }
 
-    /**
-     * @covers \Modules\Exchange\Models\ExchangeLog
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testFieldsInputOutput() : void
     {
         $this->log->setFields($fields = [
@@ -60,10 +55,7 @@ final class ExchangeLogTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($fields, $this->log->getFields());
     }
 
-    /**
-     * @covers \Modules\Exchange\Models\ExchangeLog
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testSerialize() : void
     {
         $this->log->message = '123456';
