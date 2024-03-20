@@ -2,7 +2,7 @@
 /**
  * Jingga
  *
- * PHP Version 8.1
+ * PHP Version 8.2
  *
  * @package   Interfaces
  * @copyright Dennis Eichhorn
@@ -188,7 +188,7 @@ final class Importer extends ImporterAbstract
                             . "/**\n"
                             . " * Jingga\n"
                             . " *\n"
-                            . " * PHP Version 8.1\n"
+                            . " * PHP Version 8.2\n"
                             . " *\n"
                             . " * @package   Modules\Localization\n"
                             . " * @copyright Dennis Eichhorn\n"
