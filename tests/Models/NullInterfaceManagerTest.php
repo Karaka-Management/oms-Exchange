@@ -22,7 +22,7 @@ use Modules\Exchange\Models\NullInterfaceManager;
 final class NullInterfaceManagerTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @covers Modules\Exchange\Models\NullInterfaceManager
+     * @covers \Modules\Exchange\Models\NullInterfaceManager
      * @group module
      */
     public function testNull() : void
@@ -31,7 +31,7 @@ final class NullInterfaceManagerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Exchange\Models\NullInterfaceManager
+     * @covers \Modules\Exchange\Models\NullInterfaceManager
      * @group module
      */
     public function testId() : void
@@ -41,7 +41,7 @@ final class NullInterfaceManagerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Exchange\Models\NullInterfaceManager
+     * @covers \Modules\Exchange\Models\NullInterfaceManager
      * @group module
      */
     public function testJsonSerialize() : void

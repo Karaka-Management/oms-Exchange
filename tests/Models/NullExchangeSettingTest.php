@@ -22,7 +22,7 @@ use Modules\Exchange\Models\NullExchangeSetting;
 final class NullExchangeSettingTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @covers Modules\Exchange\Models\NullExchangeSetting
+     * @covers \Modules\Exchange\Models\NullExchangeSetting
      * @group module
      */
     public function testNull() : void
@@ -31,7 +31,7 @@ final class NullExchangeSettingTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Exchange\Models\NullExchangeSetting
+     * @covers \Modules\Exchange\Models\NullExchangeSetting
      * @group module
      */
     public function testId() : void
@@ -41,7 +41,7 @@ final class NullExchangeSettingTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Exchange\Models\NullExchangeSetting
+     * @covers \Modules\Exchange\Models\NullExchangeSetting
      * @group module
      */
     public function testJsonSerialize() : void

@@ -32,7 +32,7 @@ final class InterfaceManagerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Exchange\Models\InterfaceManager
+     * @covers \Modules\Exchange\Models\InterfaceManager
      * @group module
      */
     public function testDefault() : void

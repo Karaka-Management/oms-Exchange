@@ -33,7 +33,7 @@ final class ExchangeLogTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Exchange\Models\ExchangeLog
+     * @covers \Modules\Exchange\Models\ExchangeLog
      * @group module
      */
     public function testDefault() : void
@@ -48,7 +48,7 @@ final class ExchangeLogTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Exchange\Models\ExchangeLog
+     * @covers \Modules\Exchange\Models\ExchangeLog
      * @group module
      */
     public function testFieldsInputOutput() : void
@@ -61,7 +61,7 @@ final class ExchangeLogTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Exchange\Models\ExchangeLog
+     * @covers \Modules\Exchange\Models\ExchangeLog
      * @group module
      */
     public function testSerialize() : void

@@ -93,7 +93,7 @@ final class ApiControllerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Exchange\Controller\ApiController
+     * @covers \Modules\Exchange\Controller\ApiController
      * @group module
      */
     public function testInterfaceInstall() : void
@@ -177,7 +177,7 @@ final class ApiControllerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Exchange\Controller\ApiController
+     * @covers \Modules\Exchange\Controller\ApiController
      * @group module
      */
     public function testInterfaceInstallInvalidData() : void
@@ -193,7 +193,7 @@ final class ApiControllerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Exchange\Controller\ApiController
+     * @covers \Modules\Exchange\Controller\ApiController
      * @group module
      */
     public function testExport() : void
@@ -210,7 +210,7 @@ final class ApiControllerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Exchange\Controller\ApiController
+     * @covers \Modules\Exchange\Controller\ApiController
      * @group module
      */
     public function testExportInvalidInterface() : void
@@ -227,7 +227,7 @@ final class ApiControllerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Exchange\Controller\ApiController
+     * @covers \Modules\Exchange\Controller\ApiController
      * @group module
      */
     public function testLanguageImport() : void
@@ -261,7 +261,7 @@ final class ApiControllerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Exchange\Controller\ApiController
+     * @covers \Modules\Exchange\Controller\ApiController
      * @group module
      */
     public function testImportInvalidInterface() : void

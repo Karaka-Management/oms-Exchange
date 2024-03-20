@@ -22,7 +22,7 @@ use Modules\Exchange\Models\NullExchangeLog;
 final class NullExchangeLogTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @covers Modules\Exchange\Models\NullExchangeLog
+     * @covers \Modules\Exchange\Models\NullExchangeLog
      * @group module
      */
     public function testNull() : void
@@ -31,7 +31,7 @@ final class NullExchangeLogTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Exchange\Models\NullExchangeLog
+     * @covers \Modules\Exchange\Models\NullExchangeLog
      * @group module
      */
     public function testId() : void
@@ -41,7 +41,7 @@ final class NullExchangeLogTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Exchange\Models\NullExchangeLog
+     * @covers \Modules\Exchange\Models\NullExchangeLog
      * @group module
      */
     public function testJsonSerialize() : void
