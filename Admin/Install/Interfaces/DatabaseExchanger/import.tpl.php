@@ -15,6 +15,7 @@ declare(strict_types=1);
 use Modules\Exchange\Models\NullExchangeSetting;
 use phpOMS\DataStorage\Database\Connection\ConnectionFactory;
 use phpOMS\DataStorage\Database\Connection\NullConnection;
+use phpOMS\DataStorage\Database\DatabaseStatus;
 use phpOMS\DataStorage\Database\DatabaseType;
 use phpOMS\DataStorage\Database\SchemaMapper;
 use phpOMS\Uri\UriFactory;
@@ -64,8 +65,8 @@ if (!empty($settingData)) {
     $importSchemaMapper = new SchemaMapper($importConnection);
     $exportSchemaMapper = new SchemaMapper($exportConnection);
 
-    $importTables = $importSchemaMapper->getTables();
-    $exportTables = $exportSchemaMapper->getTables();
+    $importTables = $importConnection->status === DatabaseStatus::OK ? $importSchemaMapper->getTables() : [];
+    $exportTables = $exportConnection->status === DatabaseStatus::OK ? $exportSchemaMapper->getTables() : [];
 
     $currentImportTableFields = empty($importTables) ? [] : $importSchemaMapper->getFields($importTables[0]);
     $currentExportTableFields = empty($exportTables) ? [] : $exportSchemaMapper->getFields($exportTables[0]);
@@ -317,14 +318,14 @@ $isNew = $currentSetting->id === 0;
         <div class="portlet-body">
             <div class="form-group">
                 <label for="iTitle"><?= $this->getHtml('Column1'); ?></label>
-                <input type="text" id="iTitle" name="column1title" placeholder="<?= $this->getHtml('Title'); ?>">
+                <input type="text" id="iTitle" name="column1title">
             </div>
 
             <div class="form-group">
                 <label for="iTitle"><?= $this->getHtml('Filter1'); ?></label>
                 <div class="ipt-wrap">
                     <div class="ipt-first">
-                        <input type="text" id="iTitle" name="title" placeholder="<?= $this->getHtml('Title'); ?>">
+                        <input type="text" id="iTitle" name="title">
                     </div>
                     <div class="ipt-second">
                         <select nma="column1comparison">
@@ -340,14 +341,14 @@ $isNew = $currentSetting->id === 0;
 
             <div class="form-group">
                 <label for="iTitle"><?= $this->getHtml('Column2'); ?></label>
-                <input type="text" id="iTitle" name="column2title" placeholder="<?= $this->getHtml('Title'); ?>">
+                <input type="text" id="iTitle" name="column2title">
             </div>
 
             <div class="form-group">
                 <label for="iTitle"><?= $this->getHtml('Filter2'); ?></label>
                 <div class="ipt-wrap">
                     <div class="ipt-first">
-                        <input type="text" id="iTitle" name="title" placeholder="<?= $this->getHtml('Title'); ?>">
+                        <input type="text" id="iTitle" name="title">
                     </div>
                     <div class="ipt-second">
                         <select name="column2comparison">

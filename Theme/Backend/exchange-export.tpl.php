@@ -19,6 +19,4 @@ echo $this->data['nav']->render();
 
 $interface = $this->data['interface'];
 
-include $interface->source->getAbsolutePath() . '/'
-    . $interface->source->name . '/'
-    . 'export.tpl.php';
+include $interface->source->getAbsolutePath() . '/export.tpl.php';

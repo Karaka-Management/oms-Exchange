@@ -189,7 +189,6 @@ final class BackendController extends Controller
         $view->data['db']        = $this->app->dbPool->get();
 
         $lang = \is_file($langFile = $interface->source->getAbsolutePath() . '/'
-                . $interface->source->name
                 . '/Lang/' . $response->header->l11n->language . '.lang.php'
             ) ? include $langFile : [];
 
@@ -228,7 +227,6 @@ final class BackendController extends Controller
         $view->data['db']        = $this->app->dbPool->get();
 
         $lang = \is_file($langFile = $interface->source->getAbsolutePath() . '/'
-                . $interface->source->name
                 . '/Lang/' . $response->header->l11n->language . '.lang.php'
             ) ? include $langFile : [];
 

@@ -23,7 +23,7 @@ $lang = $this->getData('lang');
                     <table class="layout wf-100" style="table-layout: fixed">
                         <tbody>
                         <tr><td><label for="iFile"><?= $this->getHtml('File'); ?></label>
-                        <tr><td><input type="file" id="iFile" name="file" placeholder="<?= $this->getHtml('File'); ?>" required>
+                        <tr><td><input type="file" id="iFile" name="file" required>
                     </table>
                 </div>
                 <div class="portlet-foot">

@@ -19,6 +19,6 @@ echo $this->data['nav']->render();
 
 $interface = $this->data['interface'];
 
-include $interface->source->getAbsolutePath() . '/'
-    . $interface->source->name . '/'
-    . 'import.tpl.php';
+$a = $interface->source->getAbsolutePath();
+
+include $interface->source->getAbsolutePath() . '/import.tpl.php';

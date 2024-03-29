@@ -22,6 +22,7 @@ return [
         [
             'dest'       => '\Modules\Exchange\Controller\ApiController:apiExchangeImport',
             'verb'       => RouteVerb::SET,
+            'csrf'       => true,
             'permission' => [
                 'module' => ApiController::NAME,
                 'type'   => PermissionType::CREATE,
@@ -33,6 +34,7 @@ return [
         [
             'dest'       => '\Modules\Exchange\Controller\ApiController:apiExchangeExport',
             'verb'       => RouteVerb::SET,
+            'csrf'       => true,
             'permission' => [
                 'module' => ApiController::NAME,
                 'type'   => PermissionType::CREATE,
