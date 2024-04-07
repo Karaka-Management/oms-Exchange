@@ -481,6 +481,8 @@ final class ApiController extends Controller
      *
      * @return void
      *
+     * @api
+     *
      * @since 1.0.0
      */
     public function apiExportReport(

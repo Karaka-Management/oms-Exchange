@@ -19,7 +19,7 @@ use Modules\Media\Models\CollectionMapper;
 use phpOMS\DataStorage\Database\Mapper\DataMapperFactory;
 
 /**
- * Mapper class.
+ * InterfaceManager mapper class.
  *
  * @package Modules\Exchange\Models
  * @license OMS License 2.0
