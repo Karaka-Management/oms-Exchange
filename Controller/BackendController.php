@@ -50,21 +50,15 @@ final class BackendController extends Controller
         $view->setTemplate('/Modules/Exchange/Theme/Backend/exchange-log-list');
         $view->data['nav'] = $this->app->moduleManager->get('Navigation')->createNavigationMid(1007001001, $request, $response);
 
-        $mapper = ExchangeLogMapper::getAll()
+        $view->data['logs'] = ExchangeLogMapper::getAll()
             ->with('exchange')
             ->with('createdBy')
-            ->limit(50);
-
-        if ($request->getData('ptype') === 'p') {
-            $view->data['logs'] = $mapper->where('id', $request->getDataInt('offset') ?? 0, '<')
-                ->execute();
-        } elseif ($request->getData('ptype') === 'n') {
-            $view->data['logs'] = $mapper->where('id', $request->getDataInt('offset') ?? 0, '>')
-                ->execute();
-        } else {
-            $view->data['logs'] = $mapper->where('id', 0, '>')
-                ->execute();
-        }
+            ->limit(50)
+            ->paginate(
+                'id',
+                $request->getDataString('ptype') ?? '',
+                $request->getDataInt('offset')
+            )->executeGetArray();
 
         return $view;
     }

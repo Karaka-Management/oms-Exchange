@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Modules\Exchange\Admin;
 
+use Modules\Exchange\Admin\Install\Media;
 use Modules\Exchange\Models\NullInterfaceManager;
 use phpOMS\Application\ApplicationAbstract;
 use phpOMS\Config\SettingsInterface;
@@ -46,6 +47,7 @@ final class Installer extends InstallerAbstract
     public static function install(ApplicationAbstract $app, ModuleInfo $info, SettingsInterface $cfgHandler) : void
     {
         parent::install($app, $info, $cfgHandler);
+        Media::install($app, self::PATH);
 
         $interfaces = \scandir(__DIR__ . '/Install/Interfaces');
         if ($interfaces === false) {

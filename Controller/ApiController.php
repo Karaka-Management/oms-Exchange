@@ -25,7 +25,6 @@ use Modules\Exchange\Models\PermissionCategory;
 use Modules\Exchange\Models\Report;
 use Modules\Exchange\Models\SettingsEnum;
 use Modules\Media\Models\CollectionMapper;
-use Modules\Media\Models\MediaMapper;
 use Modules\Media\Models\NullCollection;
 use Modules\Media\Models\PathSettings;
 use Modules\Organization\Models\UnitMapper;
@@ -205,62 +204,24 @@ final class ApiController extends Controller
             return;
         }
 
-        if (!empty($uploadedFiles = $request->files)) {
-            $path = '/Modules/Exchange/Interface/' . $request->getData('title');
+        $files = new NullCollection();
+        if (!empty($request->files)) {
+            $path = '/Modules/Exchange/Interfaces/' . $request->getData('title');
 
             /** @var \Modules\Media\Models\Media[] $uploaded */
-            $uploaded = $this->app->moduleManager->get('Media', 'Api')->uploadFiles(
+            $files = $this->app->moduleManager->get('Media', 'Api')->uploadFiles(
                 names: $request->getDataList('names'),
                 fileNames: $request->getDataList('filenames'),
-                files: $uploadedFiles,
+                files: $request->files,
                 account: $request->header->account,
                 basePath: __DIR__ . '/../../../Modules/Media/Files' . $path,
                 virtualPath: $path,
-                pathSettings: PathSettings::FILE_PATH
+                pathSettings: PathSettings::FILE_PATH,
+                type: $request->getDataInt('type')
             );
-
-            $collection = null;
-            foreach ($uploaded as $media) {
-                if ($request->hasData('type')) {
-                    $this->createModelRelation(
-                        $request->header->account,
-                        $media->id,
-                        $request->getDataInt('type'),
-                        MediaMapper::class,
-                        'types',
-                        '',
-                        $request->getOrigin()
-                    );
-                }
-
-                if ($collection === null) {
-                    /** @var \Modules\Media\Models\Collection $collection */
-                    $collection = MediaMapper::getParentCollection($path)
-                        ->limit(1)
-                        ->execute();
-
-                    if ($collection->id === 0) {
-                        $collection = $this->app->moduleManager->get('Media')->createRecursiveMediaCollection(
-                            $path,
-                            $request->header->account,
-                            __DIR__ . '/../../../Modules/Media/Files' . $path,
-                        );
-                    }
-                }
-
-                $this->createModelRelation(
-                    $request->header->account,
-                    $collection->id,
-                    $media->id,
-                    CollectionMapper::class,
-                    'sources',
-                    '',
-                    $request->getOrigin()
-                );
-            }
         }
 
-        $interface = $this->createInterfaceFromRequest($request, $collection?->id ?? 0);
+        $interface = $this->createInterfaceFromRequest($request, empty($files->sources) ? 0 : $files->id);
 
         $this->createModel($request->header->account, $interface, InterfaceManagerMapper::class, 'interface', $request->getOrigin());
         $this->createStandardCreateResponse($request, $response, $interface);
