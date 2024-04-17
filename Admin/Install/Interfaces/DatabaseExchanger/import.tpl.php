@@ -76,7 +76,7 @@ $isNew = $currentSetting->id === 0;
 ?>
 <div class="row">
     <div class="col-xs-12">
-        <div class="portlet">
+        <section class="portlet">
             <div class="portlet-body">
                 <form id="fEditor" method="<?= $isNew ? 'PUT' : 'POST'; ?>" action="<?= UriFactory::build('{/api}admin/exchange/import?{?}&csrf={$CSRF}'); ?>">
                     <div class="ipt-wrap">
@@ -87,7 +87,7 @@ $isNew = $currentSetting->id === 0;
                     </div>
                 </form>
             </div>
-        </div>
+        </section>
     </div>
 </div>
 
