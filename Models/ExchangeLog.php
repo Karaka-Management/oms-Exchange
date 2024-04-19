@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Modules\Exchange\Models;
 
 use Modules\Admin\Models\Account;
+use Modules\Admin\Models\NullAccount;
 
 /**
  * Exchange class.
@@ -90,7 +91,7 @@ class ExchangeLog implements \JsonSerializable
      * @var int|Account
      * @since 1.0.0
      */
-    public int | Account $createdBy = 0;
+    public Account $createdBy;
 
     /**
      * Constructor.
@@ -100,6 +101,7 @@ class ExchangeLog implements \JsonSerializable
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable('now');
+        $this->createdBy = new NullAccount();
     }
 
     /**

@@ -17,6 +17,7 @@ namespace Modules\Exchange\Controller;
 use Modules\Exchange\Models\ExchangeLogMapper;
 use Modules\Exchange\Models\InterfaceManagerMapper;
 use phpOMS\Contract\RenderableInterface;
+use phpOMS\Message\Http\RequestStatusCode;
 use phpOMS\Message\RequestAbstract;
 use phpOMS\Message\ResponseAbstract;
 use phpOMS\Views\View;
@@ -168,8 +169,6 @@ final class BackendController extends Controller
     public function viewExchangeExport(RequestAbstract $request, ResponseAbstract $response, array $data = []) : RenderableInterface
     {
         $view = new View($this->app->l11nManager, $request, $response);
-        $view->setTemplate('/Modules/Exchange/Theme/Backend/exchange-export');
-        $view->data['nav'] = $this->app->moduleManager->get('Navigation')->createNavigationMid(1007001001, $request, $response);
 
         /** @var \Modules\Exchange\Models\InterfaceManager $interface */
         $interface = InterfaceManagerMapper::get()
@@ -178,6 +177,16 @@ final class BackendController extends Controller
             ->with('settings')
             ->where('id', (int) $request->getData('id'))
             ->execute();
+
+        if ($interface->id === 0) {
+            $response->header->status = RequestStatusCode::R_404;
+            $view->setTemplate('/Web/Backend/Error/404');
+
+            return $view;
+        }
+
+        $view->setTemplate('/Modules/Exchange/Theme/Backend/exchange-export');
+        $view->data['nav'] = $this->app->moduleManager->get('Navigation')->createNavigationMid(1007001001, $request, $response);
 
         $view->data['interface'] = $interface;
         $view->data['db']        = $this->app->dbPool->get();
@@ -206,8 +215,6 @@ final class BackendController extends Controller
     public function viewExchangeImport(RequestAbstract $request, ResponseAbstract $response, array $data = []) : RenderableInterface
     {
         $view = new View($this->app->l11nManager, $request, $response);
-        $view->setTemplate('/Modules/Exchange/Theme/Backend/exchange-import');
-        $view->data['nav'] = $this->app->moduleManager->get('Navigation')->createNavigationMid(1007001001, $request, $response);
 
         /** @var \Modules\Exchange\Models\InterfaceManager $interface */
         $interface = InterfaceManagerMapper::get()
@@ -216,6 +223,16 @@ final class BackendController extends Controller
             ->with('settings')
             ->where('id', (int) $request->getData('id'))
             ->execute();
+
+        if ($interface->id === 0) {
+            $response->header->status = RequestStatusCode::R_404;
+            $view->setTemplate('/Web/Backend/Error/404');
+
+            return $view;
+        }
+
+        $view->setTemplate('/Modules/Exchange/Theme/Backend/exchange-import');
+        $view->data['nav'] = $this->app->moduleManager->get('Navigation')->createNavigationMid(1007001001, $request, $response);
 
         $view->data['interface'] = $interface;
         $view->data['db']        = $this->app->dbPool->get();
