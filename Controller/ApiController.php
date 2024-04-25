@@ -208,7 +208,7 @@ final class ApiController extends Controller
         if (!empty($request->files)) {
             $path = '/Modules/Exchange/Interfaces/' . $request->getData('title');
 
-            /** @var \Modules\Media\Models\Media[] $uploaded */
+            /** @var \Modules\Media\Models\Media[] $files */
             $files = $this->app->moduleManager->get('Media', 'Api')->uploadFiles(
                 names: $request->getDataList('names'),
                 fileNames: $request->getDataList('filenames'),

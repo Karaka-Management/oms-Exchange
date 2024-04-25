@@ -88,7 +88,7 @@ class ExchangeLog implements \JsonSerializable
     /**
      * Created by account.
      *
-     * @var int|Account
+     * @var Account
      * @since 1.0.0
      */
     public Account $createdBy;
