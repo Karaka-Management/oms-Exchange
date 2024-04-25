@@ -14,9 +14,11 @@ declare(strict_types=1);
 
 namespace Modules\Exchange\Interface;
 
+use Modules\Admin\Models\NullAccount;
 use Modules\Exchange\Models\ExchangeLog;
 use Modules\Exchange\Models\ExchangeType;
 use Modules\Exchange\Models\ExporterAbstract;
+use Modules\Exchange\Models\NullInterfaceManager;
 use phpOMS\Message\RequestAbstract;
 use phpOMS\Message\ResponseAbstract;
 use phpOMS\Utils\StringUtils;
@@ -81,11 +83,11 @@ final class Exporter extends ExporterAbstract
             $result = $this->exportLanguage();
 
             $log            = new ExchangeLog();
-            $log->createdBy = $this->account;
+            $log->createdBy = new NullAccount($this->account);
             $log->type      = ExchangeType::EXPORT;
             $log->message   = $this->l11n->getText($request->header->l11n->language, 'Exchange', '', 'LangFileExported');
             $log->subtype   = 'language';
-            $log->exchange  = (int) $request->getData('id');
+            $log->exchange  = new NullInterfaceManager((int) $request->getData('id'));
 
             $result['logs'][] = $log;
         }

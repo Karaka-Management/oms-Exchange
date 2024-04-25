@@ -14,9 +14,11 @@ declare(strict_types=1);
 
 namespace Modules\Exchange\Interface;
 
+use Modules\Admin\Models\NullAccount;
 use Modules\Exchange\Models\ExchangeLog;
 use Modules\Exchange\Models\ExchangeType;
 use Modules\Exchange\Models\ImporterAbstract;
+use Modules\Exchange\Models\NullInterfaceManager;
 use Modules\Media\Controller\ApiController;
 use phpOMS\DataStorage\Database\Connection\ConnectionFactory;
 use phpOMS\DataStorage\Database\DatabaseStatus;
@@ -101,11 +103,11 @@ final class Importer extends ImporterAbstract
         if ($request->getData('type') === 'language') {
             $this->importLanguage($request);
             $log            = new ExchangeLog();
-            $log->createdBy = $this->account;
+            $log->createdBy = new NullAccount($this->account);
             $log->type      = ExchangeType::IMPORT;
             $log->message   = $this->l11n->getText($request->header->l11n->language, 'Exchange', '', 'LangFileImported');
             $log->subtype   = 'language';
-            $log->exchange  = (int) $request->getData('id');
+            $log->exchange  = new NullInterfaceManager((int) $request->getData('id'));
 
             $result['logs'][] = $log;
         }
