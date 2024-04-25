@@ -40,7 +40,7 @@ final class ExchangeLogTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('', $this->log->message);
         self::assertEquals('', $this->log->subtype);
         self::assertEquals(0, $this->log->exchange);
-        self::assertEquals(0, $this->log->createdBy);
+        self::assertEquals(0, $this->log->createdBy->id);
         self::assertEquals(ExchangeType::IMPORT, $this->log->type);
         self::assertInstanceOf('\DateTimeImmutable', $this->log->createdAt);
     }
