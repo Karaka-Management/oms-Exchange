@@ -95,7 +95,7 @@ class ExchangeSetting implements \JsonSerializable
     /**
      * Set relations
      *
-     * @param array $relations Relations between tables/columsn
+     * @param array $relations Relations between tables/columns
      *
      * @return void
      *
