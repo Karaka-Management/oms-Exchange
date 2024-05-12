@@ -217,7 +217,7 @@ final class ApiController extends Controller
                 basePath: __DIR__ . '/../../../Modules/Media/Files' . $path,
                 virtualPath: $path,
                 pathSettings: PathSettings::FILE_PATH,
-                type: $request->getDataInt('type')
+                tag: $request->getDataInt('tag')
             );
         }
 
