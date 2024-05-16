@@ -499,7 +499,7 @@ final class ApiController extends Controller
             ->where('id', $this->app->unitId)
             ->execute();
 
-        $export = $exporter === null ? [] : $exporter->export(
+        $export = $exporter->export(
             [
                 'assets'       => $defaultAssets,
                 'templates'    => $defaultTemplates,
