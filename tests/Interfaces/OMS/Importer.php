@@ -6,7 +6,7 @@
  *
  * @package   Interfaces
  * @copyright Dennis Eichhorn
- * @license   OMS License 2.0
+ * @license   OMS License 2.2
  * @version   1.0.0
  * @link      https://jingga.app
  */
@@ -30,7 +30,7 @@ use phpOMS\Message\ResponseAbstract;
  * OMS import class
  *
  * @package Modules\Exchange\Models\Interfaces\OMS
- * @license OMS License 2.0
+ * @license OMS License 2.2
  * @link    https://jingga.app
  * @since   1.0.0
  */
@@ -194,7 +194,7 @@ final class Importer extends ImporterAbstract
                             . " *\n"
                             . " * @package   Modules\Localization\n"
                             . " * @copyright Dennis Eichhorn\n"
-                            . " * @license   OMS License 2.0\n"
+                            . " * @license   OMS License 2.2\n"
                             . " * @version   1.0.0\n"
                             . " * @link      https://jingga.app\n"
                             . " */\n"
