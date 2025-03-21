@@ -82,7 +82,7 @@ final class BackendController extends Controller
         $view->setTemplate('/Modules/Exchange/Theme/Backend/exchange-log');
         $view->data['nav'] = $this->app->moduleManager->get('Navigation')->createNavigationMid(1007001001, $request, $response);
 
-        $log               = ExchangeLogMapper::get()->where('id', (int) $request->getData('id'))->execute();
+        $log               = ExchangeLogMapper::get()->where('id', $request->getDataInt('id') ?? 0)->execute();
         $view->data['log'] = $log;
 
         return $view;
@@ -175,7 +175,7 @@ final class BackendController extends Controller
             ->with('source')
             ->with('source/sources')
             ->with('settings')
-            ->where('id', (int) $request->getData('id'))
+            ->where('id', $request->getDataInt('id') ?? 0)
             ->execute();
 
         if ($interface->id === 0) {
@@ -221,7 +221,7 @@ final class BackendController extends Controller
             ->with('source')
             ->with('source/sources')
             ->with('settings')
-            ->where('id', (int) $request->getData('id'))
+            ->where('id', $request->getDataInt('id') ?? 0)
             ->execute();
 
         if ($interface->id === 0) {

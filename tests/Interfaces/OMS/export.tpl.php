@@ -12,7 +12,7 @@
  */
 declare(strict_types=1);
 
-$lang = $this->getData('lang');
+$lang = $this->data['lang'];
 ?>
 <div class="row">
     <div class="col-xs-12 col-md-6">

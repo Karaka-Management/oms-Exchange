@@ -87,7 +87,7 @@ final class Exporter extends ExporterAbstract
             $log->type      = ExchangeType::EXPORT;
             $log->message   = $this->l11n->getText($request->header->l11n->language, 'Exchange', '', 'LangFileExported');
             $log->subtype   = 'language';
-            $log->exchange  = new NullInterfaceManager((int) $request->getData('id'));
+            $log->exchange  = new NullInterfaceManager($request->getDataInt('id') ?? 0);
 
             $result['logs'][] = $log;
         }

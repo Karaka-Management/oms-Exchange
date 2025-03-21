@@ -77,7 +77,7 @@ final class ApiController extends Controller
             ];
         }
 
-        $importer = $this->getImporter((int) $request->getData('id'), $dbData);
+        $importer = $this->getImporter($request->getDataInt('id') ?? 0, $dbData);
         $import   = $importer === null ? [] : $importer->importFromRequest($request, $response);
 
         if (isset($import['logs'])) {
@@ -270,7 +270,7 @@ final class ApiController extends Controller
      */
     public function apiExchangeExport(RequestAbstract $request, HttpResponse $response, mixed $data = null) : void
     {
-        $exporter = $this->getExporter((int) $request->getData('id'));
+        $exporter = $this->getExporter($request->getDataInt('id') ?? 0);
         $export   = $exporter === null ? [] : $exporter->exportFromRequest($request, $response);
 
         if (!isset($export['type'], $export['logs'])) {

@@ -20,13 +20,13 @@ use phpOMS\DataStorage\Database\DatabaseType;
 use phpOMS\DataStorage\Database\SchemaMapper;
 use phpOMS\Uri\UriFactory;
 
-$lang = $this->getData('lang') ?? [];
+$lang = $this->data['lang'] ?? [];
 
 // @todo define offset fields
 // @todo define create job button
 // @todo show job reference
 
-$interface = $this->getData('interface');
+$interface = $this->data['interface'];
 $settings  = $interface->getSettings();
 
 $currentSetting = $settings[(int) ($this->request->getData('setting') ?? 0)] ?? new NullExchangeSetting();
@@ -42,7 +42,7 @@ $currentExportTableFields = [];
 
 if (!empty($settingData)) {
     $importConnection = ($settingData['import']['db']['self'] ?? true)
-        ? $this->getData('db') ?? new NullConnection()
+        ? $this->data['db'] ?? new NullConnection()
         : ConnectionFactory::create([
             'db'       => $settingData['import']['db']['db'],
             'host'     => $settingData['import']['db']['host'],
@@ -52,7 +52,7 @@ if (!empty($settingData)) {
             'password' => $settingData['import']['db']['password'],
         ]);
     $exportConnection = ($settingData['export']['db']['self'] ?? true)
-        ? $this->getData('db') ?? new NullConnection()
+        ? $this->data['db'] ?? new NullConnection()
         : ConnectionFactory::create([
             'db'       => $settingData['export']['db']['db'],
             'host'     => $settingData['export']['db']['host'],

@@ -107,7 +107,7 @@ final class Importer extends ImporterAbstract
             $log->type      = ExchangeType::IMPORT;
             $log->message   = $this->l11n->getText($request->header->l11n->language, 'Exchange', '', 'LangFileImported');
             $log->subtype   = 'language';
-            $log->exchange  = new NullInterfaceManager((int) $request->getData('id'));
+            $log->exchange  = new NullInterfaceManager($request->getDataInt('id') ?? 0);
 
             $result['logs'][] = $log;
         }
